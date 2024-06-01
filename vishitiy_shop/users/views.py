@@ -1,0 +1,27 @@
+from django.shortcuts import render
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib import messages
+
+User = get_user_model()
+
+# Create your views here.
+def signup_view(request):
+    form = UserCreationForm()
+    if request.method == "POST": 
+       form = UserCreationForm(request.POST)
+       if form.is_valid():
+           form.save()
+           messages.success(request, "Аккаунт був успішно створений")
+    return render(request, "registration/signup.html", {"form": form})
+
+def login_view(request):
+    form = AuthenticationForm()
+    if request.method == "POST":
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            messages.success(request, f"Ви увійшли як {user.username}")
+    return render(request, "registration/login.html", {"form": form})
+
+       
