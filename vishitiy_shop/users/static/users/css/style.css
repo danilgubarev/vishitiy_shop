@@ -51,7 +51,7 @@
     justify-content: center;
     border-radius: 10px;
     border: none;
-    margin: 0 auto; /* Устанавливаем автоматические отступы слева и справа, чтобы центрировать кнопку */
+    margin: 0 auto;
     display: block;
     text-align: center;
 
