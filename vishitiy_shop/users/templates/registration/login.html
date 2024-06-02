@@ -15,7 +15,7 @@
         {% csrf_token %}
         <div class="cont">
             {{form|crispy}}
-            <p class="name">Вже є пароль?<a href="{% url 'signup' %}" class="link">Зареєструватися</a></p>
+            <p class="name">Вже є пароль?<a href="{% url 'users:signup' %}" class="link">Зареєструватися</a></p>
             <button class="btns">Ввійти</button>
         </div>
     

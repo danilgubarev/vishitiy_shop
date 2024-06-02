@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.views import LogoutView as DjangoLogoutView
 from django.contrib import messages
 
 User = get_user_model()
@@ -25,3 +26,9 @@ def login_view(request):
     return render(request, "registration/login.html", {"form": form})
 
        
+class LogoutView(DjangoLogoutView):
+    http_method_names = ["post", "options", "get"]
+    def get(self, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect("users:login")
+        return render(self.request, "registration/logout.html")
