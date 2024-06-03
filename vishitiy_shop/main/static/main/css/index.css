@@ -1,0 +1,30 @@
+.container-with-img {
+    position: relative;
+    text-align: center;
+}
+
+.text-on-top {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.text-on-bottom {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+}
+
+
+.subtitle {
+    padding: 0 100px;
+}
+
+.collections {
+    padding: 100px 0;
+}
+
+.link-color {
+    color: orangered
+}
