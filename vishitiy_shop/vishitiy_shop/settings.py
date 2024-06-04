@@ -49,7 +49,7 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
-    'main_page',
+    'main',
     'users',
 ]
 
