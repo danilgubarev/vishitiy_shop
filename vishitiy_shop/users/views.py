@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.views import LogoutView as DjangoLogoutView
+from django.contrib.auth.views import LogoutView as DjangoLogoutView, LoginView as DjangoLoginView
 from django.contrib import messages
 
 User = get_user_model()
@@ -14,6 +14,7 @@ def signup_view(request):
        if form.is_valid():
            form.save()
            messages.success(request, "Аккаунт був успішно створений")
+           return redirect("users:login")
     return render(request, "registration/signup.html", {"form": form})
 
 def login_view(request):
@@ -32,3 +33,10 @@ class LogoutView(DjangoLogoutView):
         if not self.request.user.is_authenticated:
             return redirect("users:login")
         return render(self.request, "registration/logout.html")
+    
+class LoginView(DjangoLoginView):
+    def form_valid(self, form):
+        print("You should see messages here")
+        messages.success(self.request, "Ви увійшли як {}".format(form.get_user().username))
+        return super().form_valid(form)
+    

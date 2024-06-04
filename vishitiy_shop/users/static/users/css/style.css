@@ -1,19 +1,9 @@
-.my {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    
-}
-
-
 
 .my input {
     background-color: transparent;
     border-color: #FFFFFF;
     border-radius: 0%;
-    color: white;
+    color: #ffffff;
     width: 300px;
     height: 40px;
     outline: none;
@@ -67,18 +57,6 @@ label {
     color: #FFFFFF;
 }
 
-#id_username_helptext {
-    display: none;
-}
-
-#id_password2_helptext {
-    display: none;
-}
-
-#error_1_id_username {
-    display: none;
-}
-
-ul {
+.form-text {
     display: none;
 }
