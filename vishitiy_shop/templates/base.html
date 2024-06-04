@@ -18,12 +18,12 @@
     <header>
         <div class="wrap-logo">
             <img src="{% static 'img/logo.svg' %}" alt="logo">
-            </div>
+        </div>
             <nav>
               <a href="#">Головна</a>
               <a href="#">Всі колекції</a>
               <a href="#">Твій дизайн</a>
-        </nav>
+            </nav>
         <p class="username-settings"> {{user.username}} </p>
     </header>
 
@@ -34,7 +34,24 @@
     </main>
 
     <footer>
-
+        <h3>vishitiy</h3>
+        <div>
+            <div class="links">
+                <a href="#">Про нас</a>
+                <a href="#">Контактна інформація</a>
+                <a href="#">Питання та відповіді</a>
+            </div>
+            <div class="links">
+                <a href="#">Зареєструватися</a>
+                <a href="#">Увійти</a>
+                <a href="#">Продукти</a>
+            </div>
+            <div class="links">
+                <a href="#">GYM</a>
+                <a href="#">Контактна інформація</a>
+                <a href="#">Питання та відповіді</a>
+            </div>
+        </div>
     </footer>
     {% block js %}{% endblock js %}
 </body>
