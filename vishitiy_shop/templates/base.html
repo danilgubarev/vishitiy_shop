@@ -18,13 +18,24 @@
     <header>
         <div class="wrap-logo">
             <img src="{% static 'img/logo.svg' %}" alt="logo">
+
             </div>
             <nav>
               <a href="{% url 'main:index' %}">Головна</a>
               <a href="#">Всі колекції</a>
               <a href="#">Твій дизайн</a>
+
         </nav>
+        <div>
+            <p><input type="Пошук"></p>
+        </div>
         <p class="username-settings"> {{user.username}} </p>
+        <div>
+            <img src="https://www.svgrepo.com/svg/522440/profile" >
+        </div>
+        <div>
+            <img src="https://www.svgrepo.com/svg/505593/cart-3" >
+        </div>
     </header>
 
     <main>
@@ -34,7 +45,30 @@
     </main>
 
     <footer>
-
+        <div>
+            <h3>vishitiy</h3>
+            <div class="links">
+                <a href="#">Про нас</a>
+                <a href="#">Контактна інформація</a>
+                <a href="#">Питання та відповіді</a>
+            </div>
+            <div class="links">
+                <a href="#">Зареєструватися</a>
+                <a href="#">Увійти</a>
+                <a href="#">Продукти</a>
+            </div>
+            <div class="links">
+                <a href="#">GYM</a>
+                <a href="#">Контактна інформація</a>
+                <a href="#">Питання та відповіді</a>
+            </div>
+            <div>
+                <img src="https://www.svgrepo.com/svg/522370/cart" >
+            </div>
+            <div>
+                <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fin.pinterest.com%2Fpin%2F633248397600814632%2F&psig=AOvVaw0DBBbyLhfLtNQjiIcDwICm&ust=1717599500429000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMjY2fWawoYDFQAAAAAdAAAAABAJ" >
+            </div>
+        </div>
     </footer>
     {% block js %}{% endblock js %}
 </body>
