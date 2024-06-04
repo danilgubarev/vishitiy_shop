@@ -37,3 +37,9 @@ nav {
   display: flex;
   align-items: center;
   }
+
+
+.username-settings {
+  color: #f1f1f1;
+  font-size: 30px;
+}

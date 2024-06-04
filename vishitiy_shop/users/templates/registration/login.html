@@ -3,7 +3,7 @@
 
 {% block links %}
 <link rel="stylesheet" href="{% static 'users/css/style.css' %}">
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap">
 
 {% endblock %}
 
@@ -15,7 +15,7 @@
         {% csrf_token %}
         <div class="cont">
             {{form|crispy}}
-            <p class="name">Вже є пароль?<a href="{% url 'users:signup' %}" class="link">Зареєструватися</a></p>
+            <p class="name">Вже є пароль?<a href="{% url 'users:signup' %}" class="link"> Зареєструватися</a></p>
             <button class="btns">Ввійти</button>
         </div>
     
