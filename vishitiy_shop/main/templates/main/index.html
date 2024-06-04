@@ -3,12 +3,14 @@
 
 {% block links %}
 <link rel="stylesheet" href="{% static "main/css/index.css" %}">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap">
 {% endblock links %}
 
 {% block content %}
 <div class="d-flex flex-column justify-content-center text-light align-items-center">
     <div class="container-with-img">
-        <img src="{% static "main/images/bg_image.png" %}" alt="" width="100%" height="50%">
+        <img src="{% static "main/images/bg_image.jpg" %}" alt="" width="100%" height="50%">
         <div class="text-on-top">
             <div class="fs-2 fw-bold">VISHITY.UA</div>
             <div class="fs-4">Стильний та комфортний одяг для сучасних активних людей. Якісні матеріали, інноваційний дизайн. Підкреслюй свою індивідуальність!</div>
@@ -18,13 +20,13 @@
         Наші колекції
     </div>
     <div class="container collections">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center ">
             {% for collection in collections %}
-            <div class="col-4 container-with-img">
+            <div class="col-4 container-with-img collect">
                 <img src="{% static "main/images/collection_ex.png" %}" alt="" width="100%" height="100%">
                 <div class="text-on-bottom">
-                    <div class="fs-3">{{collection|upper}}</div>
-                    <div class="fs-6 link-color">Перейти до каталогу</div>
+                    <div class="fs-3 name-of-collection">{{collection|upper}}</div>
+                    <div class="fs-6 link-color name-of-collection">Перейти до каталогу</div>
                 </div>
             </div>
             {% endfor %}

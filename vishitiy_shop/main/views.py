@@ -7,12 +7,12 @@ def main_view(request):
     # временное определение коллекций пока нет модели
     collections = [
         "nike",
-        "adidas",
-        "puma",
-        "new balance",
-        "reebok",
-        "vans",
-        "jordan",
-        "asics",
+        "Jujutsu kaisen",
+        "GYM",
+        "couples",
+        "JDM & CARS",
+        "money",
+        "art",
+        "country",
     ]
     return render(request, "main/index.html", {"collections": collections})
