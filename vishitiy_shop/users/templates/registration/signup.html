@@ -6,18 +6,19 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap">
 {% endblock %}
 
-<!-- dsehdsdsfdfdf234232413434DDD -->
+
 {% block content %}
-<div class="my">
-<h1>Реєстрація</h1>
-<form action="" method="POST">
-    {% csrf_token %}
-        <div class="cont">
-            {{form|crispy}}
-            <p class="name">Вже є пароль?<a href="{% url 'users:login' %}" class="link"> Вхід</a></p>
-            <button class="btns">Зареєструватися</button> 
-        </div>
-</form>
+
+<div class="my flex flex-col items-center justify-center h-screen text-light">
+    <h1>Реестрацiя</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+            <div class="flex flex-col items-center">
+                {{form|crispy}}
+                <p class="name">Вже є пароль?  <a href="{% url 'users:login' %}" class="link">Вхід</a></p>
+                <button class="stantart-btn px-4 py-2.5">Зареєструватися</button> 
+            </div>
+    </form>
 </div>
 
 {% endblock %}
