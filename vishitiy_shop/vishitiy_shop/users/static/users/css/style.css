@@ -1,0 +1,80 @@
+<<<<<<< HEAD
+*{
+    font-family: 'Comfortaa', sans-serif;
+}
+
+
+.my {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    
+}
+
+
+=======
+>>>>>>> oleksii
+
+.my input {
+    background-color: transparent;
+    border-color: #FFFFFF;
+    border-radius: 0%;
+    color: #ffffff;
+    width: 300px;
+    height: 40px;
+    outline: none;
+}
+
+.my input:focus, .my input:focus-within {
+    background-color: transparent;
+    box-shadow: none;
+    outline: none;
+    border-color: #FF7A00;
+    color: #FFFFFF;
+}
+
+.name {
+    color: #FFFFFF;
+}
+
+.link {
+    color: #FF7A00;
+    text-decoration: none;
+}
+
+/*  */
+ 
+
+.cont {
+    margin: 5px;
+}
+
+
+.btns {
+    background-color: #FFFFFF;
+    width: 152px;
+    height: 35px;
+    justify-content: center;
+    border-radius: 10px;
+    border: none;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+
+}
+
+
+#form-for-logout {
+    background-color: #1A1A1A;
+}
+
+
+label {
+    color: #FFFFFF;
+}
+
+.form-text {
+    display: none;
+}
