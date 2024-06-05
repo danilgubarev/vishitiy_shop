@@ -1,6 +1,6 @@
-* {box-sizing: border-box;
-  }
-
+* {
+  box-sizing: border-box;
+}
 
 body { 
   margin: 0;
@@ -10,18 +10,21 @@ body {
 
 header {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   flex-wrap: wrap;
   background-color: #1A1A1A;
   padding: 20px 10px;
+  z-index: 1000; /* Обеспечивает, что шапка будет выше других элементов */
 }
 
 .wrap-logo {
   display: flex;
   align-items: center;
- 
 }
 
 header a {
@@ -32,15 +35,16 @@ header a {
   border-radius: 4px;
 }
 
-
-
 nav {
   display: flex;
   align-items: center;
-  }
-
+}
 
 .username-settings {
   color: #f1f1f1;
   font-size: 30px;
+}
+
+main {
+  padding-top: 80px; /* Добавляем отступ сверху для основного содержимого */
 }
