@@ -11,7 +11,7 @@
     <h1>Реестрацiя</h1>
     <form action="" method="POST">
         {% csrf_token %}
-            <div class="flex flex-col items-center">
+            <div class="flex flex-col items-center max-w-[300px]">
                 {{form|crispy}}
                 <p class="name">Вже є пароль?  <a href="{% url 'users:login' %}" class="link">Вхід</a></p>
                 <button class="stantart-btn px-4 py-2.5">Зареєструватися</button> 
