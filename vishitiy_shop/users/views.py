@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LogoutView as DjangoLogoutView, LoginView as DjangoLoginView
 from django.contrib import messages
+from django.views import generic
+from . import forms
 
 User = get_user_model()
 
@@ -35,8 +38,17 @@ class LogoutView(DjangoLogoutView):
         return render(self.request, "registration/logout.html")
     
 class LoginView(DjangoLoginView):
+    redirect_authenticated_user = True
+    form_class = forms.CustomAuthenticationForm
     def form_valid(self, form):
-        print("You should see messages here")
         messages.success(self.request, "Ви увійшли як {}".format(form.get_user().username))
         return super().form_valid(form)
     
+    
+class SignupView(generic.CreateView):
+    form_class = forms.CustomUserCreationForm
+    success_url = reverse_lazy("users:login")
+    template_name = "registration/signup.html"
+    def form_valid(self, form):
+        messages.success(self.request, "Аккаунт був успішно створений")
+        return super().form_valid(form)
