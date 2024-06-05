@@ -9,14 +9,15 @@
 
 
 {% block content %}
-<div class="text-light d-flex justify-content-center flex-column align-items-center my">
+<div class="text-light d-flex justify-content-center flex-column align-items-center my h-screen">
     <h1>Авторизацiя</h1>
-    <form method="post" class="my-form">
+    <form method="post">
         {% csrf_token %}
-        <div class="cont">
+        <div class="flex flex-col items-center">
             {{form|crispy}}
-            <p class="name">Вже є пароль?<a href="{% url 'users:signup' %}" class="link"> Зареєструватися</a></p>
-            <button class="btns">Ввійти</button>
+            <p class="name">Вже є пароль?  <a href="{% url 'users:signup' %}" class="link">Зареєструватися</a></p>
+            <button class="stantart-btn px-5 py-2">Ввійти</button>
+
         </div>
     
     </form>

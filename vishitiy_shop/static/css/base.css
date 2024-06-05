@@ -1,0 +1,46 @@
+body { 
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #0D0D0D;
+  }
+  
+  header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    background-color: #1A1A1A;
+    padding: 20px 10px;
+  }
+  
+  .wrap-logo {
+    display: flex;
+    align-items: center;
+   
+  }
+  
+  header a {
+    color: #f1f1f1;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px; 
+    border-radius: 4px;
+  }
+  
+  
+  
+ nav {
+    display: flex;
+    align-items: center;
+    }
+
+.stantart-btn {
+    background-color: #FFFFFF;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: none;
+}
+
