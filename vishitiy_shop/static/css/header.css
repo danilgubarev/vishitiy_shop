@@ -50,7 +50,7 @@ nav {
 
 .username-settings {
   color: #f1f1f1;
-  font-size: 25px;
+  font-size: 10px;
 }
 
 header .container-input .input {
@@ -76,8 +76,8 @@ header .cntainer-for-cart-user{
  .img-user-cart .user-cart{
   display: flex;
   align-items: center;
-  width: 45px;
-  height: 45px;
+  width: 35px;
+  height: 35px;
   /* padding-left: 30px; */
 }
 

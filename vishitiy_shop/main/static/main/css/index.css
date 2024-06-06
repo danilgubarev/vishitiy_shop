@@ -6,7 +6,9 @@ body {
 .container-with-img {
     position: relative;
     text-align: center;
+    padding-top: 50px;
 }
+
 
 .text-on-top {
     position: absolute;
@@ -30,8 +32,18 @@ body {
 }
 
 .collect {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
     margin-bottom: 25px;
-   
+}
+
+.collect img {
+    transition: transform 0.3s;
+}
+
+.collect:hover img {
+    transform: scale(1.1);
 }
 
 .link-color {
@@ -41,4 +53,8 @@ body {
 
 .name-of-collection {
     text-align: left;
+}
+
+.collections {
+    padding-bottom: 100px;
 }

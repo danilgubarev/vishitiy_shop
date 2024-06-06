@@ -1,0 +1,31 @@
+#vis {
+    font-family: 'Signika';
+    color: rgb(255, 115, 0);
+}
+
+#h {
+    font-family: 'Signika';
+    color: aliceblue;
+}
+
+p {
+    font-family: 'Signika';
+    color: aliceblue;
+}
+
+#card {
+    background-color: rgb(26,26,26);
+}
+
+#btn {
+    font-family: 'Signika';
+    background-color: rgb(26, 26, 26);
+    color: aliceblue;
+    border-radius: 8px;
+    border: 2px solid white;
+}
+
+img {
+    height: 290px;
+    width: 250px;
+}

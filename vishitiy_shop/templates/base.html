@@ -33,12 +33,24 @@
         </div>
 
         <div class="cntainer-for-cart-user">
-            <h5 class="username-settings"> {{user.username}}</h5>
+            <h5 class="username-settings" style="font-size: 20px;"> {{user.username}}</h5>
 
-
-            <div class="img-user-cart">
-                <a href="{% url 'users:login' %}"><img src="{% static 'img/user.svg' %}" class="user-cart"></a>
-            </div>
+            <div class="img-user-cart max-h-10">
+                <div class="dropdown">
+                    <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{% static 'img/user.svg' %}" class="user-cart" height="35">
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% if user.is_authenticated %}
+                            <li><a class="dropdown-item" href="#">Профiль</a></li>
+                            <li><a class="dropdown-item" href="{% url "users:logout" %}">Вийти</a></li>
+                        {% else %}
+                            <li><a class="dropdown-item" href="{% url "users:login" %}">Увійти</a></li>
+                            <li><a class="dropdown-item" href="{% url "users:signup" %}">Зареєструватися</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>           
 
             <div class="img-user-cart">
                 <a href=""><img src="{% static 'img/shopping-bag.svg' %}" class="user-cart"></a>

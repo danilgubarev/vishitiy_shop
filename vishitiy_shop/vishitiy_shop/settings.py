@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 THRIRD_PATRY_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
+    'colorfield'
 ]
 
 DJANGO_APPS = [
@@ -51,6 +52,7 @@ DJANGO_APPS = [
 LOCAL_APPS = [
     'main',
     'users',
+    'products'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THRIRD_PATRY_APPS + LOCAL_APPS
@@ -89,10 +91,20 @@ WSGI_APPLICATION = 'vishitiy_shop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db',
+        'USER': 'root',
+        'PASSWORD': 'mysql12345678rR',
+        'HOST':'localhost',
+        'PORT':'3306',
     }
 }
 
