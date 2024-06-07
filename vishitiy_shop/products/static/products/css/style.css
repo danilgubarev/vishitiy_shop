@@ -1,0 +1,65 @@
+#vis {
+    font-family: 'Signika';
+    color: rgb(255, 115, 0);
+}
+
+#h {
+    font-family: 'Signika';
+    color: aliceblue;
+}
+
+p {
+    font-family: 'Signika';
+    color: aliceblue;
+}
+
+#card {
+    background-color: rgb(26,26,26);
+}
+
+#btn {
+    font-family: 'Signika';
+    background-color: rgb(26, 26, 26);
+    color: aliceblue;
+    border-radius: 8px;
+    border: 2px solid white;
+}
+
+img {
+    height: 290px;
+    width: 250px;
+}
+body {
+    background-color: black;
+}
+
+.input {
+    height: 15px;
+    width: 15px;
+    background-color: black;
+}
+
+#h1 {
+    font-size: 24px;
+    color: white;
+}
+
+.hr {
+    border: 1.5px solid white;
+}
+
+.price {
+    height: 30px;
+    width: 100px;
+}
+
+#price {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.div {
+    width: 300px;
+    color: white;
+}
