@@ -11,9 +11,11 @@ class Product(models.Model):
         ("#0000FF", "blue"),
         ("#FFFF00", "yellow"),
     ]
+    PRODUCT_TYPE_CHOICES = tuple((type, type) for type in ('shoes', 't-shirt', 'sweatshirt', 'pants', 'jacket', 'sunglasses'))
     title = models.CharField(max_length=150)
     color = ColorField(image_field="image", samples=COLOR_PALETTE)
     size = models.CharField(choices=SIZE_CHOICES, max_length=3)
+    type = models.CharField(choices=PRODUCT_TYPE_CHOICES, max_length=50)
     image = models.ImageField()
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -24,9 +26,9 @@ class Product(models.Model):
     
 
 class Collections(models.Model):
-    title = models.CharField(max_length=150)
+    name = models.CharField(max_length=150)
     image = models.ImageField()
     description = models.TextField(blank=True, null=True)
     
     def __str__(self) -> str:
-        return self.title
+        return self.name
