@@ -1,3 +1,4 @@
+from typing import Any
 from django.shortcuts import render
 from django.views import generic
 from . models import Product
@@ -11,11 +12,11 @@ class ProductListView(generic.ListView):
     
     def get_queryset(self) -> QuerySet[Product]:
         qs = super().get_queryset()
-        filterset = ProductFilter(self.request.GET, queryset=qs)
-        # print(f"NEW QUERYSET FOR PARAMS {self.request.GET} IS {filterset.qs}")
-        # print(filterset.qs[0].size, filterset.qs[0].price)
-        # return filterset.qs
-
-
-def product_page(request):
-    return render(request, 'products/product_list.html')
+        self.filterset = ProductFilter(self.request.GET, queryset=qs)
+        print("REd products", Product.objects.filter(color="#ff0000"))
+        return self.filterset.qs
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["form"] = self.filterset.form
+        return context
