@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
-
+{% load static %} {% load crispy_forms_tags %}
 {% block links %}
     <link rel="stylesheet" href="{% static 'products/css/style.css' %}">
     
@@ -13,7 +12,7 @@
 <div class="container">
     <div class="menu">
         <div class="div">
-            <div id="price" class="div">
+            {% comment %} <div id="price" class="div">
                 <h1 id="h1">Ціна:</h1>
                 <p>
                     <input type="number" placeholder="Від" class="price"> - <input type="number" placeholder="До" class="price">
@@ -56,20 +55,31 @@
                 <p><input type="checkbox" class="collection">Country</p>
                 <p><input type="checkbox" class="collection">Jujutsu kaisen</p>
             </div>
-            <hr class="hr">
+            <hr class="hr"> {% endcomment %}
+            <form method="get">
+                {{form|crispy}}
+                <div class="flex">
+                    <button class="btn btn-outline-light">Применить</button>
+                    <a class="btn btn-outline-light" href="{% url "products:list" %}">Сбросить все</a>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="cards">
-        <div class="card" style="width: 18rem;" id="card">
-
-            <img class="card-img-top" src="IMG_8512.PNG" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title" id="h">одяг</h5>
-                <h5 class="card-title" id="vis">vishitiy.ua</h5>
-                <p class="card-text">UAH</p>
-                <p><button class="btn" id="btn">Додати до кошика</button></п>
+    <div class="cards container">
+        <div class="row gap-5">
+            {% for product in object_list %}
+            <div class="col-3">
+                <div class="card" style="width: 18rem;" id="card">
+                    <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title" id="h">{{product.title}}</h5>
+                        <h5 class="card-title" id="vis">vishitiy.ua</h5>
+                        <p class="card-text">{{product.price}} UAH</p>
+                        <p><button class="btn btn-outline-light" id="btn">Додати до кошика</button></p>
+                    </div>
+                </div>
             </div>
-            
+            {% endfor %}
         </div>
     </div>
 </div>

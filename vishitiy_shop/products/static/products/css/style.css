@@ -42,12 +42,8 @@ p {
     color: aliceblue;
 }
 
-#btn {
+.btn {
     font-family: 'Signika';
-    background-color: rgb(26, 26, 26);
-    color: aliceblue;
-    border-radius: 8px;
-    border: 2px solid white;
 }
 
 img {
