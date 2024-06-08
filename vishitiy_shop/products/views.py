@@ -12,9 +12,9 @@ class ProductListView(generic.ListView):
     def get_queryset(self) -> QuerySet[Product]:
         qs = super().get_queryset()
         filterset = ProductFilter(self.request.GET, queryset=qs)
-        print(f"NEW QUERYSET FOR PARAMS {self.request.GET} IS {filterset.qs}")
-        print(filterset.qs[0].size, filterset.qs[0].price)
-        return filterset.qs
+        # print(f"NEW QUERYSET FOR PARAMS {self.request.GET} IS {filterset.qs}")
+        # print(filterset.qs[0].size, filterset.qs[0].price)
+        # return filterset.qs
 
 
 def product_page(request):
