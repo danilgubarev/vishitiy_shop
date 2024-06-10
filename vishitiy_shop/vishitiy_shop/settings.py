@@ -100,15 +100,16 @@ WSGI_APPLICATION = "vishitiy_shop.wsgi.application"
 #     }
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": str(os.getenv("DB_NAME")),
-        "USER": str(os.getenv("DB_USER")),
-        "PASSWORD": str(os.getenv("DB_PASSWORD")),
-        "HOST": str(os.getenv("DB_HOST")),
-        "PORT": str(os.getenv("DB_PORT")),
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db',
+        'USER': 'root',
+        'PASSWORD': 'mysql12345678rR',
+        'HOST':'localhost',
+        'PORT':'3306',
     }
 }
+
 
 
 # Password validation
