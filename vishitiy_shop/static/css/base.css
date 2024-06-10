@@ -24,3 +24,10 @@ background-color: #f1f1f1;    /* цвет бегунка */
   background-color:#FF7A00;
   color:#0D0D0D;
 }
+
+.ais-Hits-list { display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 1em; }
+
+a {
+  color: #FFFFFF;
+  text-decoration: none;
+}

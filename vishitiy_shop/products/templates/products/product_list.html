@@ -7,7 +7,7 @@
 
 {% block content %}
 
-<div class="absolute">
+<div class="products">
 
 <div class="container">
     <div class="menu">
@@ -58,7 +58,7 @@
             <hr class="hr"> {% endcomment %}
             <form method="get">
                 {{form|crispy}}
-                <div class="flex">
+                <div class="flex gap-3">
                     <button class="btn btn-outline-light">Применить</button>
                     <a class="btn btn-outline-light" href="{% url "products:list" %}">Сбросить все</a>
                 </div>
@@ -67,7 +67,7 @@
     </div>
 
     <div class="cards container">
-        <div class="row gap-5">
+        <div class="row gap-5 w-full">
             {% for product in object_list %}
             <div class="col-3">
                 <div class="card" style="width: 18rem;" id="card">

@@ -13,10 +13,14 @@ class ProductListView(generic.ListView):
     def get_queryset(self) -> QuerySet[Product]:
         qs = super().get_queryset()
         self.filterset = ProductFilter(self.request.GET, queryset=qs)
-        print("REd products", Product.objects.filter(color="#ff0000"))
         return self.filterset.qs
     
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["form"] = self.filterset.form
         return context
+
+
+class ProductDetailView(generic.DetailView):
+    queryset = Product.objects.all().select_related("collection")
+    template_name = "products/product_detail.html"

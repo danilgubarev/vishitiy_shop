@@ -83,8 +83,7 @@ img {
     color: white;
 }
 
-.absolute {
+.products {
     padding-top: 100px;
     padding-bottom: 100px;
-    display: flex;
 }
