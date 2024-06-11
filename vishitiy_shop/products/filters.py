@@ -1,12 +1,13 @@
 import django_filters
 import django_filters.widgets
 from django import forms
+from .widgets import CustomRangeWidget
 
 from .models import Product, Collection
 
 
 class ProductFilter(django_filters.FilterSet):
-    price = django_filters.RangeFilter()
+    price = django_filters.RangeFilter(widget=CustomRangeWidget)
     size = django_filters.TypedMultipleChoiceFilter(
         field_name="size",
         choices=Product.SIZE_CHOICES,
