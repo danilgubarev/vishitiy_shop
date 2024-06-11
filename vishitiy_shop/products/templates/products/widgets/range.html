@@ -11,6 +11,7 @@
     float: none;
   }
 </style> 
+{% comment %} <h1>Value is {{widget.value}} Name is {{widget.name}} attrs id {{widget.attrs}} Subwidgets: {{widget.subwidgets}}</h1> {% endcomment %}
 <div x-data="range()" x-init="mintrigger(); maxtrigger()" class="relative max-w-xl w-full">
     <div>
       <input type="range"
@@ -42,23 +43,44 @@
     </div>
     
     <div class="flex justify-between items-center py-5 text-black">
+      {% for widget in widget.subwidgets %}
       <div>
-        <input type="text" maxlength="5" x-on:input="mintrigger" x-model="minprice" class="px-3 py-2 border border-gray-200 rounded w-24 text-center">
+        {% include widget.template_name %}
+      </div>
+      {% endfor %}
+      {% comment %} <div>
+        <input 
+         type="text"
+         name="{{name}}"
+
+         maxlength="5"
+         x-on:input="mintrigger"
+         x-model="minprice"
+         class="px-3 py-2 border border-gray-200 rounded w-24 text-center">
       </div>
       <div>
-        <input type="text" maxlength="5" x-on:input="maxtrigger" x-model="maxprice" class="px-3 py-2 border border-gray-200 rounded w-24 text-center">
-      </div>
+        <input 
+         type="text"
+         name="{{name}}"
+
+         maxlength="5"
+         x-on:input="maxtrigger"
+         x-model="maxprice"
+         class="px-3 py-2 border border-gray-200 rounded w-24 text-center">
+      </div> {% endcomment %}
     </div>
     
   </div>
 
 <script>
     function range() {
+        min_price_el = document.querySelector('#id_price_0')
+        max_price_el = document.querySelector('#id_price_1')
         return {
-          minprice: 1000, 
-          maxprice: 7000,
-          min: 100, 
-          max: 10000,
+          minprice: min_price_el.value || {{widget.attrs.min}}, 
+          maxprice: max_price_el.value || {{widget.attrs.max}},
+          min: {{widget.attrs.min}}, 
+          max: {{widget.attrs.max}},
           minthumb: 0,
           maxthumb: 0, 
           
