@@ -31,26 +31,25 @@
               <div>
                   <p class="text-lg">SIZE</p>
                   <div>
-                    <button type="button" class="btn btn-light size toggle-size" data-bs-toggle="button">XS</button>
-                    <button type="button" class="btn btn-light size toggle-size" data-bs-toggle="button">M</button>
-                    <button type="button" class="btn btn-light size toggle-size" data-bs-toggle="button">L</button>
-                    <button type="button" class="btn btn-light size toggle-size" data-bs-toggle="button">S</button>
-                    <button type="button" class="btn btn-light size toggle-size" data-bs-toggle="button">XL</button>
+                    {% for size in product.available_sizes %}
+                    <button type="button" class="btn btn-light size toggle-size" data-bs-toggle="button">{{size|upper}}</button>
+                    {% endfor %}
                   </div>
               </div>
               <div>
                   <p class="text-lg">COLOR</p>
                   <div>
-                      <button type="button" class="btn btn-outline-light text-2xl px-4 py-2 toggle-color" style="border-radius: 40px;" data-bs-toggle="button">Black</button>
-                      <button type="button" class="btn btn-outline-light text-2xl px-4 py-2 toggle-color" style="border-radius: 40px;" data-bs-toggle="button">White</button>
+                    {% for color in product.available_colors %}
+                      <button type="button" class="btn btn-outline-light text-2xl px-4 py-2 toggle-color" style="border-radius: 40px;" data-bs-toggle="button">{{color|capfirst}}</button>
+                    {% endfor %}
                   </div>
               </div>
               <div>
                   <p class="text-lg">COUNT</p>
                   <div class="btn-group">
-                    <button class="btn btn-outline-light text-2xl" id="increment-btn">+</button>
-                    <input type="text" id="counter" class="focus:outline-none text-center bg-transparent border text-white border-white font-semibold outline-none w-10" name="quantity" value="0"></input>
-                    <button class="btn btn-outline-light text-2xl" id="decrement-btn">-</button>
+                      <button class="btn btn-outline-light text-2xl" id="decrement-btn">-</button>
+                      <input type="text" id="counter" class="focus:outline-none text-center bg-transparent border text-white border-white font-semibold outline-none w-10" name="quantity" value="0"></input>
+                      <button class="btn btn-outline-light text-2xl" id="increment-btn">+</button>
                   </div>
               </div>
             </div>
