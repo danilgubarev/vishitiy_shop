@@ -31,3 +31,12 @@ a {
   color: #FFFFFF;
   text-decoration: none;
 }
+
+.btn-danger {
+  background-color: #ff0000;
+}
+
+.btn-light.active {
+  background-color: #ff0000;
+  border: 1px solid #ff0000;
+}

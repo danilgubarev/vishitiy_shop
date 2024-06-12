@@ -42,7 +42,6 @@ class Product(SaveSlugMixin, models.Model):
         return self.get_absolute_url()
     
     def get_absolute_url(self):
-        print(self.slug)
         return reverse("products:detail", kwargs={"slug": self.slug})
     
     def save(self, *args, **kwargs) -> None:
