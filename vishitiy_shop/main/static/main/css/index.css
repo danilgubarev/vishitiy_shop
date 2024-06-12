@@ -1,6 +1,7 @@
 body {
     font-family: 'Comfortaa', sans-serif;
     
+    
 }
 
 
@@ -11,7 +12,7 @@ body {
 
 .background-for-main {
     position: absolute;
-    height: 160vh;
+    height: 220vh;
     width: 100%; 
     z-index: -1;
     
@@ -73,4 +74,43 @@ body {
 .collections {
     padding-bottom: 100px;
     
+}
+
+
+
+
+.slider {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+}
+
+.slider-items {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.slider-item img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    
+}
+
+.slider-item .item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
