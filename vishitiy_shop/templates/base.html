@@ -27,7 +27,7 @@
         <nav>
             <a href="{% url 'main:index' %}" class="links">Головна</a>
             <a href="{% url 'products:list' %}" class="links">Всі колекції </a>
-            <a href="#" class="links">Твій дизайн</a>
+            <a href="{% url 'your_design:design' %}" class="links">Твій дизайн</a>
         </nav>
 
         <div id="searchbox"></div>
@@ -42,7 +42,6 @@
                     </button>
                     <ul class="dropdown-menu">
                         {% if user.is_authenticated %}
-                            <li><a class="dropdown-item" href="#">Профiль</a></li>
                             <li><a class="dropdown-item" href="{% url "users:logout" %}">Вийти</a></li>
                         {% else %}
                             <li><a class="dropdown-item" href="{% url "users:login" %}">Увійти</a></li>
@@ -84,18 +83,18 @@
 
     <footer>
         <div class="container">
-            <h3 class="name-of-company">vishitiy.ua</h3>
+            <a href="{% url 'main:index' %}"><h3 class="name-of-company">vishitiy.ua</h3></a>
 
             <div class="container-for-links">
                 <div class="links">
                     <a href="#">Про нас</a>
-                    <a href="#">Контактна інформація</a>
+                    <a href="{% url 'your_design:design' %}">Контактна інформація</a>
                     <a href="#">Питання та відповіді</a>
                 </div>
                 <div class="links">
-                    <a href="#">Зареєструватися</a>
-                    <a href="#">Увійти</a>
-                    <a href="#">Продукти</a>
+                    <a href="{% url "users:signup" %}">Зареєструватися</a>
+                    <a href="{% url "users:login" %}">Увійти</a>
+                    <a href="{% url 'products:list' %}">Продукти</a>
                 </div>
                 <div class="links">
                     <a href="#">GYM</a>
@@ -107,7 +106,7 @@
 
             <div class="container-for-social-links">
                 <div class="links-on-social">
-                    <img src="{% static 'img/instagram.svg' %}" >
+                    <a href="https://www.instagram.com/vishitiy.ua?igsh=MXZ4ejM5eDR5MWgwMQ==" target="_blank"> <img src="{% static 'img/instagram.svg' %}" > </a>
                 </div>
 
                 <div class="links-on-social">

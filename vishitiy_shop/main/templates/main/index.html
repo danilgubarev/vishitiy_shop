@@ -8,10 +8,12 @@
 {% endblock links %}
 
 {% block content %}
+
 <div class="d-flex flex-column justify-content-center text-light align-items-center">
     <div class="container-with-img">
         <img src="{% static "main/images/bg_image.jpg" %}" alt="" width="100%" height="50%">
-        <img src="{% static "main/images/background.jpg" %}" alt="" class="background-for-main">
+        <img src="{% static "main/images/bg.jpg" %}" alt="" class="background-for-main">
+        
         
         <div class="text-on-top">
             <div class="fs-2 fw-bold">VISHITY.UA</div>
@@ -22,12 +24,12 @@
         Наші колекції
     </div>
     <div class="container collections">
-        <div class="row justify-content-center ">
+        <div class="row justify-content-center">
             {% for collection in collections %}
-            <div class="col-3 container-with-img collect">
-                <img src="{{collection.image.url}}" alt="" width="100%" height="100%">
+            <div class="col-3 container-with-img collect" data-collection-id="{{ collection.id }}">
+                <img src="{{ collection.image.url }}" alt="{{ collection.name }}" width="100%" height="100%" class="cards">
                 <div class="text-on-bottom">
-                    <div class="fs-3 name-of-collection">{{collection|upper}}</div>
+                    <div class="fs-3 name-of-collection">{{ collection.name|upper }}</div>
                     <div class="fs-6 link-color name-of-collection">Перейти до каталогу</div>
                 </div>
             </div>
@@ -40,8 +42,34 @@
 
     </button>
 </div>
+
+
 {% endblock content %}
+
+
+
 
 {% block js %}
 <script src="{% static "main/js/scroll-arrow.js" %}"></script>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Обработка кликов на карточки
+        const collectionCards = document.querySelectorAll('.collect');
+        collectionCards.forEach(function(card) {
+            card.addEventListener('click', function() {
+                const collectionId = card.getAttribute('data-collection-id');
+                if (collectionId) {
+                    const newUrl = `/products/?type=&collection=${collectionId}`;
+                    window.location.href = newUrl;
+                } else {
+                    console.error('Collection ID not found');
+                }
+            });
+        });
+    });
+    </script>
+
 {% endblock js %}

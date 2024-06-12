@@ -4,11 +4,17 @@ body {
 }
 
 
+.cards {
+    height: 448px;
+}
+
+
 .background-for-main {
     position: absolute;
-    width: 100%;
-    height: 142vh;
-    /* z-index: ; */
+    height: 160vh;
+    width: 100%; 
+    z-index: -1;
+    
 }
 
 .container-with-img {
