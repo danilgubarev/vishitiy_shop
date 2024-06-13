@@ -13,10 +13,11 @@ class ProductAdmin(admin.ModelAdmin):
         form = super().get_form(request, obj, **kwargs)
         form.base_fields['available_sizes'].widget = forms.CheckboxSelectMultiple(
             choices=Product.SIZE_CHOICES,
-            attrs={'class': 'form-control'}
+            attrs={'class': 'form-control'},
         )
         form.base_fields['available_colors'].widget = forms.CheckboxSelectMultiple(
             choices=Product.COLOR_PALETTE,
             attrs={'class': 'form-control'}
         )
         return form
+    

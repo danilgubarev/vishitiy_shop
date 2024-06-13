@@ -1,27 +1,24 @@
-from django.forms import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.urls import reverse
 from main.mixins import SaveSlugMixin
-
+from products.validators import ProductSizeValidator
 
 class Product(SaveSlugMixin, models.Model):
-    ACCEPTABLE_SIZES = ("XS", "S", "M", "L", "XL", "XXL")
+    ACCEPTABLE_SIZES = ["XS", "S", "M", "L", "XL", "XXL"]
     SIZE_CHOICES = tuple((size, size) for size in ACCEPTABLE_SIZES)
     COLOR_PALETTE = tuple((color, color) for color in ("white", "black", "red", "green", "blue", "yellow"))
     PRODUCT_TYPE_CHOICES = tuple(
         (type, type)
         for type in ("shoes", "t-shirt", "sweatshirt", "pants", "jacket", "sunglasses")
     )
-    def validate_size(values):
-        for value in values:
-            value = value.upper()
-            if value not in Product.ACCEPTABLE_SIZES:
-                raise ValidationError(f"{value} is not an available size")
+    
+    SIZE_VALIDATOR = ProductSizeValidator(ACCEPTABLE_SIZES)
+    
     title = models.CharField(max_length=150)
     slug = models.SlugField(unique=True, blank=True)
     available_colors = models.JSONField(default=list)
-    available_sizes = models.JSONField(default=list, validators=[validate_size])
+    available_sizes = models.JSONField(default=list, validators=[SIZE_VALIDATOR.validate_size])
     available = models.BooleanField(default=True)
     type = models.CharField(choices=PRODUCT_TYPE_CHOICES, max_length=50)
     image = models.ImageField()

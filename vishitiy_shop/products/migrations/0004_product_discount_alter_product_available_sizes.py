@@ -4,6 +4,8 @@ import django.core.validators
 import products.models
 from django.db import migrations, models
 
+import products.validators
+
 
 class Migration(migrations.Migration):
 
@@ -20,6 +22,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='product',
             name='available_sizes',
-            field=models.JSONField(default=list, validators=[products.models.Product.validate_size]),
+            field=models.JSONField(default=list, validators=[products.validators.ProductSizeValidator(products.models.Product.ACCEPTABLE_SIZES).validate_size]),
         ),
     ]
