@@ -1,27 +1,36 @@
-from colorfield.fields import ColorField
+from django.forms import ValidationError
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.urls import reverse
 from main.mixins import SaveSlugMixin
 
 
 class Product(SaveSlugMixin, models.Model):
-    SIZE_CHOICES = tuple((size, size) for size in ("XS", "S", "M", "L", "XL", "XXL"))
+    ACCEPTABLE_SIZES = ("XS", "S", "M", "L", "XL", "XXL")
+    SIZE_CHOICES = tuple((size, size) for size in ACCEPTABLE_SIZES)
     COLOR_PALETTE = tuple((color, color) for color in ("white", "black", "red", "green", "blue", "yellow"))
     PRODUCT_TYPE_CHOICES = tuple(
         (type, type)
         for type in ("shoes", "t-shirt", "sweatshirt", "pants", "jacket", "sunglasses")
     )
+    def validate_size(values):
+        for value in values:
+            value = value.upper()
+            if value not in Product.ACCEPTABLE_SIZES:
+                raise ValidationError(f"{value} is not an available size")
     title = models.CharField(max_length=150)
     slug = models.SlugField(unique=True, blank=True)
-    # color = ColorField(image_field="image", samples=COLOR_PALETTE)
     available_colors = models.JSONField(default=list)
-    available_sizes = models.JSONField(default=list)
+    available_sizes = models.JSONField(default=list, validators=[validate_size])
     available = models.BooleanField(default=True)
-    # size = models.CharField(choices=SIZE_CHOICES, max_length=3)
     type = models.CharField(choices=PRODUCT_TYPE_CHOICES, max_length=50)
     image = models.ImageField()
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    discount = models.IntegerField(
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(100)]
+    )
     collection = models.ForeignKey(
         "Collection", on_delete=models.CASCADE, related_name="products"
     )
@@ -32,6 +41,10 @@ class Product(SaveSlugMixin, models.Model):
     @property
     def image_url(self):
         return self.image.url
+    
+    @property
+    def final_price(self):
+        return self.price - (self.price * self.discount / 100)
 
     @property
     def url(self):
