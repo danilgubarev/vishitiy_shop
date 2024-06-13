@@ -6,22 +6,18 @@ from main.mixins import SaveSlugMixin
 
 class Product(SaveSlugMixin, models.Model):
     SIZE_CHOICES = tuple((size, size) for size in ("XS", "S", "M", "L", "XL", "XXL"))
-    COLOR_PALETTE = [
-        ("#FFFFFF", "white"),
-        ("#000000", "black"),
-        ("#FF0000", "red"),
-        ("#00FF00", "green"),
-        ("#0000FF", "blue"),
-        ("#FFFF00", "yellow"),
-    ]
+    COLOR_PALETTE = tuple((color, color) for color in ("white", "black", "red", "green", "blue", "yellow"))
     PRODUCT_TYPE_CHOICES = tuple(
         (type, type)
         for type in ("shoes", "t-shirt", "sweatshirt", "pants", "jacket", "sunglasses")
     )
     title = models.CharField(max_length=150)
     slug = models.SlugField(unique=True, blank=True)
-    color = ColorField(image_field="image", samples=COLOR_PALETTE)
-    size = models.CharField(choices=SIZE_CHOICES, max_length=3)
+    # color = ColorField(image_field="image", samples=COLOR_PALETTE)
+    available_colors = models.JSONField(default=list)
+    available_sizes = models.JSONField(default=list)
+    available = models.BooleanField(default=True)
+    # size = models.CharField(choices=SIZE_CHOICES, max_length=3)
     type = models.CharField(choices=PRODUCT_TYPE_CHOICES, max_length=50)
     image = models.ImageField()
     description = models.TextField(blank=True, null=True)
@@ -42,12 +38,10 @@ class Product(SaveSlugMixin, models.Model):
         return self.get_absolute_url()
     
     def get_absolute_url(self):
-        print(self.slug)
         return reverse("products:detail", kwargs={"slug": self.slug})
     
     def save(self, *args, **kwargs) -> None:
         return super().save(slugify_value=self.title, *args, **kwargs)
-
 
 class Collection(SaveSlugMixin, models.Model):
     name = models.CharField(max_length=150)

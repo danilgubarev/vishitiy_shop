@@ -85,13 +85,15 @@
           maxthumb: 0, 
           
           mintrigger() {   
-            this.minprice = Math.min(this.minprice, this.maxprice - 500);      
+            this.minprice = Math.min(this.minprice, this.maxprice - 100);      
             this.minthumb = ((this.minprice - this.min) / (this.max - this.min)) * 100;
+            console.log("Min thumb is", this.minthumb, "Min price is", this.minprice)
           },
            
           maxtrigger() {
-            this.maxprice = Math.max(this.maxprice, this.minprice + 500); 
-            this.maxthumb = 100 - (((this.maxprice - this.min) / (this.max - this.min)) * 100);    
+            this.maxprice = Math.max(this.maxprice, this.minprice + 100); 
+            this.maxthumb = 100 - (((this.maxprice - this.min) / (this.max - this.min)) * 100);   
+            console.log("Max thumb is", this.maxthumb, "Max price is", this.maxprice) 
           }, 
         }
     }
