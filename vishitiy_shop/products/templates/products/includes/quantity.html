@@ -1,5 +1,5 @@
 <div class="btn-group">
-    <button class="btn btn-outline-light text-2xl" id="decrement-btn">-</button>
-    <input type="text" id="counter" class="focus:outline-none text-center bg-transparent border text-white border-white font-semibold outline-none w-10" name="quantity" value="1"></input>
-    <button class="btn btn-outline-light text-2xl" id="increment-btn">+</button>
+    <button type="button" class="btn btn-outline-light text-2xl {{incr_btn_class}}" data-id="decrement" >-</button>
+    <input type="text" data-id="counter" class="focus:outline-none text-center bg-transparent border text-white border-white font-semibold outline-none w-10" name="quantity" value="1"></input>
+    <button type="button" class="btn btn-outline-light text-2xl {{decr_btn_class}}" data-id="increment" >+</button>
 </div>

@@ -40,3 +40,8 @@ a {
   background-color: #ff0000;
   border: 1px solid #ff0000;
 }
+
+.btn-check:checked+.btn {
+  background-color: #ff0000;
+  border: 1px solid #ff0000;
+}

@@ -72,11 +72,11 @@ img {
     color: black;
 }
 
-#price {
+/* #price {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-}
+} */
 
 .div {
     width: 100%;
