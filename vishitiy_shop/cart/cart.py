@@ -9,14 +9,15 @@ class Cart:
             cart = self.session[settings.CART_SESSION_KEY] = {}
         self.cart = cart
         
-    def add(self, **data):
+    def __contains__(self, product_id):
+        return str(product_id) in self.cart
+        
+    def add(self, **data) -> dict | None:
         product_id = data.pop('product_id')
         if product_id not in self.cart:
+            self.save()
             self.cart[product_id] = data
-        else:
-            raise ValueError('Product already in cart')
-        self.save()
-        return self.cart[product_id]
+            return self.cart[product_id]
     
     def save(self):
         self.session.modified = True
@@ -34,6 +35,4 @@ class Cart:
         if product_id in self.cart:
             self.cart[product_id].update(**data)
             self.save()
-        else:
-            raise ValueError('Product not in cart')
-        return self.cart[product_id]
+            return self.cart[product_id]

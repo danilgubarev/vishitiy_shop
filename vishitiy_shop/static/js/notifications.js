@@ -1,4 +1,8 @@
 export function showToast(msg, type='success', title='Уведомление') {
+    const ACCEPTED_TYPES = ['success', 'danger', 'warning', 'info']
+    if (!ACCEPTED_TYPES.includes(type)) {
+        throw new Error('Тип уведомления должен быть одним из следующих: ' + ACCEPTED_TYPES.join(', '))
+    }
     let currDate = new Date();
     let toast = `
     <div class="toast text-bg-${type || 'success'}" role="alert" aria-live="assertive" aria-atomic="true">

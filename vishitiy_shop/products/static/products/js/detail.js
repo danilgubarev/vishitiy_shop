@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //   }
 // }
 
+
 function addToCart(e) {
   e.preventDefault();
   const form = e.target
@@ -66,7 +67,7 @@ function addToCart(e) {
   const url = window.location.origin + '/cart/add/';
   
   if (!sizeSelected || !colorSelected) {
-    return alert('Please select a size and a color before adding to cart.');
+    return showToast('Будь ласка, оберіть розмір та кольор перед додаванням до кошика', 'warning');
   }
 
   const options = {
@@ -77,6 +78,12 @@ function addToCart(e) {
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
+      if (data.errors) {
+        for (const [key, value] of Object.entries(data.errors)) {
+          showToast(value, 'danger');
+        }
+        return;
+      }
       showToast("Товар успешно добавлен в корзину");
     })
     .catch((error) => {
