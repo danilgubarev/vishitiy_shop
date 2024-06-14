@@ -23,8 +23,14 @@ class ProductFilter(django_filters.FilterSet):
         widget=forms.CheckboxSelectMultiple,
         lookup_expr = 'icontains'
     )
+    discounted_only = django_filters.BooleanFilter(field_name="discount", label="Discounted only", widget=forms.CheckboxInput, method='filter_discounted_only')
+    
+    def filter_discounted_only(self, queryset, name, value):
+        if value:
+            return queryset.filter(discount__gt=0)
+        return queryset
 
 
     class Meta:
         model = Product
-        fields = ["price", "type","size", "color", "collection"]
+        fields = ["price", "discounted_only", "type","size", "color", "collection"]

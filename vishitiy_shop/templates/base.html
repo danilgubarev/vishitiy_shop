@@ -54,6 +54,8 @@
 
         </div>
 
+
+        <!--  -->
         <div class="cart">
             <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" class="text-white img-user-cart">
                 <img src="{% static 'img/shopping-bag.svg' %}" class="user-cart">
@@ -82,7 +84,9 @@
                             </div>
 
                             <div class="card-footer">
-                                <div class="h-5">{% include "products/includes/quantity.html" %}</div>
+                                <div class="h-5">
+                                    {% include "products/includes/quantity.html" with incr_btn_class="cart-increment-btn" decr_btn_class="cart-decrement-btn" %}
+                                </div>
                             </div>
 
                             <div class="trash">
@@ -124,6 +128,10 @@
                     {% if msg.tags == 'warning' %}<div class="msg position-fixed start-50 translate-middle-x alert alert-warning opacity-0" style="transition: opacity 0.4s;  top: 25%;">{{msg}}</div>{% endif %}
                 {% endfor %}
             {% endif %}
+        </div>
+
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 50">
+      
         </div>
     </main>
 
@@ -179,6 +187,7 @@
     <script src="{% static "js/messages.js" %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.23.3/dist/algoliasearch-lite.umd.js" integrity="sha256-1QNshz86RqXe/qsCBldsUu13eAX6n/O98uubKQs87UI=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.68.0/dist/instantsearch.production.min.js" integrity="sha256-pk7I7Xu6RA1qVbVU7Haw3ULL8nd5CXM5ith59df0/7I=" crossorigin="anonymous"></script>
+    <script src="{% static "js/cart-counter.js" %}" type="module"></script>
     <script src="{% static "js/search.js" %}"></script>
     {% block js %}{% endblock js %}
 </body>
