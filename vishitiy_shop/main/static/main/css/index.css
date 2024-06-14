@@ -1,21 +1,16 @@
 body {
     font-family: 'Comfortaa', sans-serif;
-    
-    
 }
-
 
 .cards {
     height: 448px;
 }
-
 
 .background-for-main {
     position: absolute;
     height: 220vh;
     width: 100%; 
     z-index: -1;
-    
 }
 
 .container-with-img {
@@ -23,7 +18,6 @@ body {
     text-align: center;
     padding-top: 50px;
 }
-
 
 .text-on-top {
     position: absolute;
@@ -38,7 +32,6 @@ body {
     bottom: 8px;
     left: 16px;
 }
-
 
 .subtitle {
     position: relative;
@@ -63,9 +56,8 @@ body {
 }
 
 .link-color {
-    color: #FF7A00
+    color: #FF7A00;
 }
-
 
 .name-of-collection {
     text-align: left;
@@ -73,11 +65,7 @@ body {
 
 .collections {
     padding-bottom: 100px;
-    
 }
-
-
-
 
 .slider {
     display: flex;
@@ -86,7 +74,6 @@ body {
     justify-content: center;
     max-width: 1200px;
     margin: 0 auto;
-    
 }
 
 .slider-items {
@@ -97,28 +84,22 @@ body {
     overflow: hidden;
 }
 
-.slider-item img{
+.slider-item img {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     width: 100%;
     padding: 10px;
-    
 }
 
-.slider-item .item{
+.slider-item .item {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     overflow: hidden;
 }
-
-
-
-
-
 
 @keyframes bounce {
     0%, 100% {
@@ -141,4 +122,26 @@ body {
 
 .mt-2 {
     margin-top: 0.5rem;
+}
+
+/* Media Queries */
+@media (max-width: 576px) {
+    .collect {
+        margin-bottom: 15px;
+    }
+
+    .subtitle {
+        padding: 0 20px;
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    .text-on-bottom {
+        left: 8px;
+    }
+}
+
+
+header nav .main {
+    color: #FF7A00;
 }

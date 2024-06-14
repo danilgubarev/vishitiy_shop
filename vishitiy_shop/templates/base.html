@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{% static "css/base.css" %}">
     <link rel="stylesheet" href="{% static "css/header.css" %}">
     <link rel="stylesheet" href="{% static "css/footer.css" %}">
+    <link rel="stylesheet" href="{% static "css/cart.css" %}">
     {% block links %}
 
     {% endblock %}
@@ -25,9 +26,9 @@
         </div>
 
         <nav>
-            <a href="{% url 'main:index' %}" class="links">Головна</a>
-            <a href="{% url 'products:list' %}" class="links">Всі колекції </a>
-            <a href="{% url 'your_design:design' %}" class="links">Твій дизайн</a>
+            <a href="{% url 'main:index' %}" class="links main">Головна</a>
+            <a href="{% url 'products:list' %}" class="links collections">Всі колекції </a>
+            <a href="{% url 'your_design:design' %}" class="links design">Твій дизайн</a>
         </nav>
 
         <div id="searchbox"></div>
@@ -51,12 +52,57 @@
                 </div>
             </div>           
 
-            <div class="img-user-cart">
-                <a href=""><img src="{% static 'img/shopping-bag.svg' %}" class="user-cart"></a>
-            </div>
-
         </div>
 
+        <div class="cart">
+            <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" class="text-white img-user-cart">
+                <img src="{% static 'img/shopping-bag.svg' %}" class="user-cart">
+            </button>
+
+            <div class="offcanvas offcanvas-end our-cart" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+              <div class="offcanvas-header my-close">
+                <h6>Закрити</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
+                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Ваш кошик</h5>
+                <div class="cart-items flex flex-col gap-6">
+                    <div class="item">
+                        <div class="card-in-cart">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ02np2CGz0j43kTktM_TEe_pARx5TJYnQpfQ&s" class="card-img-top" alt="..." style="width: 85px">
+                            <div class="my-decript">
+                                <div class="price-and-name">
+                                    <h6 class="price-name">NIKE hoodie</h6>
+                                    <h6 class="price-name">1000 UAH</h6>
+                                </div>
+
+                              <h6 class="desc-in-cart">Розмір: S</h6>
+                              <h6 class="desc-in-cart">Колір: Черный</h6>
+
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="h-5">{% include "products/includes/quantity.html" %}</div>
+                            </div>
+
+                            <div class="trash">
+                                <img src="{% static 'img/trash.svg' %}" alt="">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <hr>
+                <div class="result">
+                    <h5>result: 1000</h5>
+                </div>
+
+                <div class="buttons">
+                    <a href="{% url 'payments:email' %}" type="button" class="btn btn-outline-light text-3xl px-5">Оформити замовлення</a>
+                </div>
+            </div>
+        </div>
     </header>
 
     <main>
@@ -104,6 +150,8 @@
                 </div>
             </div>
 
+            <!--  -->
+
             <div class="container-for-social-links">
                 <div class="links-on-social">
                     <a href="https://www.instagram.com/vishitiy.ua?igsh=MXZ4ejM5eDR5MWgwMQ==" target="_blank"> <img src="{% static 'img/instagram.svg' %}" > </a>
@@ -119,6 +167,8 @@
             </div>
 
         </div>
+
+        <!--  -->
 
         <div class="authors-container">
                 <p class="authors">© 2023 vishitiy.UA. Всі права зарезервовані.</p>

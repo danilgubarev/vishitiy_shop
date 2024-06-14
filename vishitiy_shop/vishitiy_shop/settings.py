@@ -55,7 +55,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-LOCAL_APPS = ["main", "users", "products", "your_design"]
+LOCAL_APPS = ["main", "users", "products", "your_design", "cart", "payments"]
 
 INSTALLED_APPS = DJANGO_APPS + THRIRD_PATRY_APPS + LOCAL_APPS
 

@@ -1,68 +1,89 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block links %}
+
+<link rel="stylesheet" href="{% static 'products/css/style.css' %}">
+
+{% endblock links %}
+
+
 {% block content %}
 <div class="p-20 text-white">
-    <div id="backlink" class="pt-3">
-        <a href="{% url "products:list" %}" class="transition-colors hover:text-red-500">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
-            </svg>
-        </a>
-    </div>
-      <div class="wrapper p-7">
-        <div class="row">
+  <div id="backlink" class="pt-3">
+      <a href="{% url 'products:list' %}" class="transition-colors hover:text-red-500">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+          </svg>
+      </a>
+  </div>
+  <div class="wrapper p-7 our-container" >
+      <div class="row">
           <div class="col">
-            <div style="height: 100%; width: 100%; display: flex; justify-content: center;">
-                <img src="{{product.image.url}}" alt="" width="60%" height="50%" >
-            </div>
-            <div class="my-5 text-white">
-              <div class="text-center text-2xl">
-                {{product.description}}
+              <div class="image-container">
+                  <img src="{{product.image.url}}" class="product-image" alt="" style="width: 65%;">
               </div>
-            </div>
           </div>
-          <div class="col flex flex-col items-center gap-12">
-            <div class="text-4xl text-center">
-                <p class="text-4xl">{{product.title}}</p>
-                <p class="text-lg text-slate-200">{{product.collection}}</p>
-            </div>
-            <div class="self-start flex flex-col gap-7">
-              <div class="text-3xl">1000UAH</div>
-              <div>
-                  <p class="text-lg">SIZE</p>
+          <div class="col flex flex-col gap-7 container-for-menu">
+              <div class="text-3xl title-style">
+                  <p class="text-3xl">{{product.title}}</p>
+                  <p class="text-lg">Колекція: {{product.collection}}</p>
+                  <div class="text-2xl">1000UAH</div>
+              </div>
+              <div class="self-start flex flex-col gap-7">
                   <div>
-                    {% for size in product.available_sizes %}
-                    <button type="button" class="btn btn-light size toggle-size" data-bs-toggle="button">{{size|upper}}</button>
-                    {% endfor %}
+                      <p class="text-lg">SIZE</p>
+                      <div>
+                          {% for size in product.available_sizes %}
+                          <button type="button" class="btn btn-light size toggle-size" data-bs-toggle="button">{{size|upper}}</button>
+                          {% endfor %}
+                      </div>
                   </div>
-              </div>
-              <div>
-                  <p class="text-lg">COLOR</p>
                   <div>
-                    {% for color in product.available_colors %}
-                      <button type="button" class="btn btn-outline-light text-2xl px-4 py-2 toggle-color" style="border-radius: 40px;" data-bs-toggle="button">{{color|capfirst}}</button>
-                    {% endfor %}
+                      <p class="text-lg">COLOR</p>
+                      <div>
+                          {% for color in product.available_colors %}
+                          <button type="button" class="btn btn-outline-light text-2xl px-4 py-2 toggle-color" style="border-radius: 40px;" data-bs-toggle="button">{{color|capfirst}}</button>
+                          {% endfor %}
+                      </div>
+                  </div>
+                  <div>
+                      <p class="text-lg">COUNT</p>
+                      <div class="btn-group">
+                          <button class="btn btn-outline-light text-2xl" id="decrement-btn">-</button>
+                          <input type="text" id="counter" class="focus:outline-none text-center bg-transparent border text-white border-white font-semibold outline-none w-10" name="quantity" value="0">
+                          <button class="btn btn-outline-light text-2xl" id="increment-btn">+</button>
+                      </div>
                   </div>
               </div>
-              <div>
-                  <p class="text-lg">COUNT</p>
-                  <div class="btn-group">
-                      <button class="btn btn-outline-light text-2xl" id="decrement-btn">-</button>
-                      <input type="text" id="counter" class="focus:outline-none text-center bg-transparent border text-white border-white font-semibold outline-none w-10" name="quantity" value="0"></input>
-                      <button class="btn btn-outline-light text-2xl" id="increment-btn">+</button>
+              <div class="buttons-in-cart">
+                  <button type="button" class="btn btn-outline-light text-3xl px-5 buttons-cart">Додати до кошика</button>
+              </div>
+              <div class="buttons-in-cart">
+                  <a href="{% url 'payments:email' %}" type="button" class="btn btn-outline-light text-3xl px-5 buttons-cart">Купити</a>
+              </div>
+
+              <div class="accordion-container">
+                  <div class="accordion accordion-flush" id="accordionFlushExample">
+                      <div class="accordion-item my-accordion" >
+                          <h2 class="accordion-header">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                  Опис
+                              </button>
+                          </h2>
+                          <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                              <div class="accordion-body accordion-content">{{product.description}}</div>
+                          </div>
+                      </div>
                   </div>
               </div>
-            </div>
-            <div>
-              <button type="button" class="btn btn-outline-light text-3xl px-5">ADD TO CART</button>
-            </div>
-            <div>
-              <button type="button" class="btn btn-outline-light text-3xl px-5">BUY NOW</button>
-            </div>
+
           </div>
-        </div>
       </div>
+  </div>
 </div>
+
+
 {% endblock content %}
 
 

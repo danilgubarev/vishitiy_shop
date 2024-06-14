@@ -8,6 +8,10 @@ header {
     font-family: 'Comfortaa', sans-serif;
 }
 
+header nav .design {
+    color: #FF7A00;
+}
+
 
 .container {
     display: flex;
