@@ -10,35 +10,32 @@ const arrowDown = `
 </svg>
 <p class="mt-2 text-white">Гортай вниз</p>
 `
-function scrollPage(e) {
+function scrollPage() {
     var currentPosition = window.scrollY || window.pageYOffset;
     var windowHeight = window.innerHeight;
     var bodyHeight = document.body.scrollHeight;
-
-    if (currentPosition + windowHeight >= bodyHeight) {
-    // Вверх
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    switchArrow("up")
-
+    if (currentPosition + windowHeight >= (bodyHeight / 2)) {
+        // Прокрутка вверх
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-    // Вниз
-    window.scrollTo({ top: bodyHeight, behavior: 'smooth' });
-    switchArrow("down")
+        // Прокрутка вниз
+        window.scrollTo({ top: bodyHeight, behavior: 'smooth' });
     }
 }
+
 function switchArrow() {
     var el = document.querySelector("#scrollButton");
     var currentPosition = window.scrollY || window.pageYOffset;
-    var windowHeight = window.innerHeight;
-    var bodyHeight = document.body.scrollHeight;
 
-    if (currentPosition + windowHeight >= bodyHeight) {
-        el.innerHTML = arrowUp;
-    } else {
+    if (currentPosition < 100) {
         el.innerHTML = arrowDown;
+    } else {
+        el.innerHTML = arrowUp;
     }
 }
 
 switchArrow();
 
 window.addEventListener('scroll', switchArrow);
+
+document.querySelector("#scrollButton").addEventListener('click', scrollPage);
