@@ -18,3 +18,5 @@ charset-normalizer==3.3.2
 idna==3.7
 requests==2.32.3 
 urllib3==2.2.1
+django-countries==7.6.1
+typing-extensions==4.12.2

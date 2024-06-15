@@ -44,6 +44,7 @@ THRIRD_PATRY_APPS = [
     "colorfield",
     "django_filters",
     "algoliasearch_django",
+    "django_countries",
 ]
 
 DJANGO_APPS = [
@@ -82,6 +83,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "cart.context_processors.cart",
             ],
         },
     },
@@ -179,3 +181,14 @@ ALGOLIA = {
 # CART
 
 CART_SESSION_KEY = "cart"
+
+
+
+# FOR SENDING ON EMAIL
+
+EMAIL_HOST =  'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'sbest8982@gmail.com'
+EMAIL_HOST_PASSWORD = 'ncgk ukrg gqtb xram'
+EMAIL_USE_TLS = True 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

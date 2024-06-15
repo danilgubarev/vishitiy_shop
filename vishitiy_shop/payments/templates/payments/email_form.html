@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static %} {% load crispy_forms_tags %}
 
 {% block links %}
     <link rel="stylesheet" href="{% static 'payments/css/payment.css' %}">
@@ -9,43 +9,20 @@
 
 
 {% block content %}
-
-<form method="POST">
-    <div id="order">
-        <div id="inputs">
+<div class="wrapper">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="flex items-center justify-content-center text-white flex-column" style="height: 100vh">
             <div>
-                <p class="text-light text" >Прізвище та ім'я</p>
-                <p><input type="text" class="border border-light input"></p>
+                {{form|crispy}}
             </div>
-            <div>
-                <p class="text-light text">Електронна пошта</p>
-                <p><input type="text" class="border border-light input"></p>
-            </div>
-            <div>
-                <p class="text-light text">Номер телефону</p>
-                <p><input type="text" class="border border-light input"></p>
-            </div>
-            <div>
-                <p class="text-light text">Країна</p>
-                <p><input type="text" class="border border-light input"></p>
-            </div>
-            <div>
-                <p class="text-light text">Населений пункт</p>
-                <p><input type="text" class="border border-light input"></p>
-            </div>
-            <div>
-                <p class="text-light text">Адреса та номер пошти</p>
-                <p><input type="text" class="border border-light input"></p>
+            <div >
+                <button type="submit" class="btn btn-outline-light">Оформити</button>
             </div>
         </div>
-        <div class="container-btn">
-            <button type="button" class="btn btn-outline-light ">Оформити</button>
-        </div>
-    </div>
-
-</form>
+    </form>
+</div>
 {% endblock content %}
-
 
 
 
