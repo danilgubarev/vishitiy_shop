@@ -17,11 +17,11 @@ class Command(BaseCommand):
             )
             Product.objects.create(
                 title=fake.name(),
-                color=fake.hex_color(),
-                size=random.choice(Product.SIZE_CHOICES)[0],
+                available_colors=random.sample([color[0] for color in Product.COLOR_PALETTE], 3),
+                available_sizes=random.sample(Product.ACCEPTABLE_SIZES, 3),
                 type=random.choice(Product.PRODUCT_TYPE_CHOICES)[0],
                 image="collection_ex.png",
                 description=fake.text(),
-                price=fake.random_int(min=1, max=100),
+                price=fake.random_int(min=100, max=5000),
                 collection=random.choice(Collection.objects.all()),
             )
