@@ -1,36 +1,32 @@
 {% extends "base.html" %}
 {% load static %}
-
-{% block links %}
-
-<link rel="stylesheet" href="{% static 'products/css/style.css' %}">
-
-{% endblock links %}
-
-
 {% block content %}
 <div class="p-20 text-white">
-  <div id="backlink" class="pt-3">
-      <a href="{% url 'products:list' %}" class="transition-colors hover:text-red-500">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
-          </svg>
-      </a>
-  </div>
-  <div class="wrapper p-7 our-container" >
-      <div class="row">
+    <div id="backlink" class="pt-3">
+        <a href="{% url "products:list" %}" class="transition-colors hover:text-red-500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+            </svg>
+        </a>
+    </div>
+      <div class="wrapper p-7">
+        <div class="row">
           <div class="col">
-              <div class="image-container">
-                  <img src="{{product.image.url}}" class="product-image" alt="" style="width: 65%;">
+            <div>
+                <img src="{{product.image.url}}" alt="" width="715" height="850">
+            </div>
+            <div class="my-5 text-white">
+              <div class="text-center text-2xl">
+                {{product.description}}
               </div>
+            </div>
           </div>
-          <div class="col flex flex-col gap-7 container-for-menu">
-              <div class="text-3xl title-style">
-                  <p class="text-3xl">{{product.title}}</p>
-                  <p class="text-lg">Колекція: {{product.collection}}</p>
-                  <div class="text-2xl">1000UAH</div>
-              </div>
-              <div class="self-start">
+          <div class="col flex flex-col items-center gap-12">
+            <div class="text-4xl text-center">
+                <p class="text-4xl">{{product.title}}</p>
+                <p class="text-lg text-slate-200">{{product.collection}}</p>
+            </div>
+            <div class="self-start">
                 <form id="add-to-cart-form" method="post">
                   <div class="flex flex-col gap-7">
                     {% csrf_token %}
@@ -72,28 +68,10 @@
                   </div>
                 </form>
             </div>
-
-              <div class="accordion-container">
-                  <div class="accordion accordion-flush" id="accordionFlushExample">
-                      <div class="accordion-item my-accordion" >
-                          <h2 class="accordion-header">
-                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                  Опис
-                              </button>
-                          </h2>
-                          <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                              <div class="accordion-body accordion-content">{{product.description}}</div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-
           </div>
+        </div>
       </div>
-  </div>
 </div>
-
-
 {% endblock content %}
 
 

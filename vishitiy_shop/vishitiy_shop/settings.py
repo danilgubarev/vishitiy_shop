@@ -174,3 +174,8 @@ ALGOLIA = {
     "API_KEY": str(os.getenv("ALGOLIA_API_KEY")),
     "INDEX_PREFIX": str(os.getenv("ALGOLIA_INDEX_PREFIX")),
 }
+
+
+# CART
+
+CART_SESSION_KEY = "cart"
