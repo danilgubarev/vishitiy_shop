@@ -29,9 +29,8 @@ class CartAddForm(CartBaseForm):
     def save(self):
         super().save()
         self.cleaned_data['price'] = str(self.cleaned_data['price'])
-        if self.request:
-            cart = Cart(self.request)
-            return cart.add(**self.cleaned_data)
+        cart = Cart(self.request)
+        return cart.add(**self.cleaned_data)
             
 
 class CartUpdateForm(CartAddForm):
@@ -43,6 +42,20 @@ class CartUpdateForm(CartAddForm):
         self.fields['product_id'].required = True
         
     def save(self):
-        if self.request:
+        cart = Cart(self.request)
+        return cart.update(**self.cleaned_data)
+        
+        
+class CartRemoveForm(CartBaseForm):
+    product_id = forms.CharField(widget=forms.HiddenInput)
+    
+    def clean(self):
+        if getattr(self, 'request', None):
             cart = Cart(self.request)
-            return cart.update(**self.cleaned_data)
+            if self.cleaned_data['product_id'] not in cart:
+                raise forms.ValidationError('Цього продукту немає в вашiй корзині')
+        return self.cleaned_data
+
+    def save(self):
+        cart = Cart(self.request)
+        return cart.remove(**self.cleaned_data)
