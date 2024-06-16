@@ -11,10 +11,11 @@ const arrowDown = `
 <p class="mt-2 text-white">Гортай вниз</p>
 `
 function scrollPage() {
-    var currentPosition = window.scrollY || window.pageYOffset;
-    var windowHeight = window.innerHeight;
-    var bodyHeight = document.body.scrollHeight;
-    if (currentPosition + windowHeight >= (bodyHeight / 2)) {
+    const el = document.querySelector("#scrollButton");
+    // var currentPosition = window.scrollY;
+    // var windowHeight = window.innerHeight;
+    const bodyHeight = document.body.scrollHeight;
+    if (el.dataset.direction === "up") {
         // Прокрутка вверх
         window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
@@ -24,13 +25,15 @@ function scrollPage() {
 }
 
 function switchArrow() {
-    var el = document.querySelector("#scrollButton");
-    var currentPosition = window.scrollY || window.pageYOffset;
+    const el = document.querySelector("#scrollButton");
+    const currentPosition = window.scrollY;
 
     if (currentPosition < 100) {
         el.innerHTML = arrowDown;
+        el.dataset.direction = "down";
     } else {
         el.innerHTML = arrowUp;
+        el.dataset.direction = "up";
     }
 }
 

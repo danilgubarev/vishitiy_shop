@@ -24,21 +24,23 @@
                     </div>
                 </div>
 
-    <div class="cards container">
-        <div class="row gap-5 w-full">
-            {% for product in object_list %}
-            <div class="col-3">
-                <div class="card" style="width: 18rem;" id="card">
-                    <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title" id="h">
-                            <a href="{{product.get_absolute_url}}" class="transition-colors hover:text-orange-600">
-                            {{product.title}}
-                            </a>
-                        </h5>
-                        <h5 class="card-title" id="vis">vishitiy.ua</h5>
-                        <p class="card-text">{% include "products/includes/price.html" %}</p>
-                        <p><button class="btn btn-outline-light" id="btn">Додати до кошика</button></p>
+                <div class="col-lg-9 col-md-8 col-sm-12">
+                    <div class="cards d-flex flex-wrap justify-content-center">
+                        {% for product in object_list %}
+                        <div class="card m-2" style="width: 19rem;" id="card">
+                            <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap" style="height: 60%;">
+                            <div class="card-body">
+                                <h5 class="card-title" id="h">
+                                    <a href="{{product.get_absolute_url}}" class="text-decoration-none text-white transition-colors hover:text-orange-600">
+                                        {{product.title}}
+                                    </a>
+                                </h5>
+                                <h5 class="card-title" id="vis">vishitiy.ua</h5>
+                                <p class="card-text">{% include "products/includes/price.html" %}</p>
+                                {% comment %} <p><button class="btn btn-outline-light" id="btn">Додати до кошика</button></p> {% endcomment %}
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

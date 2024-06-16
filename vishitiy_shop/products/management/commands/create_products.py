@@ -20,6 +20,7 @@ class Command(BaseCommand):
                 available_colors=random.sample([color[0] for color in Product.COLOR_PALETTE], 3),
                 available_sizes=random.sample(Product.ACCEPTABLE_SIZES, 3),
                 type=random.choice(Product.PRODUCT_TYPE_CHOICES)[0],
+                discount=random.choice([0, 10, 20, 50]),
                 image="collection_ex.png",
                 description=fake.text(),
                 price=fake.random_int(min=100, max=5000),

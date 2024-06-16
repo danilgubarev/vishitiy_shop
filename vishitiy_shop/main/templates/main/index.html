@@ -20,28 +20,30 @@
     <div class="subtitle fs-3">
         Акційні знижки
     </div>
-    <div class="slider">
-        <button class="btn prev" onclick="plusSlides(-1)">&#10094;</button>
-        <div class="slider-items">
-            <div class="slider-item">
-                <div class="item">
-                    <div>
-                        <img src=" {% static 'main/images/nike.PNG' %} " alt="">
-                    </div>
-                    <div>
-                        <img src="{% static 'main/images/nike.PNG' %}" alt="">
-                    </div>
-                    <div>
-                        <img src="{% static 'main/images/nike.PNG' %}" alt="">
-                    </div>
-                    <div>
-                        <img src="{% static 'main/images/nike.PNG' %}" alt="">
-                    </div>   
+    <div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
+        <div class="carousel-inner">
+            {% for product_group in discounted_products_grouped %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="row">
+                  {% for product in product_group %}
+                    {% if product %}
+                      <div class="col-md-3">
+                        <img src="{{ product.image.url }}" class="d-block w-100" alt="{{ product.title }}">
+                      </div>
+                    {% endif %}
+                  {% endfor %}
                 </div>
-            </div>
-           
+              </div>
+            {% endfor %}
         </div>
-        <button class="btn next" onclick="plusSlides(1)">&#10095;</button>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
     </div>
 
     <div class="subtitle fs-3">
@@ -50,12 +52,14 @@
     <div class="container collections">
         <div class="row justify-content-center">
             {% for collection in collections %}
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 container-with-img collect" data-collection-id="{{ collection.id }}">
-                <img src="{{ collection.image.url }}" alt="{{ collection.name }}" width="100%" height="100%" class="img-fluid cards">
-                <div class="text-on-bottom">
-                    <div class="fs-3 name-of-collection">{{ collection.name|upper }}</div>
-                    <div class="fs-6 link-color name-of-collection">Перейти до каталогу</div>
-                </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 container-with-img ">
+                <a href="{% url "products:list" %}?collection={{collection.id}}">
+                    <img src="{{ collection.image.url }}" alt="{{ collection.name }}" width="100%" height="100%" class="img-fluid cards">
+                    <div class="text-on-bottom">
+                        <div class="fs-3 name-of-collection">{{ collection.name|upper }}</div>
+                        <div class="fs-6 link-color name-of-collection">Перейти до каталогу</div>
+                    </div>
+                </a>
             </div>
             {% endfor %}
         </div>
@@ -63,13 +67,12 @@
 </div>
 
 <div class="fixed bottom-0 right-0">
-    <button class="bg-transparent p-5 flex flex-col items-center justify-content-center" id="scrollButton" onclick="scrollPage()">
+    <button class="bg-transparent p-5 flex flex-col items-center justify-content-center" id="scrollButton" onclick="scrollPage()" data-direction="down">
     </button>
 </div>
 {% endblock content %}
 
 {% block js %}
 <script src="{% static "main/js/scroll-arrow.js" %}"></script>
-<script src="{% static "main/js/collections.js" %}"></script>
 <script src="{% static "main/js/slider.js" %}"></script>
 {% endblock js %}

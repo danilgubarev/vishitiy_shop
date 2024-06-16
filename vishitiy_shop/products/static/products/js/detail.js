@@ -1,4 +1,5 @@
 import { HandleCounter } from "/static/js/counter.js";
+import { showToast } from "/static/js/notifications.js";
 import { CartClient } from "/static/js/cart-client.js";
  
 document.addEventListener("DOMContentLoaded", () => {
@@ -20,7 +21,7 @@ function initAddToCart() {
     const sizeSelected = form.querySelector('input[name="size"]:checked');
     const colorSelected = form.querySelector('input[name="color"]:checked');
     if (!sizeSelected || !colorSelected) {
-      return showToast('Будь ласка, оберіть розмір та кольор перед додаванням до кошика', 'warning');
+      return showToast('Будь ласка, оберіть розмір та колiр перед додаванням до кошика', 'warning');
     }
     cart.add.bind(cart)(e);
   });
