@@ -6,10 +6,7 @@ class CustomRangeWidget(RangeWidget):
     
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
-        print(self.widgets)
-        min = self.attrs.get('min', 0)
-        max = self.attrs.get('max', 5000)
-        context['widget']['attrs'] = {'min': min, 'max': max}
+        context['widget']['attrs'] = {'min': self.attrs.get('min', 0), 'max': self.attrs.get('max', 5000)}
         for subcontext, suffix in zip(context["widget"]["subwidgets"], self.suffixes):
             #x-on:input="mintrigger"
             #x-model="minprice"

@@ -1,10 +1,9 @@
 import { HandleCounter } from "/static/js/counter.js";
-import { showToast } from "/static/js/notifications.js";
 import { CartClient } from "/static/js/cart-client.js";
  
 document.addEventListener("DOMContentLoaded", () => {
-  initAddToCart()
   initCounter()
+  initAddToCart()
 })
 
 function initCounter() {

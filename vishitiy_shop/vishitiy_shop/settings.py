@@ -44,6 +44,7 @@ THRIRD_PATRY_APPS = [
     "colorfield",
     "django_filters",
     "algoliasearch_django",
+    "django_countries",
 ]
 
 DJANGO_APPS = [
@@ -55,7 +56,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-LOCAL_APPS = ["main", "users", "products"]
+LOCAL_APPS = ["main", "users", "products", "your_design", "cart", "payments"]
 
 INSTALLED_APPS = DJANGO_APPS + THRIRD_PATRY_APPS + LOCAL_APPS
 
@@ -177,3 +178,19 @@ ALGOLIA = {
     "API_KEY": str(os.getenv("ALGOLIA_API_KEY")),
     "INDEX_PREFIX": str(os.getenv("ALGOLIA_INDEX_PREFIX")),
 }
+
+
+# CART
+
+CART_SESSION_KEY = "cart"
+
+
+
+# FOR SENDING ON EMAIL
+
+EMAIL_HOST =  'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'sbest8982@gmail.com'
+EMAIL_HOST_PASSWORD = 'ncgk ukrg gqtb xram'
+EMAIL_USE_TLS = True 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

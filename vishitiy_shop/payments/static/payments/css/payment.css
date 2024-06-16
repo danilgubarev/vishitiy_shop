@@ -1,0 +1,45 @@
+
+
+.input {
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    width: 300px;
+    height: 40px;
+}
+
+#order {
+   
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-top: 100px;
+}
+
+#inputs {
+    margin-bottom: 50px;
+}
+
+.container-btn {
+    display: flex;
+    justify-content: center;
+}
+
+.text {
+    font-size: 18px;
+}
+
+* ::-moz-selection{
+    background-color:#FF7A00;
+    color:#0D0D0D;
+}
+  
+* ::selection{
+    background-color:#FF7A00;
+    color:#0D0D0D;
+}
+
+
+footer {
+    display: none;
+}

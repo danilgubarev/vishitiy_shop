@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{% static "css/base.css" %}">
     <link rel="stylesheet" href="{% static "css/header.css" %}">
     <link rel="stylesheet" href="{% static "css/footer.css" %}">
+    <link rel="stylesheet" href="{% static "css/cart.css" %}">
     {% block links %}
 
     {% endblock %}
@@ -27,7 +28,7 @@
         <nav>
             <a href="{% url 'main:index' %}" class="links">Головна</a>
             <a href="{% url 'products:list' %}" class="links">Всі колекції </a>
-            <a href="#" class="links">Твій дизайн</a>
+            <a href="{% url 'your_design:design' %}" class="links">Твій дизайн</a>
         </nav>
 
         <div id="searchbox"></div>
@@ -51,10 +52,6 @@
                     </ul>
                 </div>
             </div>           
-
-            <div class="img-user-cart">
-                <a href=""><img src="{% static 'img/shopping-bag.svg' %}" class="user-cart"></a>
-            </div>
         </div>
         {% include "includes/cart.html" %}
     </header>
@@ -86,43 +83,52 @@
 
     <footer>
         <div class="container">
-            <h3 class="name-of-company">vishitiy.ua</h3>
+            <a href="{% url 'main:index' %}"><h3 class="name-of-company">vishitiy.ua</h3></a>
 
             <div class="container-for-links">
                 <div class="links">
                     <a href="#">Про нас</a>
-                    <a href="#">Контактна інформація</a>
+                    <a href="{% url 'your_design:design' %}">Контактна інформація</a>
                     <a href="#">Питання та відповіді</a>
                 </div>
                 <div class="links">
-                    <a href="#">Зареєструватися</a>
-                    <a href="#">Увійти</a>
-                    <a href="#">Продукти</a>
+                    <a href="{% url "users:signup" %}">Зареєструватися</a>
+                    <a href="{% url "users:login" %}">Увійти</a>
+                    <a href="{% url 'products:list' %}">Продукти</a>
                 </div>
                 <div class="links">
-                    <a href="#">GYM</a>
-                    <a href="#">Контактна інформація</a>
-                    <a href="#">Питання та відповіді</a>
+                    <a href="/products/?type=&collection=4">GYM</a>
+                    <a href="/products/?type=&collection=6">COUPLES</a>
+                    <a href="/products/?type=&collection=1">ART</a>
 
                 </div>
             </div>
 
+            <!--  -->
+
             <div class="container-for-social-links">
                 <div class="links-on-social">
-                    <img src="{% static 'img/instagram.svg' %}" >
+                    <a href="https://www.instagram.com/vishitiy.ua?igsh=MXZ4ejM5eDR5MWgwMQ==" target="_blank"> <img src="{% static 'img/instagram.svg' %}" > </a>
                 </div>
 
                 <div class="links-on-social">
-                    <img src="{% static 'img/send.svg' %}" >
+                    <a href="https://www.facebook.com/profile.php?id=100090697746664" target="_blank"> <img src="{% static 'img/facebook.svg' %}" > </a>
+                </div>
+
+                <div class="links-on-social">
+                    <a href="https://www.tiktok.com/@vishitiy.ua?_t=8n8Qs4st9oU&_r=1" target="_blank"> <img src="{% static 'img/tiktok.svg' %}" > </a>
                 </div>
             </div>
 
         </div>
+
+        <!--  -->
 
         <div class="authors-container">
                 <p class="authors">© 2023 vishitiy.UA. Всі права зарезервовані.</p>
         </div>
     </footer>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="{% static "js/messages.js" %}"></script>

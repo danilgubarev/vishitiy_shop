@@ -20,4 +20,3 @@ class ProductAdmin(admin.ModelAdmin):
             attrs={'class': 'form-control'}
         )
         return form
-    
