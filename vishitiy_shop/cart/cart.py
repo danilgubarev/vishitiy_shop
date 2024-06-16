@@ -38,25 +38,26 @@ class Cart:
         
     def add(self, **data) -> dict | None:
         product_id = data.pop('product_id')
-        if product_id not in self.cart:
-            self.save()
-            self.cart[product_id] = data
-            return self.cart[product_id]
+        assert product_id not in self.cart, "Product already in cart"
+        self.save()
+        self.cart[product_id] = data
+        return self.cart[product_id]
     
     def save(self):
         self.session.modified = True
     
     def remove(self, product_id):
+        assert product_id in self.cart, "Product not in cart"
         del self.cart[product_id]
         self.save()
         return None
     
     def update(self, **data): 
         product_id = data.pop('product_id')
-        if product_id in self.cart:
-            self.cart[product_id].update(**data)
-            self.save()
-            return self.cart[product_id]
+        assert product_id in self.cart, "Product not in cart"
+        self.cart[product_id].update(**data)
+        self.save()
+        return self.cart[product_id]
         
         
     def clear(self):

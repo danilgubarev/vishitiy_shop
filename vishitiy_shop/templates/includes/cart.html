@@ -26,10 +26,14 @@
                         </div>
                         <div class="card-footer flex items-center flex-col gap-2">
                             <div>
-                                {% include "products/includes/quantity.html" with value=item.quantity incr_btn_class="cart-increment-btn" decr_btn_class="cart-decrement-btn" %}
+                                <form action="{% url "cart:update" %}" method="post" class="update-cart-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{product.id}}">
+                                    {% include "products/includes/quantity.html" with value=item.quantity incr_btn_class="cart-increment-btn" decr_btn_class="cart-decrement-btn" counter_class="cart-counter" %}
+                                </form>
                             </div>
                             <div>
-                                <form action="{% url "cart:remove" %}" method="post" class="remove-from-cart-form">
+                                <form action="{% url "cart:remove" %}" method="post" class="remove-cart-form">
                                     {% csrf_token %}
                                     <input type="hidden" name="product_id" value="{{product.id}}">
                                     <button class="btn text-white hover:text-red-500">

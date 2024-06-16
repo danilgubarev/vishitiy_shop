@@ -12,7 +12,10 @@ export class Client {
         let data = text ? JSON.parse(text) : {};
         console.log("DATA ZAPROSa", data);
         if (response.ok) {
+            console.log("HTTP OK:", response.status, response.statusText);
+            console.log(data.msg);
             if (data.msg) showToast(data.msg)
+            console.log('toast added');
             if (callBack) callBack(data);
         } else {
             console.error("HTTP Error:", response.status, response.statusText);

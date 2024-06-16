@@ -23,4 +23,11 @@ export class CartClient {
         const data = new FormData(e.target);
         this.client.sendReq(this.url + 'add/', 'POST', data, null, 'При додаванні товару сталася помилка. Спробуйте пізніше');
     }
+
+    update(e) {
+        console.log("CartClient.update()", e);
+        e.preventDefault();
+        const data = new FormData(e.target);
+        this.client.sendReq(this.url + 'update/', 'POST', data, null, 'При зміні кількості сталася помилка. Спробуйте пізніше');
+    }
 }

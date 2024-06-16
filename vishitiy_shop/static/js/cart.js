@@ -4,6 +4,7 @@ import { CartClient } from "/static/js/cart-client.js";
 document.addEventListener("DOMContentLoaded", () => {
     initCounter();
     initRemove();
+    initUpdate();
 })
 
 function initCounter() {
@@ -14,9 +15,27 @@ function initCounter() {
 
 function initRemove() {
     const cart = new CartClient();
-    const removeForms = document.querySelectorAll('.remove-from-cart-form');
+    const removeForms = document.querySelectorAll('.remove-cart-form');
 
     removeForms.forEach((form) => {
         form.addEventListener('submit', cart.remove.bind(cart))
+    })
+}
+
+function initUpdate() {
+    const cart = new CartClient();
+    const updateForms = document.querySelectorAll('.update-cart-form');
+    const counters = document.querySelectorAll('.cart-counter');
+    updateForms.forEach((form) => {
+        form.addEventListener('submit', cart.update.bind(cart))
+    })
+    counters.forEach((counter) => {
+        counter.addEventListener('input', (e) => {
+            console.log("Counter changed", e.target.value);
+            const form = e.target.closest('.update-cart-form');
+
+            const event = new Event('submit', { bubbles: true, cancelable: true });
+            form.dispatchEvent(event); 
+        })
     })
 }
