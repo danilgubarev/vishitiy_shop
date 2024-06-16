@@ -2,7 +2,6 @@ import django_filters
 import django_filters.widgets
 from django import forms
 from .widgets import CustomRangeWidget
-
 from .models import Product, Collection
 
 

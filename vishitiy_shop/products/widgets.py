@@ -1,12 +1,8 @@
 from django_filters.widgets import RangeWidget
-from django.template.loader import render_to_string
-from django.utils.safestring import mark_safe
+from django import forms
 
 class CustomRangeWidget(RangeWidget):
     template_name = 'products/widgets/range.html'
-    def __init__(self, attrs=None):
-        self.attrs = attrs
-        super().__init__(attrs)
     
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
@@ -14,8 +10,7 @@ class CustomRangeWidget(RangeWidget):
         for subcontext, suffix in zip(context["widget"]["subwidgets"], self.suffixes):
             #x-on:input="mintrigger"
             #x-model="minprice"
+            # subcontext["attrs"][suffix+"length"] = len(str(context['widget']['attrs'][suffix]))
             subcontext["attrs"]["x-on:input"] = suffix + "trigger"
             subcontext["attrs"]["x-model"] = suffix + "price"
         return context
-
-    

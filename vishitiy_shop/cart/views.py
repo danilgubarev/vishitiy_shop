@@ -1,13 +1,10 @@
 from typing import Any
-import json
-from django.shortcuts import render
 from django.views import generic
 from django.views.generic.edit import FormMixin
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from . import forms
 
 class CartMixin(FormMixin, generic.View):
-    
     status_code = 200
     msg = None
     
@@ -22,8 +19,9 @@ class CartMixin(FormMixin, generic.View):
     def form_valid(self, form: Any) -> HttpResponse:
        saved_data = form.save() or {}
        return JsonResponse({'data': saved_data, 'msg': self.msg}, status=self.status_code)
+    
     def form_invalid(self, form: Any) -> HttpResponse:
-        return JsonResponse({'msg': 'Помилка валидації', 'errors': form.errors}, status=422)
+        return JsonResponse({'msg': 'Ошибка валидации', 'errors': form.errors}, status=422)
 
 class CartAddView(CartMixin):
     form_class = forms.CartAddForm
@@ -33,8 +31,6 @@ class CartUpdateView(CartMixin):
     form_class = forms.CartUpdateForm
     msg = 'Кількість змінено'
     
-    
 class CartRemoveView(CartMixin):
     form_class = forms.CartRemoveForm
     status_code = 204
-    
