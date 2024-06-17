@@ -200,11 +200,285 @@ _Эти кастомные формы позволяют сохранять вв
 ---
 
 
-3.
+#### Function in the products app:
+
+1. __Отображение списка продуктов, а так же деталей продуктов(личная страница продукта)__
+
+```python 
+from typing import Any
+from django.shortcuts import render
+from django.views import generic
+from . models import Product
+from django.db.models import QuerySet
+from .filters import ProductFilter
+
+# Create your views here.
+class ProductListView(generic.ListView):
+    # Здесь мы указываем шаблон который будет использоваться для отображения списка продуктов
+    template_name = 'products/product_list.html'
+    # Задаем queryset, который извлекает все объекты Product и использует select_related для оптимизации запросов
+    queryset = Product.objects.all().select_related("collection")
+
+    # метод для получения queryset 
+    def get_queryset(self) -> QuerySet[Product]:
+        # вызываем get_queryset из родительского класса для получения базового queryset
+        qs = super().get_queryset()
+        # Создаем экземпляр фильтра, передавая GET параметры запроса и базовый queryset
+        self.filterset = ProductFilter(self.request.GET, queryset=qs)
+        # Возвращаем отфильтрованный queryset
+        return self.filterset.qs
+    
+    # Метод для получения контекста данных которые будут переданы в шаблон
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        # Получаем базовый контекст из родительского класса
+        context = super().get_context_data(**kwargs)
+        # Добавляем форму фильтра в контекст
+        context["form"] = self.filterset.form
+        # Возвращаем контекст
+        return context
 
 
+class ProductDetailView(generic.DetailView):
+    # Задаем queryset, который извлекает все объекты Product и использует select_related для оптимизации запросов
+    queryset = Product.objects.all().select_related("collection")
+    # Указываем шаблон, который будет использоваться для отображения деталей продукта
+    template_name = "products/product_detail.html"
+
+```
+
+_Объяснение кода_
+
+* ProductListView - отображает весь список продуктов с использованием фильтрации
+
+* ProductDetailView - отображает личную страницу товара 
+
+_Классы используются с Django для управления представлениями generic.ListView и generic.DetailView которые обеспечивают отображение списка и "детали" продукта модели Product_
+
+* generic.ListView - нам нужен для отображения списка объектов модели в Django
+
+* generic.DetailView - нам нужен для отображения деталей продукта(Личной страницы)
 
 ---
+
+2. Создание моделей Product и Collection
+
+```python
+
+from django.core.validators import MinValueValidator, MaxValueValidator  
+# Импортируем валидаторы для минимального и максимального значений
+from django.db import models  
+# Импортируем модуль моделей Django
+from django.urls import reverse  
+# Импортируем функцию reverse для построения URL
+from main.mixins import SaveSlugMixin  
+# Импортируем миксин для автоматического сохранения slug
+from products.validators import ProductSizeValidator  
+# Импортируем валидатор размера продукта
+
+class Product(SaveSlugMixin, models.Model):  
+    # Определяем модель Product, наследующую SaveSlugMixin и models.Model
+    ACCEPTABLE_SIZES = ["XS", "S", "M", "L", "XL", "XXL"]  
+    # Допустимые размеры продукта
+    SIZE_CHOICES = tuple((size, size) for size in ACCEPTABLE_SIZES)  
+    # Создаём кортеж с вариантами размеров для выбора
+    COLOR_PALETTE = tuple((color, color) for color in ("white", "black", "red", "green", "blue", "yellow"))  
+    # Цветовая палитра
+    PRODUCT_TYPE_CHOICES = tuple(
+        (type, type)
+        for type in ("shoes", "t-shirt", "sweatshirt", "pants", "jacket", "sunglasses")  # Варианты типов продуктов
+    )
+    
+    SIZE_VALIDATOR = ProductSizeValidator(ACCEPTABLE_SIZES)  
+    # Создаём экземпляр валидатора размеров
+    
+    title = models.CharField(max_length=150)  
+    # Поле для названия продукта
+    slug = models.SlugField(unique=True, blank=True)  
+    # Поле для slug, уникальное и может быть пустым
+    available_colors = models.JSONField(default=list)  
+    # Поле для доступных цветов, используется JSON
+    available_sizes = models.JSONField(default=list, validators=[SIZE_VALIDATOR.validate_size])  
+    # Поле для доступных размеров, используется JSON с валидатором
+    available = models.BooleanField(default=True)  
+    # Поле для статуса доступности продукта
+    type = models.CharField(choices=PRODUCT_TYPE_CHOICES, max_length=50)  
+    # Поле для типа продукта с ограниченным выбором
+    image = models.ImageField()  
+    # Поле для изображения продукта
+    description = models.TextField(blank=True, null=True)  
+    # Поле для описания продукта, может быть пустым или null
+    price = models.DecimalField(max_digits=10, decimal_places=2)  
+    # Поле для цены продукта
+    discount = models.IntegerField(
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(100)]  
+        # Поле для скидки с валидаторами минимального и максимального значений
+    )
+    collection = models.ForeignKey(
+        "Collection", on_delete=models.CASCADE, related_name="products"  
+        # Поле внешнего ключа, связывает продукт с коллекцией
+    )
+
+    def __str__(self) -> str:
+        return self.title  
+    # Метод для строкового представления объекта
+    
+    @property
+    def image_url(self):
+        return self.image.url  
+    # Свойство для получения URL изображения
+    
+    @property
+    def final_price(self):
+        return self.price - (self.price * self.discount / 100)  
+    # Свойство для вычисления окончательной цены с учётом скидки
+
+    @property
+    def url(self):
+        return self.get_absolute_url()  
+    # Свойство для получения абсолютного URL продукта
+    
+    def get_absolute_url(self):
+        return reverse("products:detail", kwargs={"slug": self.slug})  
+    # Метод для получения абсолютного URL продукта
+    
+    def save(self, *args, **kwargs) -> None:
+        return super().save(slugify_value=self.title, *args, **kwargs)  
+    # Метод сохранения объекта с автоматическим генерацией slug
+
+class Collection(SaveSlugMixin, models.Model):  
+    # Определяем модель Collection, наследующую SaveSlugMixin и models.Model
+    name = models.CharField(max_length=150)  
+    # Поле для названия коллекции
+    slug = models.SlugField(unique=True, blank=True)  
+    # Поле для slug, уникальное и может быть пустым
+    image = models.ImageField()  
+    # Поле для изображения коллекции
+    description = models.TextField(blank=True, null=True)  
+    # Поле для описания коллекции, может быть пустым или null
+
+    def __str__(self) -> str:
+        return self.name  
+    # Метод для строкового представления объекта
+
+    def save(self, *args, **kwargs) -> None:
+        return super().save(slugify_value=self.name, *args, **kwargs)  
+    # Метод сохранения объекта с автоматическим генерацией slug
+
+```
+
+_Этот код используется для работы с Коллекциями и Личной страницы товара предоставляя удобные методы доступа, сохранения и связывания данных в базе данных_
+
+* @property - позволяет представлять метод как свойство объекта
+
+
+___
+
+
+3. Фильтрация данных на странице
+
+```python
+
+# Определяем класс фильтра для модели Product
+class ProductFilter(django_filters.FilterSet):
+    # Фильтр для цены с использованием кастомного виджета диапазона цен
+    price = django_filters.RangeFilter(widget=CustomRangeWidget(attrs={'class': 'px-3 py-2 border border-gray-200 rounded w-24 text-center'}))
+    
+    # Фильтр для размера с использованием виджета множественного выбора с чекбоксами
+    size = django_filters.TypedMultipleChoiceFilter(
+        field_name="available_sizes",  # Поле модели, по которому будет фильтрация
+        choices=Product.SIZE_CHOICES,  # Доступные варианты размеров
+        widget=forms.CheckboxSelectMultiple,  # Виджет для отображения вариантов в виде чекбоксов
+        lookup_expr='icontains'  # Метод поиска (независимый от регистра поиск в строках)
+    )
+    
+    # Фильтр для коллекции с использованием виджета множественного выбора с чекбоксами
+    collection = django_filters.ModelMultipleChoiceFilter(
+        queryset=Collection.objects.all(),  # Все объекты коллекции
+        widget=forms.CheckboxSelectMultiple  # Виджет для отображения вариантов в виде чекбоксов
+    )
+    
+    # Фильтр для цвета с использованием виджета множественного выбора с чекбоксами
+    color = django_filters.TypedMultipleChoiceFilter(
+        field_name='available_colors',  # Поле модели, по которому будет фильтрация
+        choices=Product.COLOR_PALETTE,  # Доступные варианты цветов
+        widget=forms.CheckboxSelectMultiple,  # Виджет для отображения вариантов в виде чекбоксов
+        lookup_expr='icontains'  # Метод поиска (независимый от регистра поиск в строках)
+    )
+    
+    # Фильтр для отображения только товаров со скидкой
+    discounted_only = django_filters.BooleanFilter(
+        field_name="discount",  # Поле модели, по которому будет фильтрация
+        label="Discounted only",  # Метка для фильтра
+        widget=forms.CheckboxInput,  # Виджет для отображения в виде чекбокса
+        method='filter_discounted_only'  # Метод фильтрации
+    )
+    
+    # Метод фильтрации, который возвращает только товары со скидкой, если чекбокс выбран
+    def filter_discounted_only(self, queryset, name, value):
+        if value:  # Если чекбокс выбран
+            return queryset.filter(discount__gt=0)  # Возвращаем товары с ненулевой скидкой
+        return queryset  # Иначе возвращаем все товары
+
+    # Мета-класс для указания модели и полей, которые будут использоваться для фильтрации
+    class Meta:
+        model = Product  # Указываем модель, для которой создается фильтр
+        fields = ["price", "discounted_only", "type", "size", "color", "collection"]  # Поля модели, которые будут использоваться для фильтрации
+
+
+```
+
+_Этот код проводит фильтрацию на странице по различным параметрам, таких как цена, тип продукта, размер, цвеет, коллекция и т.д_
+
+___
+
+
+3. Кастомизация админ панели)
+
+```python
+
+from django.contrib import admin  # Импортируем модуль admin из Django для регистрации моделей в админ-панели
+from django import forms  # Импортируем модуль forms из Django для создания форм
+
+from .models import Collection, Product  # Импортируем модели Collection и Product
+
+# Регистрируем модель Collection в админ-панели
+admin.site.register(Collection)
+
+# Регистрируем модель Product с использованием кастомного класса ProductAdmin
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    # Поля, которые будут отображаться в списке продуктов в админ-панели
+    list_display = ["title", "final_price", "collection", "available"]
+    
+    # Переопределяем метод get_form для кастомизации формы редактирования продукта
+    def get_form(self, request, obj=None, **kwargs):
+        # Получаем базовую форму для модели Product
+        form = super().get_form(request, obj, **kwargs)
+        
+        # Кастомизируем виджет для поля available_sizes
+        form.base_fields['available_sizes'].widget = forms.CheckboxSelectMultiple(
+            choices=Product.SIZE_CHOICES,  # Устанавливаем возможные варианты выбора размеров
+            attrs={'class': 'form-control'},  # Добавляем CSS-класс для оформления
+        )
+        
+        # Кастомизируем виджет для поля available_colors
+        form.base_fields['available_colors'].widget = forms.CheckboxSelectMultiple(
+            choices=Product.COLOR_PALETTE,  # Устанавливаем возможные варианты выбора цветов
+            attrs={'class': 'form-control'}  # Добавляем CSS-класс для оформления
+        )
+        
+        # Возвращаем кастомизированную форму
+        return form
+
+```
+
+
+_С помощью этого кода проводим кастомизацию админ панели_
+
+* Здесь используется декоратор admin.register, чтобы зарегистрировать модель Product и связать её с кастомным классом ProductAdmin, который наследуется от admin.ModelAdmin.
+
+
 
 
 

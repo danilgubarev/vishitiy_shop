@@ -94,13 +94,6 @@ class Collection(SaveSlugMixin, models.Model):
     def __str__(self) -> str:
         return self.name  
     # Метод для строкового представления объекта
-    
-    # @property
-    # def url(self):
-    #     return self.get_absolute_url()
-
-    # def get_absolute_url(self):
-    #     return reverse("products:collection", kwargs={"slug": self.slug})
 
     def save(self, *args, **kwargs) -> None:
         return super().save(slugify_value=self.name, *args, **kwargs)  
