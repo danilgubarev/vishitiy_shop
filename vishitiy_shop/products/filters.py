@@ -7,6 +7,7 @@ from .models import Product, Collection
 
 
 class ProductFilter(django_filters.FilterSet):
+    """Класс для фильтрации продуктов"""
     price = django_filters.RangeFilter(widget=CustomRangeWidget(attrs={'class': 'px-3 py-2 border border-gray-200 rounded w-24 text-center'}))
     size = django_filters.TypedMultipleChoiceFilter(
         field_name="available_sizes",

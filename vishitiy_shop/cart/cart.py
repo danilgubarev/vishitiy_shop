@@ -3,6 +3,11 @@ from products.models import Product
 from decimal import Decimal
 
 class Cart:
+    """
+    Класс для управления корзиной (добавление, удаление, обновление)
+    Так же содержатся dunder методы для итерации и провеки вхождения с помощью оператора in.
+    На вход методы ожидают полностью провалидированные данные от формы.
+    """
     def __init__(self, request):
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_KEY)

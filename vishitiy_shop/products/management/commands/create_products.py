@@ -7,6 +7,10 @@ from products.models import Collection, Product
 
 
 class Command(BaseCommand):
+    """ Management команда для наполнения базы данных.
+    Используется библиотека faker для генерации случайных данных.
+    Запуск: python manage.py create_products.
+    """
     def handle(self, *args, **kwargs):
         fake = Faker()
         for _ in range(10):

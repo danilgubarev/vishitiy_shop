@@ -7,7 +7,14 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 from . import forms
 
 class CartMixin(FormMixin, generic.View):
-    
+    """ Базовый класс, который наследуют все представления корзины.
+    Наследуется от 
+    - FormMixin который предоставляет методы обработки формы.
+    - Базовый класс View предоставляющий методы обработки запросов.
+    Параметры:
+        - status_code - код статуса ответа
+        - msg - сообщение которое вернется в случае валидной формы
+    """
     status_code = 200
     msg = None
     
@@ -20,7 +27,7 @@ class CartMixin(FormMixin, generic.View):
             return self.form_invalid(form)
     
     def form_valid(self, form: Any) -> HttpResponse:
-       saved_data = form.save() or {}
+       saved_data = form.save() or {} 
        return JsonResponse({'data': saved_data, 'msg': self.msg}, status=self.status_code)
     def form_invalid(self, form: Any) -> HttpResponse:
         return JsonResponse({'msg': 'Помилка валидації', 'errors': form.errors}, status=422)

@@ -7,6 +7,10 @@ from .filters import ProductFilter
 
 # Create your views here.
 class ProductListView(generic.ListView):
+    """View для отображения списка продуктов.
+    При получении queryset он фильтруется на основе параметров переданных в get запросе.
+    В контекст добавляется форма сгенерированная фильтром.
+    """
     template_name = 'products/product_list.html'
     queryset = Product.objects.all().select_related("collection")
     
@@ -22,5 +26,6 @@ class ProductListView(generic.ListView):
 
 
 class ProductDetailView(generic.DetailView):
+    """View для отображения детальной информации о продукте."""
     queryset = Product.objects.all().select_related("collection")
     template_name = "products/product_detail.html"

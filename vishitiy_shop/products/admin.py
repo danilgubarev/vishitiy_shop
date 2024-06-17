@@ -8,6 +8,9 @@ admin.site.register(Collection)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    """Модель для админки
+    Указания отображаемых полей и переопределение метода получения формы для замены виджета.
+    """
     list_display = ["title", "final_price", "collection", "available"]
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
