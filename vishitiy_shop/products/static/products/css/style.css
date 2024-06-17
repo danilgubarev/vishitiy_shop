@@ -12,30 +12,30 @@ header nav .collections {
 
 .container-main {
     display: flex;
-    justify-content: center; /* Центрирование содержимого по горизонтали */
-    align-items: flex-start; /* Выравнивание по верхнему краю */
+    justify-content: center;
+    align-items: flex-start; 
     width: 100%;
     padding-top: 100px;
     padding-bottom: 100px;
 }
 
 .menu {
-    width: 100%; /* Меню занимает всю ширину своей колонки */
+    width: 100%;
     color: white;
-    margin-bottom: 20px; /* Отступ снизу для небольшого расстояния */
+    margin-bottom: 20px; 
 }
 
 .cards {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Центрирование карточек */
+    justify-content: center; 
 }
 
 .card {
     background-color: rgb(26, 26, 26);
-    margin: 10px; /* Расстояние между карточками */
-    flex: 0 0 18rem; /* Фиксированная ширина карточки */
-    max-width: 18rem; /* Максимальная ширина карточки */
+    margin: 10px; 
+    flex: 0 0 18rem;
+    max-width: 18rem; 
 }
 
 #vis {
@@ -88,11 +88,11 @@ p {
 }
 
 .menu input[type="number"].price {
-    background-color: black; /* Черный фон */
-    color: white; /* Белый текст */
-    border: 2px solid orange; /* Оранжевая граница */
-    border-radius: 3px; /* Закругление углов */
-    padding: 5px; /* Внутренний отступ */
+    background-color: black;
+    color: white;
+    border: 2px solid orange; 
+    border-radius: 3px; 
+    padding: 5px; 
 }
 
 .div {
@@ -212,8 +212,8 @@ input[type="checkbox"]:checked {
 }
 
 .accordion-content {
-    max-height: 200px; /* Fixed height for accordion content */
-    overflow-y: auto; /* Scroll if content exceeds max height */
+    max-height: 200px;
+    overflow-y: auto; 
     padding-right: 1rem;
 }
 
