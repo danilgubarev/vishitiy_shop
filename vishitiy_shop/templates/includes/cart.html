@@ -1,3 +1,4 @@
+
 <div class="cart">
     <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" class="text-white">
         <svg width="35" height="35" viewBox="0 0 56 55" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -7,7 +8,7 @@
         </svg>
     </button>
 
-    <div class="offcanvas offcanvas-end text-bg-dark" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+    <div class="offcanvas offcanvas-end our-cart" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
       <div class="offcanvas-header border border-bottom">
         <h6>Закрити</h6>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -16,9 +17,9 @@
         <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Ваш кошик</h5>
         <div class="cart-items flex flex-col gap-6">
             {% for item in cart %}
-                <div class="item">
+                <div class="item ">
                     {% with product=item.product %}
-                    <div class="card flex flex-row text-bg-dark">
+                    <div class="card flex flex-row card-in-cart">
                         <img src="{{product.image.url}}" class="card-img-top" alt="..." style="width: 85px">
                         <div class="card-body">
                         <h5 class="card-title">{{product.type|capfirst}} {{product.title}}</h5>
@@ -44,7 +45,18 @@
                     {% endwith %}
                 </div>
             {% endfor %}
+
+        </div>
+
+        <div class="container-for-button">
+            <hr>
+            <a href="{% url "payments:email" %} " class="btns">Оформити замовлення</a>
         </div>
       </div>
     </div>
+
+   
+
 </div>
+
+

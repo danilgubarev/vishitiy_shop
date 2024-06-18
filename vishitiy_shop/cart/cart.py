@@ -13,7 +13,6 @@ class Cart:
         self.cart = cart
         
     def __iter__(self):
-        # Итератор, возвращающий все товары в корзине
         product_ids = self.cart.keys()
         # Получение всех товаров из базы данных, соответствующих идентификаторам в корзине
         products = Product.objects.filter(id__in=product_ids)
@@ -28,7 +27,7 @@ class Cart:
             yield item
         
     def contains_deep(self, product_id, **params):
-        # Проверяет, содержит ли корзина товар с указанными параметрами глубоко
+        # Проверяет содержит ли корзина товар с указанными параметрами глубоко
         if params:
             for key, value in params.items():
                 if self.cart[product_id][key] != value:
@@ -36,7 +35,7 @@ class Cart:
         return True
         
     def __contains__(self, product_id, **params):
-        # Проверяет, содержит ли корзина товар с указанным идентификатором
+        # Проверяет содержит ли корзина товар с указанным идентификатором
         return str(product_id) in self.cart
         
     def add(self, **data) -> dict | None:

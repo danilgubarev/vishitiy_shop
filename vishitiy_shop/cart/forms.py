@@ -26,7 +26,7 @@ class CartAddForm(CartBaseForm):
     price = forms.DecimalField()
     
     def clean(self):
-        # Метод очистки данных формы. Проверяет, что продукт еще не добавлен в корзину.
+        # Метод очистки данных формы проверяет, что продукт еще не добавлен в корзину.
         if getattr(self, 'request', None):
             cart = Cart(self.request)
             if self.cleaned_data['product_id'] in cart:

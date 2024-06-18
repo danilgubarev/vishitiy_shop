@@ -100,6 +100,11 @@ p {
     color: white;
 }
 
+.price-on-product {
+    display: flex;
+    justify-content: left;
+}
+
 input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
@@ -129,8 +134,26 @@ input[type="checkbox"]:checked {
     border-radius: 0%;
 }
 
-.btns {
+
+.my-btns {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    
+}
+
+
+.btns-cont {
+    width: 100%;
+    padding-bottom: 30px;
+}
+
+
+.btns-cont .btns {
+    width: 100%;
     border-radius: 0%;
+   
 }
 
 
@@ -166,7 +189,9 @@ input[type="checkbox"]:checked {
 
 .container-for-menu {
     padding: 20px;
-    margin-right: auto;
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
     border: #D9D9D9 1px solid;
     max-width:40%;
     max-height: fit-content;
@@ -177,13 +202,12 @@ input[type="checkbox"]:checked {
 /* ACCORDIONS */
 
 .accordion-container {
-    width: 60%;
+    width: 90%;
     position: relative;
     z-index: 111;
 }
 
 .accordion-item {
-    width: 100%;
     margin-bottom: 1rem;
 }
 
@@ -212,21 +236,11 @@ input[type="checkbox"]:checked {
 }
 
 .accordion-content {
-    max-height: 200px;
+    
     overflow-y: auto; 
     padding-right: 1rem;
 }
 
-@media (max-width: 768px) {
-    .accordion-button {
-        font-size: 1rem;
-        padding: 0.8rem;
-    }
-
-    .accordion-body {
-        padding: 1rem;
-    }
-}
 
 
 

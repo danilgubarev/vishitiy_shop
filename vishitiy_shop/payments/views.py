@@ -30,7 +30,7 @@ def email_form(request):
                 plain_message,  # Текст сообщения без HTML
                 settings.EMAIL_HOST_USER,  # кто будет отправлять
                 [cd["email"]],  # получатель сообщения
-                fail_silently=False,  # Не подавлять ошибки отправки
+                fail_silently=False,  
                 html_message=html_content  # ХТМЛ содержимое письма
             )
 

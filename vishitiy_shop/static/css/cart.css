@@ -4,6 +4,7 @@
     text-align: center !important;
     border-left: #f1f1f1 1px solid !important;
     width: 500px !important;
+    color: #f1f1f1;
    
   }
   
@@ -15,6 +16,7 @@
     display: flex !important;
     flex-direction: row !important;
     max-height: 150px;
+    color: #f1f1f1;
   }
   
   .result, .buttons {
@@ -77,3 +79,19 @@
     width: 35px;
   }
  
+
+
+
+  .btns {
+    background-color: #FFFFFF;
+    color: black;
+    width: 70%;
+    height: auto;
+    justify-content: center;
+    border-radius: 10px;
+    border: none;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+
+}

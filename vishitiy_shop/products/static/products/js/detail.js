@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Функция инициализации счетчика товаров
 function initCounter() {
-  const decrementButton = document.querySelector('.product-decrement-btn'); // Найти кнопку уменьшения количества товаров
-  const incrementButton = document.querySelector('.product-increment-btn'); // Найти кнопку увеличения количества товаров
+  const decrementButton = document.querySelector('.product-decrement-btn'); 
+  const incrementButton = document.querySelector('.product-increment-btn'); 
   new HandleCounter(decrementButton, incrementButton); // Создать экземпляр класса HandleCounter для управления счетчиком
 }
 

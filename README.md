@@ -1,24 +1,26 @@
 ## Vishitiy.ua - project
-
+#### Our project is a online store for selling clothes
 ---
 
-### Information about our team
-1. Danil
-2. Olha
-3. Oleksii
-4. Vitalii
+## Information about our team
+1. GitHub - [Danil](https://github.com/danilgubarev)
+2. GitHub - [Olha](https://github.com/Olhabd)
+3. GitHub - [Oleksii](https://github.com/AlexeyTarasov77)
+4. GitHub - [Vitalii](https://github.com/IWaithI)
 
 
-### Technologies and languages we used
+## Technologies and languages we used
 1. Python
 2. Django
 2. JavaScript
 3. HTML
 4. CSS
+5. MySQL
+6. Bootstrap
 
 
 
-### Libraries we used
+## Libraries we used
 
 ```txt
 

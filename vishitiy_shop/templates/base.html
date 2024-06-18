@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{% static "css/base.css" %}">
     <link rel="stylesheet" href="{% static "css/header.css" %}">
     <link rel="stylesheet" href="{% static "css/footer.css" %}">
+    <link rel="stylesheet" href="{% static "css/cart.css" %}">
     {% block links %}
 
     {% endblock %}
@@ -42,7 +43,6 @@
                     </button>
                     <ul class="dropdown-menu">
                         {% if user.is_authenticated %}
-                            <li><a class="dropdown-item" href="#">Профiль</a></li>
                             <li><a class="dropdown-item" href="{% url "users:logout" %}">Вийти</a></li>
                         {% else %}
                             <li><a class="dropdown-item" href="{% url "users:login" %}">Увійти</a></li>
