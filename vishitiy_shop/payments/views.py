@@ -1,10 +1,16 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from cart.cart import Cart
+from .models import Payment
+import requests
+import json
+import time
+import hashlib
+from django.views.decorators.csrf import csrf_exempt
 from . import forms
 
 email_of_provider = ''
@@ -37,3 +43,6 @@ def email_form(request):
         return HttpResponse("Email sent successfully")  # Возвращаем успешный ответ
     form = forms.PaymentForm()  # Если метод запроса GET создаем пустую форму PaymentForm
     return render(request, 'payments/email_form.html', {'form': form})  # Выводим форму на страницу email_form.html
+
+
+

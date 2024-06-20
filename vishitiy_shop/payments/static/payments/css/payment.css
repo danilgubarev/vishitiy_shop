@@ -1,4 +1,17 @@
 
+html {
+    height: 100%;
+  }
+  body {
+    height: 100%;
+    margin: 0;
+    overflow-y: scroll;
+    font-family: 'Roboto', sans-serif;
+  }
+
+
+
+
 
 input {
     background-color: transparent;
@@ -53,3 +66,9 @@ input:focus, input:focus-within {
 footer {
     display: none;
 }
+
+
+
+
+
+

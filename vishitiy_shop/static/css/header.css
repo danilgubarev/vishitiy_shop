@@ -10,6 +10,7 @@ body {
 
 header {
   position: absolute;
+  height: 150px;
   top: 0;
   left: 0;
   width: 100%;
@@ -22,11 +23,14 @@ header {
   padding: 10px 10px;
   z-index: 1000; /* Обеспечивает, что шапка будет выше других элементов */
   border-bottom: 1px solid #f1f1f1 ;
+  
 }
 
 .wrap-logo {
   display: flex;
   align-items: center;
+
+  width: 200px;
 }
 .wrap-logo .logo {
   width: 94px;
@@ -35,7 +39,7 @@ header {
 
 header .links {
   color: #f1f1f1;
-  padding: 22px;
+  padding: 30px;
   text-decoration: none;
   font-size: 20px; 
   border-radius: 4px;
@@ -44,12 +48,14 @@ header .links {
 nav {
   display: flex;
   align-items: center;
+  padding: 30px;
   /* justify-content: space-around; */
   /* width: 400px; */
 }
 
 .username-settings {
   color: #f1f1f1;
+  padding: 22px;
   font-size: 10px;
 }
 
@@ -58,7 +64,7 @@ header .container-input .input {
   background-image: url(img/search.svg);   
   background-repeat: no-repeat; /*Убираем повтор изображения*/   
   background-position: 4px;
-  padding-left: 10px;
+  padding: 30px;
   border: 1px solid #f1f1f1;
   color: white;
   width: 370px;
@@ -68,7 +74,8 @@ header .container-input .input {
 
 header .cntainer-for-cart-user{
   display: flex;
-  width: 200px;
+  width: 250px;
+  padding: 40px;
   justify-content: space-between;
   align-items: center;
 }

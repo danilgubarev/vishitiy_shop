@@ -8,6 +8,12 @@
 3. GitHub - [Oleksii](https://github.com/AlexeyTarasov77)
 4. GitHub - [Vitalii](https://github.com/IWaithI)
 
+---
+
+1. Figma - [Danil](https://www.figma.com/design/kITnzVDamIAVnLsSdZr3VM/vishitiy?node-id=0-1&t=gEzSZBI2PThBR6iK-1)
+2. Figma - [Olha](https://www.figma.com/design/kITnzVDamIAVnLsSdZr3VM/vishitiy?t=YzVNAU0GbcKXdTTA-0)
+3. Figma - [Oleksii](https://www.figma.com/design/TfGbzNcv8RlRhQKjstFQ0e/Design?node-id=0-1&t=9oRZAN8ghNfeRUgZ-1)
+4. Figma - [Vitalii](https://www.figma.com/design/v19cj5mrLwEPN9hKKdGXYQ/Untitled?node-id=0-1&t=9zSuZg68wKwLJrJa-1)
 
 ## Technologies and languages we used
 1. Python

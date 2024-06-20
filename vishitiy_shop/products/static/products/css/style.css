@@ -33,9 +33,11 @@ header nav .collections {
 
 .card {
     background-color: rgb(26, 26, 26);
-    margin: 10px; 
-    flex: 0 0 18rem;
-    max-width: 18rem; 
+    
+}
+
+.img-detail {
+    width: 70%;
 }
 
 #vis {

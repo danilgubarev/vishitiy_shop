@@ -5,4 +5,5 @@ app_name = 'payments'
 
 urlpatterns = [
     path('', views.email_form, name='email'),
+    
 ]
