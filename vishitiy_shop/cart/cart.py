@@ -25,6 +25,9 @@ class Cart:
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
             yield item
+            
+    def __len__(self):
+        return len(self.cart.keys())
         
     def contains_deep(self, product_id, **params):
         # Проверяет содержит ли корзина товар с указанными параметрами глубоко
@@ -44,7 +47,9 @@ class Cart:
         if product_id not in self.cart:
             self.save()
             self.cart[product_id] = data
-            return self.cart[product_id]
+            result_data = self.cart[product_id]
+            result_data['product_id'] = product_id
+            return result_data
     
     def save(self):
         # Сохраняет изменения в корзине в сессии

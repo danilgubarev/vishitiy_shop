@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from products.models import Collection
+from itertools import zip_longest
+from products.models import Collection, Product
 from dotenv import load_dotenv
 import os
 
@@ -10,10 +11,19 @@ load_dotenv()
 
 # Главная функция отображения всей главной страницы
 def main_view(request):
-    # получение коллекций из модели
-    collections = Collection.objects.all()
-    # отображаем шаблон с коллекциями
-    return render(request, "main/index.html", {"collections": collections})
+    """
+    Отображение главной страницы с коллекциями и продуктами со скидкой больше 30%.
+    Продукты группируются в группы по 4 для отображения в карусели 
+    (возвращаеться список итераторов по 4 элемента в каждом).
+    """
+    discounted_products = Product.objects.filter(discount__gte=30)
+    context = {
+        "collections": Collection.objects.all(),
+        "discounted_products_grouped": zip_longest(
+            *[iter(discounted_products)] * 4, fillvalue=None
+        ),
+    }
+    return render(request, "main/index.html", context)
 
 # Получение учётных данных с Algolia
 def get_algolia_credentials(request):

@@ -36,8 +36,16 @@ header nav .collections {
     
 }
 
+.div-for-img {
+    width: fit-content;
+}
+
+.container-for-img {
+    width: fit-content;
+}
+
 .img-detail {
-    width: 70%;
+    width: 55%;
 }
 
 #vis {

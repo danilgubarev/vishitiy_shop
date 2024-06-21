@@ -23,7 +23,8 @@
 5. >MySQL - We use MySQL to store various data about products and users.
 6. >sqlite3 - We used sqlite3 to store various data about products and users.
 6. >Bootstrap - We used Bootstrap for its classes and templates, as well as for implementing responsiveness.
-7. >Figma - We used Figma for creating the design of our website.    
+7. >Figma - We used Figma for creating the design of our website.   
+8. >jQuery/Ajax - We use jQuery/Ajax to prevent full page reload when submitting a form or adding an item to the cart.
 
 
 

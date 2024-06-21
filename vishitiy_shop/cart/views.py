@@ -2,7 +2,9 @@ from typing import Any  # Импорт для поддержки типизац�
 from django.views import generic  # Импорт общих классов представлений Django
 from django.views.generic.edit import FormMixin  # Импорт для поддержки форм в представлениях
 from django.http import HttpRequest, HttpResponse, JsonResponse  # Импорт для работы с HTTP запросами и ответами
+from django.core.serializers import serialize
 from . import forms  # Импорт локальных форм, определенных в текущем приложении
+from products.models import Product
 
 class CartMixin(FormMixin, generic.View):
     
@@ -41,6 +43,12 @@ class CartAddView(CartMixin):
     
     form_class = forms.CartAddForm  # Указываем класс формы для добавления товара
     msg = 'Товар додано до кошика'  # Сообщение об успешном добавлении товара
+    def form_valid(self, form: forms.CartAddForm) -> HttpResponse:
+        saved_data = form.save() or {}  # Сохраняем данные из формы, если форма поддерживает метод save
+        product_id = saved_data.get('product_id')  # Извлекаем идентификатор продукта из сохраненных данных
+        serialized_product = serialize("json", [Product.objects.get(id=product_id)])  # Ищем продукт по идентификатору
+        return JsonResponse({'data': {'product': serialized_product, 'cart_item': saved_data}, 'msg': self.msg}, status=self.status_code)  # Возвращаем JSON ответ с данными и сообщением
+
 
 class CartUpdateView(CartMixin):
     

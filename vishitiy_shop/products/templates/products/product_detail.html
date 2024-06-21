@@ -17,15 +17,15 @@
             </svg>
         </a>
     </div>
-      <div class="wrapper p-7">
-        <div class="row">
-          <div class="col">
-            <div>
-                <img src="{{product.image.url}}" alt="" class="img-detail">
+      <div class="wrapper">
+        <div class="row container-for-elements item" style="display: flex; justify-content: center; margin: 50px;">
+          <div class="container-for-img" >
+            <div class="div-for-img" >
+                <img src="{{product.image.url}}" alt="" class="img-detail item-image" style="width: 500px;">
             </div>
             
           </div>
-          <div class="col flex flex-col gap-12 self-start container-for-menu">
+          <div class="col flex flex-col self-start container-for-menu">
             <div class="text-4xl">
                 <p class="text-4xl">{{product.title}}</p>
                 <p class="text-lg text-slate-200">Коллекція - {{product.collection}}</p>

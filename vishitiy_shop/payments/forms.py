@@ -7,7 +7,6 @@ class PaymentForm(forms.Form):
     email = forms.EmailField(label='Email')  # поле для ввода email
     name = forms.CharField(label='Ім`я')  # поле для ввода имени
     country = CountryField().formfield(label="Країна")  # поле для выбора страны используя библиотеку django-countries )))
-    city = forms.CharField(label='Місто')  # Поле для ввода названия города
     post = forms.CharField(label='Поштовий індекс')  # Поле для ввода почтового индекса
     
     # конструктор класса PaymentForm

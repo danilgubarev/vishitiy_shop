@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -12,11 +12,36 @@ import time
 import hashlib
 from django.views.decorators.csrf import csrf_exempt
 from . import forms
-from .nova_poshta import get_warehouses
+
 
 email_of_provider = ''
 
 def email_form(request):
+    api_url = 'https://api.novaposhta.ua/v2.0/json/'
+    api_key = 'd163f31ac2f2738242a3c3d2875c8020'  
+
+    
+    cities_response = requests.post(api_url, json={
+        'apiKey': api_key,
+        'modelName': 'Address',
+        'calledMethod': 'getCities',
+        'methodProperties': {}
+    })
+    cities_data = cities_response.json()['data']
+
+    first_city_id = cities_data[20]['Ref']
+    post_offices_data = []
+
+    if first_city_id:
+        post_offices_response = requests.post(api_url, json={
+            'apiKey': api_key,
+            'modelName': 'AddressGeneral',
+            'calledMethod': 'getWarehouses',
+            'methodProperties': {'CityRef': first_city_id}
+        })
+        post_offices_data = post_offices_response.json()['data']
+
+
     if request.method == 'POST':
         form = forms.PaymentForm(request.POST)  # Создаем форму PaymentForm из POST-запроса
         if form.is_valid():  # Проверяем валидность формы
@@ -41,30 +66,8 @@ def email_form(request):
                 html_message=html_content  # ХТМЛ содержимое письма
             )
 
-        return HttpResponse("Email sent successfully")  # Возвращаем успешный ответ
     form = forms.PaymentForm()  # Если метод запроса GET создаем пустую форму PaymentForm
-    return render(request, 'payments/email_form.html', {'form': form})  # Выводим форму на страницу email_form.html
+    return render(request, 'payments/email_form.html', {'form': form, 'cities': cities_data,
+            'post_offices': post_offices_data,})  # Выводим форму на страницу email_form.html
 
-
-def get_warehouses(api_key):
-    url = 'https://api.novaposhta.ua/v2.0/json/'
-    headers = {
-        'Content-Type': 'application/json'
-    }
-    data = {
-        "apiKey": api_key,
-        "modelName": "AddressGeneral",
-        "calledMethod": "getWarehouses",
-        "methodProperties": {}
-    }
-    response = requests.post(url, headers=headers, data=json.dumps(data))
-    if response.status_code == 200:
-        return response.json().get('data', [])
-    else:
-        return []
-
-def warehouses_list(request):
-    # Замените на ваш API ключ Новой Почты
-    api_key = 'dc9e87bfdfbec4e8315cc7e6ed213468'
-    warehouses = get_warehouses(api_key)
-    return render(request, 'payments/email_form.html', {'warehouses': warehouses})
+    

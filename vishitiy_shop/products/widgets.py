@@ -4,6 +4,7 @@
 
 """
 from django_filters.widgets import RangeWidget
+import json
 
 # импортируем forms из Джанго
 from django import forms
@@ -32,3 +33,11 @@ class CustomRangeWidget(RangeWidget):
             subcontext["attrs"]["x-model"] = suffix + "price"
         # Возвращение изменённого контекста
         return context
+
+
+class SerializedCheckboxSelectMultipleWidget(forms.CheckboxSelectMultiple):
+    def value_from_datadict(self, data, files, name):
+        value = super().value_from_datadict(data, files, name)
+        return json.dumps(value)
+        
+    

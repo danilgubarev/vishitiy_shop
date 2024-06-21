@@ -1,7 +1,9 @@
 from django.contrib import admin  # Импортируем модуль admin из Django для регистрации моделей в админ-панели
 from django import forms  # Импортируем модуль forms из Django для создания форм
-
+from .widgets import SerializedCheckboxSelectMultipleWidget
 from .models import Collection, Product  # Импортируем модели Collection и Product
+
+import json
 
 # Регистрируем модель Collection в админ-панели
 admin.site.register(Collection)
@@ -18,16 +20,17 @@ class ProductAdmin(admin.ModelAdmin):
         form = super().get_form(request, obj, **kwargs)
         
         # Кастомизируем виджет для поля available_sizes
-        form.base_fields['available_sizes'].widget = forms.CheckboxSelectMultiple(
+        form.base_fields['available_sizes'].widget = SerializedCheckboxSelectMultipleWidget(
             choices=Product.SIZE_CHOICES,  # Устанавливаем возможные варианты выбора размеров
             attrs={'class': 'form-control'},  # Добавляем CSS-класс для оформления
         )
         
         # Кастомизируем виджет для поля available_colors
-        form.base_fields['available_colors'].widget = forms.CheckboxSelectMultiple(
+        form.base_fields['available_colors'].widget = SerializedCheckboxSelectMultipleWidget(
             choices=Product.COLOR_PALETTE,  # Устанавливаем возможные варианты выбора цветов
             attrs={'class': 'form-control'}  # Добавляем CSS-класс для оформления
         )
         
         # Возвращаем кастомизированную форму
         return form
+    
