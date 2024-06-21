@@ -12,6 +12,7 @@ import time
 import hashlib
 from django.views.decorators.csrf import csrf_exempt
 from . import forms
+from .nova_poshta import get_warehouses
 
 email_of_provider = ''
 
@@ -45,4 +46,25 @@ def email_form(request):
     return render(request, 'payments/email_form.html', {'form': form})  # Выводим форму на страницу email_form.html
 
 
+def get_warehouses(api_key):
+    url = 'https://api.novaposhta.ua/v2.0/json/'
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    data = {
+        "apiKey": api_key,
+        "modelName": "AddressGeneral",
+        "calledMethod": "getWarehouses",
+        "methodProperties": {}
+    }
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+    if response.status_code == 200:
+        return response.json().get('data', [])
+    else:
+        return []
 
+def warehouses_list(request):
+    # Замените на ваш API ключ Новой Почты
+    api_key = 'dc9e87bfdfbec4e8315cc7e6ed213468'
+    warehouses = get_warehouses(api_key)
+    return render(request, 'payments/email_form.html', {'warehouses': warehouses})
