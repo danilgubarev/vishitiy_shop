@@ -29,6 +29,9 @@
                     {% if product %}
                       <div class="col-md-3">
                         <img src="{{ product.image.url }}" class="d-block w-100" alt="{{ product.title }}">
+                        <div class="text-lg">{{product.title}}</div>
+                        <div>{% include "products/includes/price.html" %}</div>
+                        
                       </div>
                     {% endif %}
                   {% endfor %}

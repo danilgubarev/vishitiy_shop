@@ -38,7 +38,7 @@ class Cart:
                     return False
         return True
         
-    def __contains__(self, product_id, **params):
+    def __contains__(self, product_id):
         return str(product_id) in self.cart
         
     def add(self, **data) -> dict | None:
