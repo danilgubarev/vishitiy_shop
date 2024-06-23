@@ -13,7 +13,7 @@ function initCounter() {
     new HandleManyCounters(incrementButtons, decrementButtons)
 }
 
-function initRemove() {
+export function initRemove() {
     const cart = new CartClient();
     const removeForms = document.querySelectorAll('.remove-cart-form');
 
@@ -22,7 +22,7 @@ function initRemove() {
     })
 }
 
-function initUpdate() {
+export function initUpdate() {
     const cart = new CartClient();
     const updateForms = document.querySelectorAll('.update-cart-form');
     const counters = document.querySelectorAll('.cart-counter');

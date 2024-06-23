@@ -7,4 +7,3 @@ urlpatterns = [
     path("update/", views.CartUpdateView.as_view(), name="update"),
     path("remove/", views.CartRemoveView.as_view(), name="remove"),
 ]
-

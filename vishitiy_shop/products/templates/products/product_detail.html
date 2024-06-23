@@ -43,7 +43,6 @@
                           {% for size in product.available_sizes %}
                           <input type="radio" class="btn-check" name="size" id="{{size}}-{{forloop.counter}}" autocomplete="off" value="{{size}}">
                           <label class="btn btn-light" for="{{size}}-{{forloop.counter}}">{{size|upper}}</label>
-                          {% comment %} <button type="button" data-size="{{size}}" class="btn btn-light size toggle-size" data-bs-toggle="button">{{size|upper}}</button> {% endcomment %}
                           {% endfor %}
                         </div>
                     </div>

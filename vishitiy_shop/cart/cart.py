@@ -55,7 +55,7 @@ class Cart:
         assert product_id not in self.cart, "Product already in cart"
         self.save()
         self.cart[product_id] = data
-        return self.cart[product_id]
+        return self._get_response_data(self.cart[product_id])
 
     def save(self):
         # Сохраняет изменения в корзине в сессии
@@ -65,7 +65,7 @@ class Cart:
         assert product_id in self.cart, "Product not in cart"
         del self.cart[product_id]
         self.save()
-        return None
+        return self._get_response_data()
 
     def update(self, **data):
         # Обновляет информацию о товаре в корзине
@@ -73,9 +73,17 @@ class Cart:
         assert product_id in self.cart, "Product not in cart"
         self.cart[product_id].update(**data)
         self.save()
-        return self.cart[product_id]
+        return self._get_response_data(self.cart[product_id])
 
     def clear(self):
         # Очищает корзину пользователя
         del self.session[settings.CART_SESSION_KEY]
         self.save()
+
+    def _get_response_data(self, item=None):
+        return {"item": item, "total": self.get_total(), "len": len(self.cart)}
+
+    def get_total(self):
+        return sum(
+            Decimal(item["price"]) * item["quantity"] for item in self.cart.values()
+        )

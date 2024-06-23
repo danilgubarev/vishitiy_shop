@@ -6,13 +6,13 @@
             <path d="M7.375 13.75H48.625" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M37.1663 22.9167C37.1663 25.3478 36.2006 27.6794 34.4815 29.3985C32.7624 31.1176 30.4308 32.0833 27.9997 32.0833C25.5685 32.0833 23.2369 31.1176 21.5179 29.3985C19.7988 27.6794 18.833 25.3478 18.833 22.9167" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <h6><span class="badge text-bg-danger cart-counter">{{cart|length}}</span></h6>
+        <h6><span class="badge text-bg-danger" id="cart-counter">{{cart|length}}</span></h6>
     </button>
 
     <div class="offcanvas offcanvas-end our-cart" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
       <div class="offcanvas-header border border-bottom">
         <h6>Закрити</h6>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
         <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Ваш кошик</h5>
@@ -20,11 +20,12 @@
             {% for item in cart %}
                 <div class="item ">
                     {% with product=item.product %}
-                    <div class="card flex flex-row card-in-cart">
+                    <div class="card flex flex-row card-in-cart text-light">
                         <img src="{{product.image.url}}" class="card-img-top" alt="..." style="width: 85px">
                         <div class="card-body">
                         <h5 class="card-title">{{product.type|capfirst}} {{product.title}}</h5>
                         <p class="card-text">Розмiр: {{item.size}}, Колiр: {{item.color}}</p>
+                        <p class="card-text text-lg">Цiна за 1: {{item.price}} ГРН</p>
                         </div>
                         <div class="card-footer flex items-center flex-col gap-2">
                             <div>
@@ -52,11 +53,17 @@
             {% endfor %}
 
         </div>
-
-        <div class="container-for-button">
+        {% if cart %}
+        <div class="flex flex-col mt-5">
+            <div class="text-xl">
+                Итого: <span id="cart-total">{{cart.get_total}}</span> ГРН
+            </div>
             <hr>
-            <a href="{% url "payments:email" %} " class="btns">Оформити замовлення</a>
+            <div>
+                <a href="{% url "payments:email" %}" class="btn btn-light">Оформити замовлення</a>
+            </div>
         </div>
+        {% endif %}
       </div>
     </div>
 

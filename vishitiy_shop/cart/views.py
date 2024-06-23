@@ -1,3 +1,4 @@
+import json
 from typing import Any  # Импорт для поддержки типизации Any
 from django.views import generic  # Импорт общих классов представлений Django
 from django.views.generic.edit import (
@@ -43,8 +44,9 @@ class CartMixin(FormMixin, generic.View):
 
     def form_valid(self, form: Any) -> HttpResponse:
         saved_data = form.save() or {}
+        print("SAVED DATA", saved_data)
         return JsonResponse(
-            {"data": saved_data, "msg": self.msg}, status=self.status_code
+            {"data": {"cart": saved_data}, "msg": self.msg}, status=self.status_code
         )
 
     def form_invalid(self, form: Any) -> HttpResponse:
@@ -64,22 +66,30 @@ class CartAddView(CartMixin):
     msg = "Товар додано до кошика"  # Сообщение об успешном добавлении товара
 
     def form_valid(self, form: forms.CartAddForm) -> HttpResponse:
-        saved_data = (
-            form.save() or {}
-        )  # Сохраняем данные из формы, если форма поддерживает метод save
-        product_id = saved_data.get(
-            "product_id"
-        )  # Извлекаем идентификатор продукта из сохраненных данных
+        product_id = form.cleaned_data['product_id']
         serialized_product = serialize(
             "json", [Product.objects.get(id=product_id)]
-        )  # Ищем продукт по идентификатору
-        return JsonResponse(
-            {
-                "data": {"product": serialized_product, "cart_item": saved_data},
-                "msg": self.msg,
-            },
-            status=self.status_code,
-        )  # Возвращаем JSON ответ с данными и сообщением
+        )
+        response = super().form_valid(form)
+        response_data = json.loads(response.content)
+        response_data['data']['product'] = serialized_product
+        print(response_data)
+        response.content = json.dumps(response_data)
+        return response
+        # saved_data = (
+        #     form.save() or {}
+        # )  # Сохраняем данные из формы, если форма поддерживает метод save
+        # product_id = form.cleaned_data['product_id']
+        # serialized_product = serialize(
+        #     "json", [Product.objects.get(id=product_id)]
+        # )  # Ищем продукт по идентификатору
+        # return JsonResponse(
+        #     {
+        #         "data": {"product": serialized_product, "cart": saved_data},
+        #         "msg": self.msg,
+        #     },
+        #     status=self.status_code,
+        # )  # Возвращаем JSON ответ с данными и сообщением
 
 
 class CartUpdateView(CartMixin):
@@ -97,4 +107,4 @@ class CartRemoveView(CartMixin):
     # Представление для удаления товара из корзины.
 
     form_class = forms.CartRemoveForm  # Указываем класс формы для удаления товара
-    status_code = 204  # Код состояния HTTP ответа для успешного удаления товара
+    status_code = 200  # Код состояния HTTP ответа для успешного удаления товара

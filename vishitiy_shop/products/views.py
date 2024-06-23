@@ -13,7 +13,7 @@ class ProductListView(generic.ListView):
     """
 
     template_name = "products/product_list.html"
-    # Задаем queryset, который извлекает все объекты Product и использует select_related для оптимизации запросов
+    # Подгружаем все продукты и вместе с ними делаем жадную подгрузку связанных коллекций
     queryset = Product.objects.all().select_related("collection")
 
     # метод для получения queryset
