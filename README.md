@@ -2,6 +2,19 @@
 #### Our project is a online store for selling clothes
 ---
 
+```
+graph TD
+
+  B --> C{VISHITIY_SHOP}
+  C -->|main| D[views, modules, forms]
+  C -->|cart| E[views, modules, forms]
+  C -->|products| f[views, modules, forms] --> 1(views) --> 2(modules) --> q(forms)
+  C -->|your_design| e[views, modules, forms] --> k(views) --> j(modules) --> h(forms)
+  C -->|users| F[views, modules, forms] --> r(views) --> t(modules) --> o(forms)
+
+```
+---
+
 ## Information about our team
 1. GitHub - [Danil](https://github.com/danilgubarev)
 2. GitHub - [Olha](https://github.com/Olhabd)
