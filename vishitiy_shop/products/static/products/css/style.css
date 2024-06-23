@@ -12,30 +12,40 @@ header nav .collections {
 
 .container-main {
     display: flex;
-    justify-content: center; /* Центрирование содержимого по горизонтали */
-    align-items: flex-start; /* Выравнивание по верхнему краю */
+    justify-content: center;
+    align-items: flex-start; 
     width: 100%;
     padding-top: 100px;
     padding-bottom: 100px;
 }
 
 .menu {
-    width: 100%; /* Меню занимает всю ширину своей колонки */
+    width: 100%;
     color: white;
-    margin-bottom: 20px; /* Отступ снизу для небольшого расстояния */
+    margin-bottom: 20px; 
 }
 
 .cards {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Центрирование карточек */
+    justify-content: center; 
 }
 
 .card {
     background-color: rgb(26, 26, 26);
-    margin: 10px; /* Расстояние между карточками */
-    flex: 0 0 18rem; /* Фиксированная ширина карточки */
-    max-width: 18rem; /* Максимальная ширина карточки */
+    
+}
+
+.div-for-img {
+    width: fit-content;
+}
+
+.container-for-img {
+    width: fit-content;
+}
+
+.img-detail {
+    width: 55%;
 }
 
 #vis {
@@ -88,16 +98,21 @@ p {
 } */
 
 .menu input[type="number"].price {
-    background-color: black; /* Черный фон */
-    color: white; /* Белый текст */
-    border: 2px solid orange; /* Оранжевая граница */
-    border-radius: 3px; /* Закругление углов */
-    padding: 5px; /* Внутренний отступ */
+    background-color: black;
+    color: white;
+    border: 2px solid orange; 
+    border-radius: 3px; 
+    padding: 5px; 
 }
 
 .div {
     width: 100%;
     color: white;
+}
+
+.price-on-product {
+    display: flex;
+    justify-content: left;
 }
 
 input[type="checkbox"] {
@@ -129,8 +144,26 @@ input[type="checkbox"]:checked {
     border-radius: 0%;
 }
 
-.btns {
+
+.my-btns {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    
+}
+
+
+.btns-cont {
+    width: 100%;
+    padding-bottom: 30px;
+}
+
+
+.btns-cont .btns {
+    width: 100%;
     border-radius: 0%;
+   
 }
 
 
@@ -166,7 +199,9 @@ input[type="checkbox"]:checked {
 
 .container-for-menu {
     padding: 20px;
-    margin-right: auto;
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
     border: #D9D9D9 1px solid;
     max-width:40%;
     max-height: fit-content;
@@ -177,13 +212,12 @@ input[type="checkbox"]:checked {
 /* ACCORDIONS */
 
 .accordion-container {
-    width: 60%;
+    width: 90%;
     position: relative;
     z-index: 111;
 }
 
 .accordion-item {
-    width: 100%;
     margin-bottom: 1rem;
 }
 
@@ -212,21 +246,11 @@ input[type="checkbox"]:checked {
 }
 
 .accordion-content {
-    max-height: 200px; /* Fixed height for accordion content */
-    overflow-y: auto; /* Scroll if content exceeds max height */
+    
+    overflow-y: auto; 
     padding-right: 1rem;
 }
 
-@media (max-width: 768px) {
-    .accordion-button {
-        font-size: 1rem;
-        padding: 0.8rem;
-    }
-
-    .accordion-body {
-        padding: 1rem;
-    }
-}
 
 
 

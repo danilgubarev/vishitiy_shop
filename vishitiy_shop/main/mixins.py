@@ -1,25 +1,12 @@
-import random
+import random # Импортируем модуль random для генерации случайных чисел
 
-from pytils.translit import slugify
+from pytils.translit import slugify # Импортируем функцию slugify для преобразования текста в slug
 
 
 class SaveSlugMixin:
-    """
-    Mixin for save slug field in model
-    """
-
+    # Миксин для автоматического сохранения slug при сохранении объекта модели.
     def save(self, slug_field="slug", slugify_value=None, *args, **kwargs):
-        """
-        Save the object to the database.
-
-        Args:
-            slug_field (str): The name of the field which store the slug.
-            slugify_value (str): The value to generate the slug from.
-            **kwargs: Arbitrary keyword arguments.
-
-        Returns:
-            None
-        """
+        # Переопределенный метод save для сохранения объекта модели с генерацией и сохранением уникального slug.
         if slug_field and slugify_value:
             slug = getattr(self, slug_field)
             if not slug:

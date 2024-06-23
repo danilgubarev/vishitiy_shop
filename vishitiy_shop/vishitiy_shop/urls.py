@@ -28,6 +28,7 @@ urlpatterns = [
     path('your_design/', include('your_design.urls', namespace='your_design')),
     path('email_form/', include('payments.urls', namespace='email_form')),
     path('cart/', include('cart.urls', namespace='cart')),
+    path('payment_system/', include('payments.urls', namespace='create_payment'))
 
     
 ] 

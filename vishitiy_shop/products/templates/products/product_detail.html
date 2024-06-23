@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block links %}
+
+<link rel="stylesheet" href="{% static 'products/css/style.css' %}">
+
+{% endblock %}
+
+
 {% block content %}
 <div class="p-20 text-white">
     <div id="backlink" class="pt-3">
@@ -9,29 +17,25 @@
             </svg>
         </a>
     </div>
-      <div class="wrapper p-7">
-        <div class="row">
-          <div class="col">
-            <div>
-                <img src="{{product.image.url}}" alt="" width="715" height="850">
+      <div class="wrapper">
+        <div class="row container-for-elements item" style="display: flex; justify-content: center; margin: 50px;">
+          <div class="container-for-img" >
+            <div class="div-for-img" >
+                <img src="{{product.image.url}}" alt="" class="img-detail item-image" style="width: 500px;">
             </div>
-            <div class="my-5 text-white">
-              <div class="text-center text-2xl">
-                {{product.description}}
-              </div>
-            </div>
+            
           </div>
-          <div class="col flex flex-col items-center gap-12">
-            <div class="text-4xl text-center">
+          <div class="col flex flex-col self-start container-for-menu">
+            <div class="text-4xl">
                 <p class="text-4xl">{{product.title}}</p>
-                <p class="text-lg text-slate-200">{{product.collection}}</p>
+                <p class="text-lg text-slate-200">Коллекція - {{product.collection}}</p>
             </div>
             <div class="self-start">
                 <form id="add-to-cart-form" method="post">
                   <div class="flex flex-col gap-7">
                     {% csrf_token %}
                     <input type="hidden" name="product_id" value="{{product.id}}">
-                    <div class="text-3xl">{% include "products/includes/price.html" %}</div>
+                    <div class="text-3xl price-on-product">{% include "products/includes/price.html" %} <h4> UAH</h4></div>
                     <input type="hidden" name="price" value="{{product.final_price}}">
                     <div>
                         <p class="text-lg">SIZE</p>
@@ -57,17 +61,34 @@
                         <p class="text-lg">COUNT</p>
                         {% include "products/includes/quantity.html" with incr_btn_class="product-increment-btn" decr_btn_class="product-decrement-btn" %}
                     </div>
-                    <div class="flex flex-col gap-4 justify-center items-center ml-52">
-                      <div>
-                        <button class="btn btn-outline-light text-3xl px-5" id="add-to-cart-btn">ADD TO CART</button>
+                    <div class=" my-btns">
+                      <div class="btns-cont">
+                        <button class="btn btn-outline-light text-3xl  btns" id="add-to-cart-btn">ADD TO CART</button>
                       </div>
-                      <div>
-                        <a href="{% url "payments:email" %}" class="btn btn-outline-light text-3xl px-5">BUY NOW</a>
+                      <div class="btns-cont">
+                        <a href="{% url "payments:email" %}" class="btn btn-outline-light text-3xl  btns">BUY NOW</a>
                       </div>
                     </div>
                   </div>
                 </form>
+
+
             </div>
+
+            <div class="accordion" id="accordionExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    опис
+                  </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <strong>{{product.description}}</strong> 
+                  </div>
+                </div>
+              </div>
+
           </div>
         </div>
       </div>

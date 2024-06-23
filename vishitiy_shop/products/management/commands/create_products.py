@@ -1,27 +1,44 @@
 import random
 
+# Импортируем модуль random для генерации случайных данных
+
 from django.core.management.base import BaseCommand
-from django.conf import settings
+
+# Импортируем BaseCommand для создания пользовательских команд Django
+
+# Импортируем настройки из конфигурации Django
 from faker import Faker
+
+# Импортируем Faker для генерации фейковых данных
 from products.models import Collection, Product
+
+# Импортируем модели Django
 
 
 class Command(BaseCommand):
-    """ Management команда для наполнения базы данных.
+    """Management команда для наполнения базы данных.
     Используется библиотека faker для генерации случайных данных.
     Запуск: python manage.py create_products.
     """
+
     def handle(self, *args, **kwargs):
         fake = Faker()
+        # Создаем экземпляр Faker для генерации фейковых данных
+
+        # Цикл для создания 10 фейковых объектов Collection
         for _ in range(10):
             Collection.objects.create(
-                name=fake.name(),
-                image=fake.image_url(),
-                description=fake.text(),
+                name=fake.name(),  # Генерируем фейковое название для коллекции
+                image=fake.image_url(),  # Генерируем фейковый URL изображения для коллекции
+                description=fake.text(),  # Генерируем фейковое описание для коллекции
             )
+
+            # Создаем объект Product
             Product.objects.create(
                 title=fake.name(),
-                available_colors=random.sample([color[0] for color in Product.COLOR_PALETTE], 3),
+                available_colors=random.sample(
+                    [color[0] for color in Product.COLOR_PALETTE], 3
+                ),
                 available_sizes=random.sample(Product.ACCEPTABLE_SIZES, 3),
                 type=random.choice(Product.PRODUCT_TYPE_CHOICES)[0],
                 discount=random.choice([0, 10, 20, 50]),

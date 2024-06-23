@@ -1,5 +1,6 @@
 from cart.cart import Cart
 
+
 def cart(request):
-    """Создания контекстного процессора, что бы корзина была доступна в контексе каждого шаблона"""
-    return {'cart': Cart(request)}
+    """Creating context processor for cart to be available in all templates"""
+    return {"cart": Cart(request)}

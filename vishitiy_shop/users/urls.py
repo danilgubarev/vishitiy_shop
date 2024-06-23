@@ -1,11 +1,19 @@
 from django.urls import path
-from django.contrib.auth import views as auth_views
+
+# Импортируем функцию path для создания маршрутов URL
+
 from . import views
 
-app_name = 'users'
+# Импортируем представления из текущей дирретории
+
+app_name = "users"
+# определяем пространство имён дял маршрутов данного приложения
 
 urlpatterns = [
-    path('login/', views.LoginView.as_view(), name='login'),
-    path('signup/', views.SignupView.as_view(), name='signup'),
-    path('logout/', views.LogoutView.as_view(), name='logout'),
+    path("login/", views.LoginView.as_view(), name="login"),
+    # URL для страницы входа в систему, использует кастомное представление LoginView
+    path("signup/", views.SignupView.as_view(), name="signup"),
+    # URL для регистрации, использует кастомное представление SignupView
+    path("logout/", views.LogoutView.as_view(), name="logout"),
+    # URL для выхода из аккаунта, использует кастомное представление LogoutView
 ]
