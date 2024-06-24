@@ -35,8 +35,11 @@ _Our project is a online store for selling clothes_
 
 ---
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> a93003996be39e9900949bf16b26b7eda56d5ab0
 # Our project structure
 
 ```mermaid
