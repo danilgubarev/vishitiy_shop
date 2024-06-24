@@ -3,8 +3,15 @@
 _Our project is a online store for selling clothes_
 
 ---
+project_structure
+<a name="how_use">How use it ?</a> 
+<a name="our_team">Our team</a> 
+<a name="project_structure">project structure</a> 
 
-## How use it ?
+
+---
+
+## [How use it ?](how_use)
 
 1. >git clone https://github.com/danilgubarev/vishitiy_shop.git
 2. >pip install -r requirements.txt
@@ -14,7 +21,7 @@ _Our project is a online store for selling clothes_
 
 ---
 
-## Information about our team
+## [Information about our team](our_team)
 1. GitHub - [Danil](https://github.com/danilgubarev)
 2. GitHub - [Olha](https://github.com/Olhabd)
 3. GitHub - [Oleksii](https://github.com/AlexeyTarasov77)
@@ -30,7 +37,7 @@ _Our project is a online store for selling clothes_
 
 ---
 
-# Our project structure
+# [Our project structure](project_structure)
 
 ```mermaid
 graph TD
@@ -867,3 +874,8 @@ def design_page(request):
 ```
 
 * >Це функція відображення сторінки your_design
+
+
+---
+
+# APP PAYMENTS
