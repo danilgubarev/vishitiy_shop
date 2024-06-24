@@ -32,7 +32,7 @@ _Our project is a online store for selling clothes_
 
 ### OUR CONTACTS
 
-- [OUR CONTACTS](#our-contacts)
+- [CONTACTS](#contacts)
 
 ---
 
@@ -1025,7 +1025,7 @@ class PaymentForm(forms.Form):
 
 
 
-# OUR CONTACTS 
+# CONTACTS 
 
 1. Danil
     * email - danilgubarev9804@gmail.com
