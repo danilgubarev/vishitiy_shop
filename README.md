@@ -1,5 +1,17 @@
-## Vishitiy.ua - project
-#### Our project is a online store for selling clothes
+# Vishitiy.ua - project
+
+_Our project is a online store for selling clothes_
+
+---
+
+## How use it ?
+
+1. >git clone https://github.com/danilgubarev/vishitiy_shop.git
+2. >pip install -r requirements.txt
+3. >npm install
+4. >npm run dev
+5. >python manage.py runserver
+
 ---
 
 ## Information about our team
@@ -14,6 +26,27 @@
 2. Figma - [Olha](https://www.figma.com/design/kITnzVDamIAVnLsSdZr3VM/vishitiy?t=YzVNAU0GbcKXdTTA-0)
 3. Figma - [Oleksii](https://www.figma.com/design/TfGbzNcv8RlRhQKjstFQ0e/Design?node-id=0-1&t=9oRZAN8ghNfeRUgZ-1)
 4. Figma - [Vitalii](https://www.figma.com/design/v19cj5mrLwEPN9hKKdGXYQ/Untitled?node-id=0-1&t=9zSuZg68wKwLJrJa-1)
+
+
+---
+
+# Our project structure
+
+```mermaid
+graph TD
+
+  C{VISHITIY_SHOP}
+  C -->|main| A[use for create main page] --> 1(views) --> 2(models) --> 3(forms)
+  C -->|cart| B[use for create cart] --> 4(views) --> 5(models) --> 6(forms)
+  C -->|products| M[use for create pages list products and detail] --> 7(views) --> 8(models) --> 9(forms)
+  C -->|your_design| D[use for create page your design] --> 0(views) --> q(models) --> w(forms)
+  C -->|users| E[use for create auth/reg and logout] --> e(views) --> t(forms)
+  C -->|payments| F[ for create form for submit order] --> z(views) --> x(models) --> c(forms)
+
+
+```
+---
+
 
 ## Technologies and languages we used
 1. >Python/Django - We used Python and Django for rapid development of web applications.
@@ -126,11 +159,13 @@ typing-extensions==4.12.2
 
 ```
 
+---
 
+# USERS APP:
 
+---
 
-
-#### Function in users app:
+### VIEWS.PY
 
 1. __functions for registration login and logout:__
 
@@ -187,7 +222,7 @@ class SignupView(generic.CreateView):
 ```
 _This code contains views for user login and logout functionalities. We used standard Django forms, as well as custom forms located in the forms.py file./Цей код містить представлення для входу та виходу користувача. Ми використовували стандартні форми Django, а також кастомні форми, які знаходяться у файлі forms.py._
 
----
+### FORMS.PY
 
 2.__Creat customs forms:__
 
@@ -229,10 +264,13 @@ _These custom forms allow saving user-entered passwords even when the page is re
 
 ---
 
+# PRODUCTS APP
 
-#### Function in the products app:
+---
 
-1. __Отображение списка продуктов, а так же деталей продуктов(личная страница продукта)__
+### VIEWS.PY
+
+1. __Displaying a list of products, as well as product details (personal product page)__
 
 ```python 
 
@@ -270,7 +308,7 @@ class ProductDetailView(generic.DetailView):
 
 ```
 
-_Объяснение кода_
+
 
 * ProductListView - відображає весь список продуктів з використанням фільтрації.
 * ProductDetailView - відображає особисту сторінку товару.
@@ -280,9 +318,10 @@ _Ці класи використовуються у Django для керува�
 * generic.ListView - використовується для відображення списку об'єктів моделі у Django.
 * generic.DetailView - використовується для відображення детальної інформації про конкретний продукт (особиста сторінка продукту).
 
----
 
-2. Создание моделей Product и Collection
+### MODELS.PY
+
+2. Creating Product and Collection Models
 
 ```python
 class Product(SaveSlugMixin, models.Model):
@@ -383,10 +422,10 @@ _This code is used to work with Collections and Products, providing convenient m
 * @property - representing a method as an object property./ дозволяє представляти метод як властивість об'єкта.
 
 
-___
+### FILTERS.PY
 
 
-3. Фильтрация данных на странице
+3. Filtering data on a page
 
 ```python
 
@@ -444,8 +483,9 @@ _This code performs filtering on the page based on various parameters such as pr
 
 ___
 
+### ADMIN.PY
 
-3. Кастомизация админ панели)
+3. Customization of the admin panel
 
 ```python
 # Register the Collection model in the admin panel / Реєстрація моделі Collection у панелі адміністратора

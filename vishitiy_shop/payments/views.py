@@ -5,7 +5,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from cart.cart import Cart
-from .models import Payment
+
 import requests
 import json
 import time

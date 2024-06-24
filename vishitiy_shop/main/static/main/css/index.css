@@ -8,7 +8,7 @@ body {
 
 .background-for-main {
     position: absolute;
-    height: 150vh;
+    height: 240vh;
     width: 100%; 
     z-index: -1;
 }

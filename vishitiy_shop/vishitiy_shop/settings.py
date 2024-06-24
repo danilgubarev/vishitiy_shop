@@ -193,3 +193,10 @@ EMAIL_HOST_USER = 'sbest8982@gmail.com'
 EMAIL_HOST_PASSWORD = 'ncgk ukrg gqtb xram'
 EMAIL_USE_TLS = True 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+
+# 
+
+
+NOVA_POSTA_API = 'd163f31ac2f2738242a3c3d2875c8020'
