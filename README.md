@@ -51,7 +51,7 @@ graph TD
   C{VISHITIY_SHOP}
   C -->|main| A[use for create main page] --> 1(views) --> 2(models) --> 3(forms)
   C -->|cart| B[use for create cart] --> 4(views) --> 5(models) --> 6(forms)
-  C -->|products| M[use for create pages list products and detail] --> 7(views) --> 8(models) --> 9(forms)
+  C -->|products| M[use for create pages list products and detail] --> 7(views) --> 8(models) --> 9(filters) --> l(admin)
   C -->|your_design| D[use for create page your design] --> 0(views) --> q(models) --> w(forms)
   C -->|users| E[use for create auth/reg and logout] --> e(views) --> t(forms)
   C -->|payments| F[ for create form for submit order] --> z(views) --> x(models) --> c(forms)
@@ -233,7 +233,8 @@ class SignupView(generic.CreateView):
 
 
 ```
-_This code contains views for user login and logout functionalities. We used standard Django forms, as well as custom forms located in the forms.py file./Цей код містить представлення для входу та виходу користувача. Ми використовували стандартні форми Django, а також кастомні форми, які знаходяться у файлі forms.py._
+* >This code contains views for user login and logout functionalities. We used standard Django forms, as well as custom forms located in the forms.py file.
+* >Цей код містить представлення для входу та виходу користувача. Ми використовували стандартні форми Django, а також кастомні форми, які знаходяться у файлі forms.py.
 
 ### FORMS.PY
 
@@ -323,13 +324,13 @@ class ProductDetailView(generic.DetailView):
 
 
 
-* ProductListView - відображає весь список продуктів з використанням фільтрації.
-* ProductDetailView - відображає особисту сторінку товару.
+* >ProductListView - відображає весь список продуктів з використанням фільтрації.
+* >ProductDetailView - відображає особисту сторінку товару.
 
-_Ці класи використовуються у Django для керування видами: generic.ListView для відображення списку об'єктів моделі і generic.DetailView для відображення детальної інформації про продукт (сторінка індивідуального продукту)._
+* >Ці класи використовуються у Django для керування видами: generic.ListView для відображення списку об'єктів моделі і generic.DetailView для відображення детальної інформації про продукт (сторінка індивідуального продукту)._
 
-* generic.ListView - використовується для відображення списку об'єктів моделі у Django.
-* generic.DetailView - використовується для відображення детальної інформації про конкретний продукт (особиста сторінка продукту).
+* >generic.ListView - використовується для відображення списку об'єктів моделі у Django.
+* >generic.DetailView - використовується для відображення детальної інформації про конкретний продукт (особиста сторінка продукту).
 
 
 ### MODELS.PY
@@ -430,9 +431,10 @@ class Collection(SaveSlugMixin, models.Model):
 
 ```
 
-_This code is used to work with Collections and Products, providing convenient methods for accessing, saving, and linking data in the database./Цей код використовується для роботи з Колекціями та Товарами, забезпечуючи зручні методи доступу, збереження та зв'язування даних в базі даних._
+* >This code is used to work with Collections and Products, providing convenient methods for accessing, saving, and linking data in the database.
+* >Цей код використовується для роботи з Колекціями та Товарами, забезпечуючи зручні методи доступу, збереження та зв'язування даних в базі даних.
 
-* @property - representing a method as an object property./ дозволяє представляти метод як властивість об'єкта.
+* >@property - representing a method as an object property./ дозволяє представляти метод як властивість об'єкта.
 
 
 ### FILTERS.PY
@@ -492,9 +494,8 @@ class ProductFilter(django_filters.FilterSet):
 
 ```
 
-_This code performs filtering on the page based on various parameters such as price, product type, size, color, collection, etc./Цей код здійснює фільтрацію на сторінці за різними параметрами, такими як ціна, тип продукту, розмір, колір, колекція і т. д._
-
-___
+* >This code performs filtering on the page based on various parameters such as price, product type, size, color, collection, etc.
+* >Цей код здійснює фільтрацію на сторінці за різними параметрами, такими як ціна, тип продукту, розмір, колір, колекція і т. д.
 
 ### ADMIN.PY
 
@@ -536,11 +537,263 @@ class ProductAdmin(admin.ModelAdmin):
 
 _Here's how this code is used to customize the admin panel./Ось як цей код використовується для налаштування адміністративної панелі._
 
-* Here, the admin.register decorator is used to register the Product model and associate it with the custom ProductAdmin class, which inherits from admin.ModelAdmin. This approach allows customization of how the Product model is displayed and edited in the Django admin interface.
+* >Here, the admin.register decorator is used to register the Product model and associate it with the custom ProductAdmin class, which inherits from admin.ModelAdmin. This approach allows customization of how the Product model is displayed and edited in the Django admin interface.
 
-Тут використовується декоратор admin.register для реєстрації моделі Product і пов'язання її з кастомним класом ProductAdmin, який успадковує admin.ModelAdmin. Цей підхід дозволяє налаштовувати спосіб відображення та редагування моделі Product в адміністративному інтерфейсі Django.
+* >Тут використовується декоратор admin.register для реєстрації моделі Product і пов'язання її з кастомним класом ProductAdmin, який успадковує admin.ModelAdmin. Цей підхід дозволяє налаштовувати спосіб відображення та редагування моделі Product в адміністративному інтерфейсі Django.
 
 
+
+---
+
+# CART APP
+
+### CART.PY
+
+```python
+
+class Cart:
+    def __init__(self, request):
+        # Ініціалізація корзини на основі сесії користувача
+        self.session = request.session
+        # Отримання існуючої корзини з сесії або створення нової, якщо вона не існує
+        cart = self.session.get(settings.CART_SESSION_KEY)
+        if not cart:
+            cart = self.session[settings.CART_SESSION_KEY] = {}
+        self.cart = cart
+        
+    def __iter__(self):
+        product_ids = self.cart.keys()
+        # Отримання всіх товарів з бази даних, що відповідають ідентифікаторам у корзині
+        products = Product.objects.filter(id__in=product_ids)
+        for product in products:
+            # Додавання інформації про товар у корзині 
+            self.cart[str(product.id)]['product'] = product
+            
+        for item in self.cart.values():
+            # Перетворення ціни товару в десяткове число та обчислення загальної вартості
+            item['price'] = Decimal(item['price'])
+            item['total_price'] = item['price'] * item['quantity']
+            yield item
+            
+    def __len__(self):
+        return len(self.cart.keys())
+        
+    def contains_deep(self, product_id, **params):
+        # Перевіряє, чи містить корзина товар із зазначеними параметрами глибоко
+        if params:
+            for key, value in params.items():
+                if self.cart[product_id][key] != value:
+                    return False
+        return True
+        
+    def __contains__(self, product_id, **params):
+        # Перевіряє, чи містить корзина товар із зазначеним ідентифікатором
+        return str(product_id) in self.cart
+        
+    def add(self, **data) -> dict | None:
+        # Додає товар до корзини
+        product_id = data.pop('product_id')
+        if product_id not in self.cart:
+            self.save()
+            self.cart[product_id] = data
+            result_data = self.cart[product_id]
+            result_data['product_id'] = product_id
+            return result_data
+    
+    def save(self):
+        # Зберігає зміни в корзині у сесії
+        self.session.modified = True
+    
+    def remove(self, product_id):
+        # Видаляє товар із корзини
+        del self.cart[product_id]
+        self.save()
+        return None
+    
+    def update(self, **data): 
+        # Оновлює інформацію про товар у корзині
+        product_id = data.pop('product_id')
+        if product_id in self.cart:
+            self.cart[product_id].update(**data)
+            self.save()
+            return self.cart[product_id]
+        
+    def clear(self):
+        # Очищає корзину користувача
+        del self.session[settings.CART_SESSION_KEY]
+        self.save()
+
+
+```
+
+* >Цей код представляє клас Cart. Основне призначення класу - зберігання, оновлення та управління товарами, доданими користувачем до кошика, із збереженням стану кошика у сесії користувача. Це дозволяє користувачеві додавати, видаляти та оновлювати товари в кошику, а також зберігати зміни між запитами.
+
+* >This code represents the Cart class, which manages the shopping cart in a Django-based web application. The main purpose of the class is to store, update and manage the products added by the user to the cart, while saving the state of the cart in the user's session. It allows the user to add, remove, and update items in the cart, as well as save changes between requests.
+
+
+### FORMS.PY
+
+
+```python
+
+
+class CartBaseForm(forms.Form):
+    # Базовий клас форми для роботи з корзиною.
+
+    def process_request(self, request):
+        # Метод для обробки запиту. Встановлює атрибут request.
+        print("CALLING METHOD", request)
+        self.request = request
+
+    def save(self):
+        # Метод збереження. Перевіряє валідність форми та наявність запиту.
+        assert self.is_valid(), 'Form is not valid'
+        assert self.request, 'Request is not provided'
+
+class CartAddForm(CartBaseForm):
+    # Форма для додавання продукту до корзини.
+
+    product_id = forms.CharField(widget=forms.HiddenInput)
+    quantity = forms.IntegerField(initial=1, min_value=1, required=False)
+    size = forms.CharField(validators=[ProductSizeValidator(Product.ACCEPTABLE_SIZES).validate_size])
+    color = forms.CharField()
+    price = forms.DecimalField()
+    
+    def clean(self):
+        # Метод очищення даних форми перевіряє, що продукт ще не доданий до корзини.
+        if getattr(self, 'request', None):
+            cart = Cart(self.request)
+            if self.cleaned_data['product_id'] in cart:
+                raise forms.ValidationError('Продукт вже знаходиться в корзині')
+        return self.cleaned_data
+
+    def save(self):
+        # Перевизначений метод збереження. Викликає базовий метод збереження і додає продукт до корзини.
+        super().save()
+        self.cleaned_data['price'] = str(self.cleaned_data['price'])
+        cart = Cart(self.request)
+        return cart.add(**self.cleaned_data)
+            
+
+class CartUpdateForm(CartAddForm):
+    # Форма для оновлення кількості продукту в корзині.
+
+    def __init__(self, *args, **kwargs):
+        # Конструктор класу. Змінює поведінку полів форми.
+        super().__init__(*args, **kwargs)
+        del self.fields['final_price']  # Видаляє поле final_price з форми
+        for field in self.fields.values():
+            field.required = False  # Встановлює всі поля форми як необов'язкові
+        self.fields['product_id'].required = True  # Встановлює поле product_id як обов'язкове
+        
+    def save(self):
+        # Перевизначений метод збереження. Оновлює кількість продукту в корзині.
+        cart = Cart(self.request)
+        return cart.update(**self.cleaned_data)
+        
+        
+class CartRemoveForm(CartBaseForm):
+    # Форма для видалення продукту з корзини.
+
+    product_id = forms.CharField(widget=forms.HiddenInput)
+    
+    def clean(self):
+        # Метод очищення даних форми. Перевіряє, що продукт присутній у корзині.
+        if getattr(self, 'request', None):
+            cart = Cart(self.request)
+            if self.cleaned_data['product_id'] not in cart:
+                raise forms.ValidationError('Цього продукту немає у вашій корзині')
+        return self.cleaned_data
+
+    def save(self):
+        # Перевизначений метод збереження. Видаляє продукт з корзини.
+        cart = Cart(self.request)
+        return cart.remove(**self.cleaned_data)
+
+
+```
+
+* >Цей клас і його підкласи використовуються для управління формами, пов'язаними з корзиною покупок у веб-додатку на основі Django.
+CartBaseForm є базовим класом, що забезпечує обробку запиту і збереження даних форми.
+CartAddForm використовується для додавання продукту до корзини. Вона перевіряє, чи вже доданий продукт, і, якщо ні, додає його.
+CartUpdateForm використовується для оновлення інформації про продукт у корзині, наприклад, кількість.
+CartRemoveForm використовується для видалення продукту з корзини, перевіряючи, чи продукт дійсно присутній у корзині перед видаленням.
+Ці форми спрощують процес взаємодії з корзиною покупок, забезпечуючи перевірку даних і відповідні операції з продуктами в корзині.
+
+
+### VIEWS.PY
+
+```python
+
+
+class CartMixin(FormMixin, generic.View):
+    
+    # Міксин для роботи з кошиком, що реалізує додавання, оновлення та видалення товарів.
+    
+    status_code = 200  # Код стану HTTP відповіді за замовчуванням
+    msg = None  # Повідомлення, яке буде надіслано у відповіді
+
+    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        
+        # Обробник POST запиту для додавання, оновлення або видалення товару з кошика.
+      
+        form = self.get_form()  # Отримуємо екземпляр форми
+        form.process_request(request)  # Обробляємо запит формою
+        if form.is_valid():  # Перевіряємо валідність даних форми
+            return self.form_valid(form)  # Якщо дані форми валідні, викликаємо метод form_valid
+        else:
+            return self.form_invalid(form)  # Якщо дані форми невалідні, викликаємо метод form_invalid
+
+    def form_valid(self, form: Any) -> HttpResponse:
+       
+        # Метод викликається при успішній валідації форми.
+       
+        saved_data = form.save() or {}  # Зберігаємо дані з форми, якщо форма підтримує метод save
+        return JsonResponse({'data': saved_data, 'msg': self.msg}, status=self.status_code)  # Повертаємо JSON відповідь з даними та повідомленням
+
+    def form_invalid(self, form: Any) -> HttpResponse:
+       
+       # Метод викликається при помилці валідації форми.
+      
+        return JsonResponse({'msg': 'Помилка валідації', 'errors': form.errors}, status=422)  # Повертаємо JSON відповідь з повідомленням про помилку валідації та помилками форми
+
+class CartAddView(CartMixin):
+
+    # Представлення для додавання товару до кошика.
+    
+    form_class = forms.CartAddForm  # Вказуємо клас форми для додавання товару
+    msg = 'Товар додано до кошика'  # Повідомлення про успішне додавання товару
+    def form_valid(self, form: forms.CartAddForm) -> HttpResponse:
+        saved_data = form.save() or {}  # Зберігаємо дані з форми, якщо форма підтримує метод save
+        product_id = saved_data.get('product_id')  # Отримуємо ідентифікатор продукту з збережених даних
+        serialized_product = serialize("json", [Product.objects.get(id=product_id)])  # Знаходимо продукт за ідентифікатором
+        return JsonResponse({'data': {'product': serialized_product, 'cart_item': saved_data}, 'msg': self.msg}, status=self.status_code)  # Повертаємо JSON відповідь з даними та повідомленням
+
+
+class CartUpdateView(CartMixin):
+    
+    # Представлення для оновлення кількості товару в кошику.
+   
+    form_class = forms.CartUpdateForm  # Вказуємо клас форми для оновлення кількості товару
+    msg = 'Кількість змінено'  # Повідомлення про успішне оновлення кількості товару
+
+class CartRemoveView(CartMixin):
+   
+    # Представлення для видалення товару з кошика.
+    
+    form_class = forms.CartRemoveForm  # Вказуємо клас форми для видалення товару
+    status_code = 204  # Код стану HTTP відповіді для успішного видалення товару
+
+
+```
+
+
+* >Цей код реалізує представлення для управління кошиком покупок у веб-додатку на Django. Представлення забезпечують функціональність додавання, оновлення та видалення товарів з кошика через форми та відповідають на запити JSON відповідями.
+CartMixin - базовий міксин, що обробляє POST запити, перевіряє валідність форми та повертає відповідні JSON відповіді.
+CartAddView - представлення для додавання товару до кошика, що використовує форму CartAddForm і повертає повідомлення про успішне додавання товару.
+CartUpdateView - представлення для оновлення кількості товару в кошику, що використовує форму CartUpdateForm і повертає повідомлення про успішне оновлення кількості товару.
+CartRemoveView - представлення для видалення товару з кошика, що використовує форму CartRemoveForm і повертає код стану 204 при успішному видаленні товару.
+Ці представлення спрощують роботу з кошиком покупок, забезпечуючи інтерактивне та асинхронне управління товарами для користувачів веб-додатку.
 
 
 
