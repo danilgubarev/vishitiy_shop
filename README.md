@@ -4,12 +4,39 @@ _Our project is a online store for selling clothes_
 
 ---
 
-- [Our project structure](#proj-struct)
+### DIFFERENT INFORMATION 
 
+- [How use it](#how-use-it)
+
+- [Information about our team](#information-about-our-team)
+
+- [Our project structure](#our-project-structure)
+
+- [Technologies and languages we used](#technologies-and-languages-we-used)
+
+- [Libraries we used](#libraries-we-used)
+
+### ALL OUR APPS
+
+- [USERS APP](#users-app)
+
+- [PRODUCTS APP](#products-app)
+
+- [CART APP](#cart-app)
+
+- [MAIN APP](#main-app)
+
+- [APP YOUR DESIGN](#app-your-design)
+
+- [APP PAYMENTS](#app-payments)
+
+### OUR CONTACTS
+
+- [OUR CONTACTS](#our-contacts)
 
 ---
 
-## [How use it ?](how_use)
+# How use it
 
 1. >git clone https://github.com/danilgubarev/vishitiy_shop.git
 2. >pip install -r requirements.txt
@@ -19,7 +46,7 @@ _Our project is a online store for selling clothes_
 
 ---
 
-## [Information about our team](our_team)
+# Information about our team
 1. GitHub - [Danil](https://github.com/danilgubarev)
 2. GitHub - [Olha](https://github.com/Olhabd)
 3. GitHub - [Oleksii](https://github.com/AlexeyTarasov77)
@@ -35,11 +62,6 @@ _Our project is a online store for selling clothes_
 
 ---
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> a93003996be39e9900949bf16b26b7eda56d5ab0
 # Our project structure
 
 ```mermaid
@@ -865,7 +887,7 @@ class SaveSlugMixin:
 
 ---
 
-# APP YOUR_DESIGN
+# APP YOUR DESIGN
 
 ### VIEWS.PY
 
@@ -882,3 +904,137 @@ def design_page(request):
 ---
 
 # APP PAYMENTS
+
+### VIEWS.PY
+
+```python
+
+
+
+def email_form(request):
+    api_url = 'https://api.novaposhta.ua/v2.0/json/'
+    api_key = 'my api key'
+
+    # Отримання списку міст
+    cities_response = requests.post(api_url, json={
+        'apiKey': api_key,
+        'modelName': 'Address',
+        'calledMethod': 'getCities',
+        'methodProperties': {}
+    })
+    cities_data = cities_response.json()['data']
+
+    if request.method == 'POST':
+        form = forms.PaymentForm(request.POST)  # Створюємо форму PaymentForm з POST-запиту
+        if form.is_valid():  # Перевіряємо дійсність форми
+            cd = form.cleaned_data  # Отримуємо очищені дані з форми
+            cart = Cart(request)  # Створюємо об'єкт корзини
+            context = {'person_data': cd, 'cart': cart, 'user': request.user}  # Формуємо контекст для шаблону
+
+            # Генеруємо HTML-контент на основі шаблону 'payments/order_info.html' та контексту
+            html_content = render_to_string('payments/order_info.html', context)
+            plain_message = strip_tags(html_content)  # Створюємо звичайне текстове повідомлення без HTML-тегів
+            
+            # Виводимо вміст html_content та plain_message в консоль для відладки
+            print(html_content, plain_message, sep="\n")
+
+            # Надсилаємо лист
+            send_mail(
+                'YOUR ORDER',  # Назва повідомлення
+                plain_message,  # Текст повідомлення без HTML
+                settings.EMAIL_HOST_USER,  # Хто буде відправляти
+                [cd["email"]],  # Одержувач повідомлення
+                fail_silently=False,  
+                html_message=html_content  # HTML вміст листа
+            )
+    elif request.method == 'GET' and 'city_id' in request.GET:
+        # Обробка AJAX-запиту для отримання відділень пошти по обраному місту
+        city_id = request.GET['city_id']
+        post_offices_response = requests.post(api_url, json={
+            'apiKey': api_key,
+            'modelName': 'AddressGeneral',
+            'calledMethod': 'getWarehouses',
+            'methodProperties': {'CityRef': city_id}
+        })
+        post_offices_data = post_offices_response.json()['data']
+        return JsonResponse({'post_offices': post_offices_data})
+    
+    # Отримання відділень пошти для першого міста
+    first_city_id = cities_data[0]['Ref']
+    post_offices_data = []
+
+    if first_city_id:
+        post_offices_response = requests.post(api_url, json={
+            'apiKey': api_key,
+            'modelName': 'AddressGeneral',
+            'calledMethod': 'getWarehouses',
+            'methodProperties': {'CityRef': first_city_id}
+        })
+        post_offices_data = post_offices_response.json()['data']
+
+    form = forms.PaymentForm()  # Якщо метод запиту GET, створюємо порожню форму PaymentForm
+    return render(request, 'payments/email_form.html', {'form': form, 'cities': cities_data,
+            'post_offices': post_offices_data})  # Виводимо форму на сторінку email_form.html
+
+
+
+```
+
+* >Отримання списку міст: При кожному запиті до цього подання виконується запит до API "Нова Пошта" для отримання списку міст.
+
+
+* >Обробка запиту POST: Якщо запит є POST, перевіряється валідність форми. Якщо форма дійсна, генерується HTML-повідомлення, яке надсилається на вказаний у формі email.
+
+
+* >Обробка AJAX-запиту: Якщо запит є GET і містить параметр city_id, виконується запит до API "Нова Пошта" для отримання відділень пошти у вказаному місті та повертається JSON-відповідь з даними відділень.
+
+* >Відображення форми та даних: Якщо запит є GET, створюється порожня форма та відображається разом зі списком міст та відділень пошти для першого міста.
+
+
+
+### FORMS.PY 
+
+
+```PYTHON
+
+
+class PaymentForm(forms.Form):
+    phone_number = forms.CharField(label='Номер телефону')  # поле для введення номера телефону
+    email = forms.EmailField(label='Email')  # поле для введення email
+    name = forms.CharField(label='Ім`я')  # поле для введення імені
+    country = CountryField().formfield(label="Країна")  # поле для вибору країни, використовуючи бібліотеку django-countries
+    post = forms.CharField(label='Поштовий індекс')  # поле для введення поштового індексу
+    
+    # конструктор класу PaymentForm
+    def __init__(self, *args, **kwargs):
+        # Викликає конструктор батьківського класу (forms.Form).
+        super().__init__(*args, **kwargs)
+        # проходиться по всіх полях форми
+        for field in self.fields:
+            # Оновлює атрибути віджета кожного поля форми
+            self.fields[field].widget.attrs.update({'class': 'border border-light text-white bg-black'})
+
+
+```
+
+* > Ця форма включає поля для введення номера телефону, email, імені, вибору країни та введення поштового індексу. Конструктор форми оновлює атрибути віджету кожного поля, додаючи класи CSS для стилізації.
+
+
+
+---
+
+
+
+# OUR CONTACTS 
+
+1. Danil
+    * email - danilgubarev9804@gmail.com
+
+2. Oleksii
+    * email - alexxey2707@gmail.com
+
+3. Olha
+    * email - bachyrinaolya94@gmail.com
+
+4. Vitalii
+    * email - fedenkovitalya3010@gmail.com
