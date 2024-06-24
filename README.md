@@ -36,19 +36,19 @@ _Our project is a online store for selling clothes_
 graph TD
 
   C{VISHITIY_SHOP}
-  C -->|main| A[use for create main page] --> 1(views) --> 2(models) --> 3(forms)
-  C -->|cart| B[use for create cart] --> 4(views) --> 5(models) --> 6(forms)
-  C -->|products| M[use for create pages list products and detail] --> 7(views) --> 8(models) --> 9(filters) --> l(admin)
-  C -->|your_design| D[use for create page your design] --> 0(views) --> q(models) --> w(forms)
-  C -->|users| E[use for create auth/reg and logout] --> e(views) --> t(forms)
-  C -->|payments| F[ for create form for submit order] --> z(views) --> x(models) --> c(forms)
+  C -->|main| A[use for create main page] --> 1(views.py) --> 2(mixins.py)
+  C -->|cart| B[use for create cart] --> 4(views.py) --> 5(cart.py) --> 6(forms.py)
+  C -->|products| M[use for create pages list products and detail] --> 7(views.py) --> 8(models.py) --> 9(filters.py) --> l(admin.py)
+  C -->|your_design| D[use for create page your design] --> 0(views.py)
+  C -->|users| E[use for create auth/reg and logout] --> e(views.py) --> t(forms.py)
+  C -->|payments| F[ for create form for submit order] --> z(views.py) -->  c(forms.py)
 
 
 ```
 ---
 
 
-## Technologies and languages we used
+# Technologies and languages we used
 1. >Python/Django - We used Python and Django for rapid development of web applications.
 2. >JavaScript -  We used JavaScript for managing the item counter, displaying popup notifications, and interacting with the shopping cart.
 3. >HTML - We used HTML for structuring our website.
@@ -161,7 +161,7 @@ typing-extensions==4.12.2
 
 ---
 
-# USERS APP:
+# USERS APP
 
 ---
 
@@ -784,3 +784,86 @@ CartRemoveView - представлення для видалення товар
 
 
 
+---
+
+# MAIN APP
+
+### VIEWS.PY
+
+```python
+
+def main_view(request):
+    """
+    Відображення головної сторінки з колекціями та продуктами зі знижкою більше 30%.
+    Продукти групуються в групи по 4 для відображення в каруселі 
+    (повертається список ітераторів по 4 елементи в кожному).
+    """
+    discounted_products = Product.objects.filter(discount__gte=30)
+    context = {
+        "collections": Collection.objects.all(),
+        "discounted_products_grouped": zip_longest(
+            *[iter(discounted_products)] * 4, fillvalue=None
+        ),
+    }
+    return render(request, "main/index.html", context)
+
+# Отримання облікових даних з Algolia
+def get_algolia_credentials(request):
+    # повертаємо дані для Algolia у форматі JSON
+    return JsonResponse({
+        # Інформацію отримуємо з файлу .env 
+        "APP_ID": os.getenv("ALGOLIA_APP_ID"),
+        "API_KEY": os.getenv("ALGOLIA_API_KEY")
+    })
+
+```
+
+
+* >Цей код реалізує уявлення для веб-додатку на Django: функція main_view відображає головну сторінку з колекціями та продуктами зі знижкою більше 30%, групуючи їх для показу в каруселі, а функція get_algolia_credentials повертає облікові дані для Algolia у форматі JSON. env.
+
+
+
+### MIXINS.PY
+
+
+```python
+
+
+class SaveSlugMixin:
+    # Міксин для автоматичного збереження slug при збереженні об'єкта моделі.
+    def save(self, slug_field="slug", slugify_value=None, *args, **kwargs):
+        # Перевизначений метод save для збереження об'єкта моделі з генерацією та збереженням унікального slug.
+        if slug_field and slugify_value:
+            slug = getattr(self, slug_field)
+            if not slug:
+                new_slug = slugify(slugify_value)
+                setattr(self, slug_field, new_slug)
+                while self.__class__.objects.filter(
+                    **{slug_field + "__iexact": new_slug}
+                ).exists():
+                    new_slug += str(
+                        random.randint(0, (self.__class__.objects.count() + 1) * 100)
+                    )
+                    setattr(self, slug_field, new_slug)
+        return super().save(*args, **kwargs)
+
+
+```
+
+* >Цей код визначає міксин SaveSlugMixin для моделей Django, який автоматично генерує і зберігає унікальний slug для об'єкта моделі при його збереженні. Міксин використовує функцію slugify для перетворення текстового значення slug, а потім перевіряє, чи існує вже такий slug в базі даних. Якщо slug не є унікальним, міксин додає до нього випадкове число і перевіряє знову, доки не буде знайдено унікальний slug.
+
+
+---
+
+# APP YOUR_DESIGN
+
+### VIEWS.PY
+
+```PYTHON
+
+def design_page(request):
+    return render(request, 'your_design/design.html')
+
+```
+
+* >Це функція відображення сторінки your_design
