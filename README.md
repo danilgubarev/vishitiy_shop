@@ -4,10 +4,7 @@ _Our project is a online store for selling clothes_
 
 ---
 
-[Our project structure](project_structure)
-<a name="how_use">How use it ?</a> 
-<a name="our_team">Our team</a> 
-<a name="project_structure">project structure</a> 
+[Our project structure](#proj_struct)
 
 
 ---
@@ -38,7 +35,7 @@ _Our project is a online store for selling clothes_
 
 ---
 
-# <a name="project_structure">Our project structure</a> 
+# [Our project structure](#proj_struct)
 
 ```mermaid
 graph TD
