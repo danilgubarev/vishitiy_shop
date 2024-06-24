@@ -16,57 +16,59 @@
     <form method="POST">
         {% csrf_token %}
 
-            <div class="flex items-center justify-content-center text-white flex-column" style="height: 100vh">
-                    <div>
-                        <h1 class="text-center">Заповни данні</h1>
-                        {{form|crispy}}
+        <div class="flex items-center justify-content-center text-white flex-column" style="height: 100vh">
+            <div>
+                <h1 class="text-center">Заповни данні</h1>
+                {{ form|crispy }}
 
-                        <div class="container-for-select-post-information" style="display: flex; flex-direction: column; padding-bottom: 20px;">
-                            <select id="city-select" style="background-color: black; margin-bottom: 20px;">
-                                {% for city in cities %}
-                                    <option value="{{ city.CityID }}">{{ city.Description }}</option>
-                                {% endfor %}
-                            </select>
+                <div class="container-for-select-post-information" style="display: flex; flex-direction: column; padding-bottom: 20px;">
+                    <select id="city-select" style="background-color: black; margin-bottom: 20px;">
+                        {% for city in cities %}
+                            <option value="{{ city.Ref }}">{{ city.Description }}</option>
+                        {% endfor %}
+                    </select>
 
-                            <select id="post-office-select" name="post_office_id" style="background-color: black;">
-                                {% for office in post_offices %}
-                                    <option value="{{ office.Ref }}">{{ office.Description }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+                    <select id="post-office-select" name="post_office_id" style="background-color: black;">
+                        {% for office in post_offices %}
+                            <option value="{{ office.Ref }}">{{ office.Description }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-                            <button type="submit" class="btn btn-light col-sm-12" >Оформити</button>
-                    </div>
-                
-
-            </div>    
-        </form>
+                <button type="submit" class="btn btn-light col-sm-12">Оформити</button>
+            </div>
+        </div>
+    </form>
 </div>
 {% endblock content %}
 
-
-
 {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#city-select').change(function() {
-                var selectedCityId = $(this).val();
+<script>
+    $(document).ready(function() {
+        $('#city-select').change(function() {
+            var selectedCityId = $(this).val();
 
-                $.ajax({
-                    url: '',
-                    type: 'GET',
-                    data: {
-                        city_id: selectedCityId
-                    },
-                    success: function(data) {
-                        
-                    },
-                    
-                });
+            $.ajax({
+                url: '',
+                type: 'GET',
+                data: {
+                    city_id: selectedCityId
+                },
+                success: function(data) {
+                    var postOffices = data.post_offices;
+                    var postOfficeSelect = $('#post-office-select');
+                    postOfficeSelect.empty();
+
+                    $.each(postOffices, function(index, office) {
+                        postOfficeSelect.append(
+                            $('<option></option>').val(office.Ref).text(office.Description)
+                        );
+                    });
+                },
             });
         });
-    </script>
+    });
+</script>
 {% endblock js %}

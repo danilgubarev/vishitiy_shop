@@ -4,7 +4,7 @@ _Our project is a online store for selling clothes_
 
 ---
 
-[Our project structure](#proj-struct)
+- [Our project structure](#proj-struct)
 
 
 ---
@@ -35,7 +35,9 @@ _Our project is a online store for selling clothes_
 
 ---
 
-# [Our project structure](#proj-struct)
+
+
+# Our project structure
 
 ```mermaid
 graph TD
