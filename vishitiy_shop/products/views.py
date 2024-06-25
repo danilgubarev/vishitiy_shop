@@ -11,6 +11,12 @@ class ProductListView(generic.ListView):
     template_name = 'products/product_list.html'
     # Задаем queryset, который извлекает все объекты Product и использует select_related для оптимизации запросов
     queryset = Product.objects.all().select_related("collection")
+    
+    def get_template_names(self) -> list[str]:
+        if self.request.headers.get("Hx-Request") == "true":  # если запрос Ajax
+            print('ajax')
+            return ["products/includes/product_list_p.html"]
+        return super().get_template_names()
 
     # метод для получения queryset 
     def get_queryset(self) -> QuerySet[Product]:

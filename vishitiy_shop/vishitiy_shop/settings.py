@@ -56,7 +56,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-LOCAL_APPS = ["main", "users", "products", "your_design", "cart", "payments"]
+LOCAL_APPS = ["main", "users", "products", "your_design", "cart", "payments", "novaposhta_api"]
 
 INSTALLED_APPS = DJANGO_APPS + THRIRD_PATRY_APPS + LOCAL_APPS
 
@@ -84,6 +84,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "cart.context_processors.cart",
+                "main.context_processors.header_links",
             ],
         },
     },
@@ -199,4 +200,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # 
 
 
-NOVA_POSTA_API = 'd163f31ac2f2738242a3c3d2875c8020'
+NOVAPOSHTA_KEY = 'd163f31ac2f2738242a3c3d2875c8020'

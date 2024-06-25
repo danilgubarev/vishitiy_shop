@@ -26,9 +26,10 @@
         </div>
 
         <nav>
-            <a href="{% url 'main:index' %}" class="links">Головна</a>
-            <a href="{% url 'products:list' %}" class="links">Всі колекції </a>
-            <a href="{% url 'your_design:design' %}" class="links">Твій дизайн</a>
+            {% for link in header_links %}
+            {% url link.url_name as url %}
+            <a href="{{url}}" class="links {% if url == request.path %}active{% endif %}">{{link.name}}</a>
+            {% endfor %}
         </nav>
 
         <div id="searchbox"></div>

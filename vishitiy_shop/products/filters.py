@@ -3,6 +3,7 @@ import django_filters.widgets  # Импортируем виджеты из би
 from django import forms  # Импортируем формы из Django
 from .widgets import CustomRangeWidget  # Импортируем кастомный виджет для диапазона цен
 from .models import Product, Collection  # Импортируем модели Product и Collection
+from django.urls import reverse
 
 # Определяем класс фильтра для модели Product
 class ProductFilter(django_filters.FilterSet):
@@ -38,6 +39,11 @@ class ProductFilter(django_filters.FilterSet):
         widget=forms.CheckboxInput,  # Виджет для отображения в виде чекбокса
         method='filter_discounted_only'  # Метод фильтрации
     )
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for _, field in self.filters.items():
+            field.field.widget.attrs.update({'hx-get': reverse('products:list'), 'hx-target': '.cards', 'hx-trigger': 'click'})
     
     # Метод фильтрации, который возвращает только товары со скидкой, если чекбокс выбран
     def filter_discounted_only(self, queryset, name, value):
