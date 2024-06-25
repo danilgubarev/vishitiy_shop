@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -21,18 +22,15 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('users.urls', namespace='users')),
-    path('', include('main.urls', namespace='main')),
-    path('products/', include('products.urls', namespace='products')),
-    path('your_design/', include('your_design.urls', namespace='your_design')),
-    path('email_form/', include('payments.urls', namespace='email_form')),
-    path('cart/', include('cart.urls', namespace='cart')),
-    path('payment_system/', include('payments.urls', namespace='create_payment'))
-
-    
-] 
+    path("admin/", admin.site.urls),
+    path("accounts/", include("users.urls", namespace="users")),
+    path("", include("main.urls", namespace="main")),
+    path("products/", include("products.urls", namespace="products")),
+    path("your_design/", include("your_design.urls", namespace="your_design")),
+    path("email_form/", include("payments.urls", namespace="email_form")),
+    path("cart/", include("cart.urls", namespace="cart")),
+    path("payment_system/", include("payments.urls", namespace="create_payment")),
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

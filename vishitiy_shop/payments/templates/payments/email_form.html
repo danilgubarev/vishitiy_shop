@@ -20,22 +20,9 @@
                     <div>
                         <h1 class="text-center">Заповни данні</h1>
                         {{form|crispy}}
-
-                        <div class="container-for-select-post-information" style="display: flex; flex-direction: column; padding-bottom: 20px;">
-                            <select id="city-select" style="background-color: black; margin-bottom: 20px;">
-                                {% for city in cities %}
-                                    <option value="{{ city.CityID }}">{{ city.Description }}</option>
-                                {% endfor %}
-                            </select>
-
-                            <select id="post-office-select" name="post_office_id" style="background-color: black;">
-                                {% for office in post_offices %}
-                                    <option value="{{ office.Ref }}">{{ office.Description }}</option>
-                                {% endfor %}
-                            </select>
                         </div>
 
-                            <button type="submit" class="btn btn-light col-sm-12" >Оформити</button>
+                        <button type="submit" class="btn btn-light col-sm-12" >Оформити</button>
                     </div>
                 
 
@@ -47,8 +34,8 @@
 
 
 {% block js %}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
+<script src="https://unpkg.com/htmx.org@2.0.0"></script>
+{% comment %} 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -68,5 +55,5 @@
                 });
             });
         });
-    </script>
+    </script> {% endcomment %}
 {% endblock js %}

@@ -102,16 +102,15 @@ WSGI_APPLICATION = "vishitiy_shop.wsgi.application"
 #     }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv("DB_NAME"),
-        'USER': os.getenv("DB_USER"),
-        'PASSWORD': os.getenv("DB_PASSWORD"),
-        'HOST': os.getenv("DB_HOST"),
-        'PORT': os.getenv("DB_PORT"),
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
+        "HOST": os.getenv("DB_HOST"),
+        "PORT": os.getenv("DB_PORT"),
     }
 }
-
 
 
 # Password validation
@@ -185,12 +184,13 @@ ALGOLIA = {
 CART_SESSION_KEY = "cart"
 
 
-
 # FOR SENDING ON EMAIL
 
-EMAIL_HOST =  'smtp.gmail.com'
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'sbest8982@gmail.com'
-EMAIL_HOST_PASSWORD = 'ncgk ukrg gqtb xram'
-EMAIL_USE_TLS = True 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = "sbest8982@gmail.com"
+EMAIL_HOST_PASSWORD = "ncgk ukrg gqtb xram"
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+NOVAPOSHTA_KEY = str(os.getenv("NOVAPOSHTA_KEY"))
