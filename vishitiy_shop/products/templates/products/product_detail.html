@@ -62,9 +62,13 @@
                         {% include "products/includes/quantity.html" with incr_btn_class="product-increment-btn" decr_btn_class="product-decrement-btn" %}
                     </div>
                     <div class=" my-btns">
+                      {% if product.id in cart %}
+                      <div><h2>Продукт вже в кошику</h2></div>
+                      {% else %}
                       <div class="btns-cont">
                         <button class="btn btn-outline-light text-3xl  btns" id="add-to-cart-btn">ADD TO CART</button>
                       </div>
+                      {% endif %}
                       <div class="btns-cont">
                         <a href="{% url "payments:email" %}" class="btn btn-outline-light text-3xl  btns">BUY NOW</a>
                       </div>

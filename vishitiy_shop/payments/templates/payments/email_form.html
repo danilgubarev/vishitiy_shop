@@ -21,7 +21,18 @@
                 <h1 class="text-center">Заповни данні</h1>
                 {{ form|crispy }}
 
-                    
+                <div class="container-for-select-post-information" style="display: flex; flex-direction: column; padding-bottom: 20px;">
+                    <select id="city-select" style="background-color: black; margin-bottom: 20px;">
+                        {% for city in cities %}
+                            <option value="{{ city.Ref }}">{{ city.Description }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <select id="post-office-select" name="post_office_id" style="background-color: black;">
+                        {% for office in post_offices %}
+                            <option value="{{ office.Ref }}">{{ office.Description }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
 
                 <button type="submit" class="btn btn-light col-sm-12">Оформити</button>

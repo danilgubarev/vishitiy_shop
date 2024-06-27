@@ -67,54 +67,6 @@ body {
     padding-bottom: 100px;
 }
 
-.slider {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.slider-items {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.slider-item img {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    padding: 10px;
-}
-
-.slider-item .item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-@keyframes bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
-#scrollButton {
-    animation: bounce 1s infinite;
-    text-align: center;
-    cursor: pointer;
-}
 
 .text-white {
     color: white;

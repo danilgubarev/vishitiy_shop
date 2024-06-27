@@ -6,13 +6,13 @@ document.addEventListener("DOMContentLoaded", () => {
     initRemove();
 })
 
-function initCounter() {
+export function initCounter() {
     const decrementButtons = document.querySelectorAll('.cart-decrement-btn');
     const incrementButtons = document.querySelectorAll('.cart-increment-btn');
     new HandleManyCounters(incrementButtons, decrementButtons)
 }
 
-function initRemove() {
+export function initRemove() {
     const cart = new CartClient();
     const removeForms = document.querySelectorAll('.remove-from-cart-form');
 
