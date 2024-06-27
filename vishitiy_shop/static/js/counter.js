@@ -2,13 +2,23 @@ class BaseCounter {
   decrement(counter) {
     if (counter.value > 1) {
       counter.value--;
+      this.triggerEvent(counter);
     }
   }
 
   increment(counter) {
     if (counter.value < 10) {
       counter.value++;
+      this.triggerEvent(counter);
     }
+  }
+
+  triggerEvent(counter) {
+    const event = new Event('input', {
+      bubbles: true,
+      cancelable: true,
+    });
+    counter.dispatchEvent(event);
   }
 
   handleEvent(e) {

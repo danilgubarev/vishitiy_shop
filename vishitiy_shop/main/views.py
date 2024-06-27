@@ -13,10 +13,10 @@ load_dotenv()
 def main_view(request):
     """
     Отображение главной страницы с коллекциями и продуктами со скидкой больше 30%.
-    Продукты группируются в группы по 4 для отображения в карусели 
+    Продукты группируются в группы по 4 для отображения в карусели
     (возвращаеться список итераторов по 4 элемента в каждом).
     """
-    discounted_products = Product.objects.filter(discount__gte=30)
+    discounted_products = Product.objects.filter(discount__gte=20)
     context = {
         "collections": Collection.objects.all(),
         "discounted_products_grouped": zip_longest(
@@ -25,11 +25,15 @@ def main_view(request):
     }
     return render(request, "main/index.html", context)
 
+
 # Получение учётных данных с Algolia
 def get_algolia_credentials(request):
     # возвращаем данные для Algolia в формате JSON
-    return JsonResponse({
-        # Информацию получаем из файла .env 
-        "APP_ID": os.getenv("ALGOLIA_APP_ID"),
-        "API_KEY": os.getenv("ALGOLIA_API_KEY")
-    })
+    return JsonResponse(
+        {
+            # Информацию получаем из файла .env
+            "APP_ID": os.getenv("ALGOLIA_APP_ID"),
+            "API_KEY": os.getenv("ALGOLIA_API_KEY"),
+        }
+    )
+

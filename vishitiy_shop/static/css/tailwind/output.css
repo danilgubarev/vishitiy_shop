@@ -592,6 +592,10 @@ video {
   pointer-events: none;
 }
 
+.collapse {
+  visibility: collapse;
+}
+
 .static {
   position: static;
 }
@@ -650,11 +654,14 @@ video {
 
 .m-2 {
   margin: 0.5rem;
+<<<<<<< HEAD
 }
 
 .my-5 {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
+=======
+>>>>>>> oleksii
 }
 
 .-ml-1 {
@@ -677,10 +684,13 @@ video {
   margin-inline-end: auto;
 }
 
+<<<<<<< HEAD
 .ml-52 {
   margin-left: 13rem;
 }
 
+=======
+>>>>>>> oleksii
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -779,10 +789,13 @@ video {
   gap: 0.75rem;
 }
 
+<<<<<<< HEAD
 .gap-4 {
   gap: 1rem;
 }
 
+=======
+>>>>>>> oleksii
 .gap-6 {
   gap: 1.5rem;
 }
@@ -852,10 +865,13 @@ video {
   padding: 1.25rem;
 }
 
+<<<<<<< HEAD
 .p-7 {
   padding: 1.75rem;
 }
 
+=======
+>>>>>>> oleksii
 .px-3 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
@@ -885,6 +901,13 @@ video {
   padding-top: 0.75rem;
 }
 
+<<<<<<< HEAD
+=======
+.pt-5 {
+  padding-top: 1.25rem;
+}
+
+>>>>>>> oleksii
 .text-center {
   text-align: center;
 }
@@ -907,6 +930,14 @@ video {
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
+<<<<<<< HEAD
+=======
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+>>>>>>> oleksii
 }
 
 .font-semibold {

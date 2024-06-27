@@ -36,8 +36,8 @@ class Cart:
             yield item
 
     def __len__(self):
-        print(self.cart.values())
-        return sum([item["quantity"] for item in self.cart.values()])
+        return len(self.cart.keys())
+
 
     def contains_deep(self, product_id, **params):
         # Проверяет содержит ли корзина товар с указанными параметрами глубоко
@@ -87,4 +87,7 @@ class Cart:
     def get_total(self):
         return sum(
             Decimal(item["price"]) * item["quantity"] for item in self.cart.values()
+
+
         )
+

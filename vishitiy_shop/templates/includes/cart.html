@@ -12,7 +12,7 @@
     <div class="offcanvas offcanvas-end our-cart" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
       <div class="offcanvas-header border border-bottom">
         <h6>Закрити</h6>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
         <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Ваш кошик</h5>
@@ -20,18 +20,23 @@
             {% for item in cart %}
                 <div class="item ">
                     {% with product=item.product %}
-                    <div class="card flex flex-row card-in-cart">
+                    <div class="card flex flex-row card-in-cart text-light">
                         <img src="{{product.image.url}}" class="card-img-top" alt="..." style="width: 85px">
                         <div class="card-body">
                         <h5 class="card-title">{{product.type|capfirst}} {{product.title}}</h5>
                         <p class="card-text">Розмiр: {{item.size}}, Колiр: {{item.color}}</p>
+                        <p class="card-text text-lg">Цiна за 1: {{item.price}} ГРН</p>
                         </div>
                         <div class="card-footer flex items-center flex-col gap-2">
                             <div>
-                                {% include "products/includes/quantity.html" with value=item.quantity incr_btn_class="cart-increment-btn" decr_btn_class="cart-decrement-btn" %}
+                                <form action="{% url "cart:update" %}" method="post" class="update-cart-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{product.id}}">
+                                    {% include "products/includes/quantity.html" with value=item.quantity incr_btn_class="cart-increment-btn" decr_btn_class="cart-decrement-btn" counter_class="cart-counter" %}
+                                </form>
                             </div>
                             <div>
-                                <form action="{% url "cart:remove" %}" method="post" class="remove-from-cart-form">
+                                <form action="{% url "cart:remove" %}" method="post" class="remove-cart-form">
                                     {% csrf_token %}
                                     <input type="hidden" name="product_id" value="{{product.id}}">
                                     <button class="btn text-white hover:text-red-500">
@@ -47,12 +52,24 @@
                 </div>
             {% endfor %}
 
+
         </div>
 
         <div class="container-for-button">
             <hr>
             <a href="{% url "payments:email" %} " class="btns">Оформити замовлення</a>
         </div>
+        {% if cart %}
+        <div class="flex flex-col mt-5">
+            <div class="text-xl">
+                Итого: <span id="cart-total">{{cart.get_total}}</span> ГРН
+            </div>
+            <hr>
+            <div>
+                <a href="{% url "payments:email" %}" class="btn btn-light">Оформити замовлення</a>
+            </div>
+        </div>
+        {% endif %}
       </div>
     </div>
 

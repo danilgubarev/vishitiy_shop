@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Обработка кликов на карточки
     const collectionCards = document.querySelectorAll('.collect');
     collectionCards.forEach(function(card) {
         card.addEventListener('click', function() {

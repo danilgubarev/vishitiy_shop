@@ -74,47 +74,44 @@
     
   </div>
 
-  <script>
-    function range() {
-      const min_price_el = document.querySelector('#id_price_0');
-      const max_price_el = document.querySelector('#id_price_1');
-      const widgetAttrsMin = {{ widget.attrs.min|default:"0" }};
-      const widgetAttrsMax = {{ widget.attrs.max|default:"5000" }};
+<script>
+  function range() {
+    min_price_el = document.querySelector('#id_price_0');
+    max_price_el = document.querySelector('#id_price_1');
+    return {
+      minprice: min_price_el.value || {{widget.attrs.min}},
+      maxprice: max_price_el.value || {{widget.attrs.max}},
+      min: {{widget.attrs.min}}, 
+      max: {{widget.attrs.max}},
+      minthumb: 0,
+      maxthumb: 0,
+
+      init() {
+        this.minprice = parseInt(min_price_el.value) || this.min;
+        this.maxprice = parseInt(max_price_el.value) || this.max;
+        this.mintrigger();
+        this.maxtrigger();
+      },
       
-      return {
-        minprice: parseInt(min_price_el.value) || widgetAttrsMin,
-        maxprice: parseInt(max_price_el.value) || widgetAttrsMax,
-        min: widgetAttrsMin, 
-        max: widgetAttrsMax,
-        minthumb: 0,
-        maxthumb: 0,
-  
-        init() {
-          this.minprice = parseInt(min_price_el.value) || this.min;
-          this.maxprice = parseInt(max_price_el.value) || this.max;
-          this.mintrigger();
-          this.maxtrigger();
-        },
-        
-        mintrigger() {
-          if (this.minprice < this.min) {
-            this.minprice = this.min;
-          } else if (this.minprice > this.maxprice - 100) {
-            this.minprice = this.maxprice - 100;
-          }
-          this.minthumb = ((this.minprice - this.min) / (this.max - this.min)) * 100;
-          console.log("Min thumb is", this.minthumb, "Min price is", this.minprice);
-        },
-  
-        maxtrigger() {
-          if (this.maxprice > this.max) {
-            this.maxprice = this.max;
-          } else if (this.maxprice < this.minprice + 100) {
-            this.maxprice = this.minprice + 100;
-          }
-          this.maxthumb = 100 - (((this.maxprice - this.min) / (this.max - this.min)) * 100);
-          console.log("Max thumb is", this.maxthumb, "Max price is", this.maxprice);
-        },
-      }
+      mintrigger() {
+        if (this.minprice < this.min) {
+          this.minprice = this.min;
+        } else if (this.minprice > this.maxprice - 100) {
+          this.minprice = this.maxprice - 100;
+        }
+        this.minthumb = ((this.minprice - this.min) / (this.max - this.min)) * 100;
+        console.log("Min thumb is", this.minthumb, "Min price is", this.minprice);
+      },
+
+      maxtrigger() {
+        if (this.maxprice > this.max) {
+          this.maxprice = this.max;
+        } else if (this.maxprice < this.minprice + 100) {
+          this.maxprice = this.minprice + 100;
+        }
+        this.maxthumb = 100 - (((this.maxprice - this.min) / (this.max - this.min)) * 100);
+        console.log("Max thumb is", this.maxthumb, "Max price is", this.maxprice);
+      },
     }
-  </script>
+  }
+</script>

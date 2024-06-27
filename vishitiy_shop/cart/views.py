@@ -107,4 +107,6 @@ class CartRemoveView(CartMixin):
     # Представление для удаления товара из корзины.
 
     form_class = forms.CartRemoveForm  # Указываем класс формы для удаления товара
+
     status_code = 200  # Код состояния HTTP ответа для успешного удаления товара
+

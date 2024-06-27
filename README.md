@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Vishitiy.ua - project
 
 _Our project is a online store for selling clothes_
@@ -297,6 +298,7 @@ _These custom forms allow saving user-entered passwords even when the page is re
 
 ---
 
+<<<<<<< HEAD
 # PRODUCTS APP
 
 ---
@@ -304,6 +306,12 @@ _These custom forms allow saving user-entered passwords even when the page is re
 ### VIEWS.PY
 
 1. __Displaying a list of products, as well as product details (personal product page)__
+=======
+
+#### Function in the products app:
+
+1. __Отображение списка продуктов, а так же деталей продуктов(личная страница продукта)__
+>>>>>>> oleksii
 
 ```python 
 
@@ -341,6 +349,7 @@ class ProductDetailView(generic.DetailView):
 
 ```
 
+<<<<<<< HEAD
 
 
 * >ProductListView - відображає весь список продуктів з використанням фільтрації.
@@ -355,6 +364,21 @@ class ProductDetailView(generic.DetailView):
 ### MODELS.PY
 
 2. Creating Product and Collection Models
+=======
+_Объяснение кода_
+
+* ProductListView - відображає весь список продуктів з використанням фільтрації.
+* ProductDetailView - відображає особисту сторінку товару.
+
+_Ці класи використовуються у Django для керування видами: generic.ListView для відображення списку об'єктів моделі і generic.DetailView для відображення детальної інформації про продукт (сторінка індивідуального продукту)._
+
+* generic.ListView - використовується для відображення списку об'єктів моделі у Django.
+* generic.DetailView - використовується для відображення детальної інформації про конкретний продукт (особиста сторінка продукту).
+
+---
+
+2. Создание моделей Product и Collection
+>>>>>>> oleksii
 
 ```python
 class Product(SaveSlugMixin, models.Model):
@@ -450,6 +474,7 @@ class Collection(SaveSlugMixin, models.Model):
 
 ```
 
+<<<<<<< HEAD
 * >This code is used to work with Collections and Products, providing convenient methods for accessing, saving, and linking data in the database.
 * >Цей код використовується для роботи з Колекціями та Товарами, забезпечуючи зручні методи доступу, збереження та зв'язування даних в базі даних.
 
@@ -460,6 +485,17 @@ class Collection(SaveSlugMixin, models.Model):
 
 
 3. Filtering data on a page
+=======
+_This code is used to work with Collections and Products, providing convenient methods for accessing, saving, and linking data in the database./Цей код використовується для роботи з Колекціями та Товарами, забезпечуючи зручні методи доступу, збереження та зв'язування даних в базі даних._
+
+* @property - representing a method as an object property./ дозволяє представляти метод як властивість об'єкта.
+
+
+___
+
+
+3. Фильтрация данных на странице
+>>>>>>> oleksii
 
 ```python
 
@@ -513,12 +549,21 @@ class ProductFilter(django_filters.FilterSet):
 
 ```
 
+<<<<<<< HEAD
 * >This code performs filtering on the page based on various parameters such as price, product type, size, color, collection, etc.
 * >Цей код здійснює фільтрацію на сторінці за різними параметрами, такими як ціна, тип продукту, розмір, колір, колекція і т. д.
 
 ### ADMIN.PY
 
 3. Customization of the admin panel
+=======
+_This code performs filtering on the page based on various parameters such as price, product type, size, color, collection, etc./Цей код здійснює фільтрацію на сторінці за різними параметрами, такими як ціна, тип продукту, розмір, колір, колекція і т. д._
+
+___
+
+
+3. Кастомизация админ панели)
+>>>>>>> oleksii
 
 ```python
 # Register the Collection model in the admin panel / Реєстрація моделі Collection у панелі адміністратора
@@ -556,6 +601,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 _Here's how this code is used to customize the admin panel./Ось як цей код використовується для налаштування адміністративної панелі._
 
+<<<<<<< HEAD
 * >Here, the admin.register decorator is used to register the Product model and associate it with the custom ProductAdmin class, which inherits from admin.ModelAdmin. This approach allows customization of how the Product model is displayed and edited in the Django admin interface.
 
 * >Тут використовується декоратор admin.register для реєстрації моделі Product і пов'язання її з кастомним класом ProductAdmin, який успадковує admin.ModelAdmin. Цей підхід дозволяє налаштовувати спосіб відображення та редагування моделі Product в адміністративному інтерфейсі Django.
@@ -1038,3 +1084,13 @@ class PaymentForm(forms.Form):
 
 4. Vitalii
     * email - fedenkovitalya3010@gmail.com
+=======
+* Here, the admin.register decorator is used to register the Product model and associate it with the custom ProductAdmin class, which inherits from admin.ModelAdmin. This approach allows customization of how the Product model is displayed and edited in the Django admin interface.
+
+Тут використовується декоратор admin.register для реєстрації моделі Product і пов'язання її з кастомним класом ProductAdmin, який успадковує admin.ModelAdmin. Цей підхід дозволяє налаштовувати спосіб відображення та редагування моделі Product в адміністративному інтерфейсі Django.
+
+
+
+
+
+>>>>>>> oleksii

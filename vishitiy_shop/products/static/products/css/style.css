@@ -91,11 +91,11 @@ p {
     color: black;
 }
 
-#price {
+/* #price {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-}
+} */
 
 .menu input[type="number"].price {
     background-color: black;

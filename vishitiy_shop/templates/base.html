@@ -64,9 +64,10 @@
                 <div id="size-refinement"></div>
             </div>
         </div>
-        {% block content %}
-
-        {% endblock %}
+        <div class="pt-5">
+            {% block content %}
+            {% endblock %}
+        </div>
         <div class="messages">
             {% if messages %}
                 {% for msg in messages %}

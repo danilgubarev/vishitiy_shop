@@ -114,7 +114,6 @@ DATABASES = {
 }
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -159,6 +158,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+CART_SESSION_KEY = "cart"
 
 # CRISPY FORMS
 
@@ -185,19 +185,14 @@ ALGOLIA = {
 CART_SESSION_KEY = "cart"
 
 
-
 # FOR SENDING ON EMAIL
 
-EMAIL_HOST =  'smtp.gmail.com'
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'sbest8982@gmail.com'
-EMAIL_HOST_PASSWORD = 'ncgk ukrg gqtb xram'
-EMAIL_USE_TLS = True 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = "sbest8982@gmail.com"
+EMAIL_HOST_PASSWORD = "ncgk ukrg gqtb xram"
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
+NOVAPOSHTA_KEY = str(os.getenv("NOVAPOSHTA_KEY"))
 
-
-# 
-
-
-NOVAPOSHTA_KEY = 'd163f31ac2f2738242a3c3d2875c8020'

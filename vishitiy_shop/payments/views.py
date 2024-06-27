@@ -5,7 +5,6 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from cart.cart import Cart
-
 import requests
 import json
 import time
@@ -34,7 +33,7 @@ def email_form(request):
         if form.is_valid():  # Проверяем валидность формы
             cd = form.cleaned_data  # Получаем очищенные данные из формы
             cart = Cart(request)  # Создаем объект корзины
-            context = {'person_data': cd, 'cart': cart, 'user': request.user}  # Формируем контекст для шаблона
+            context = {'data': cd, 'cart': cart, 'user': request.user}  # Формируем контекст для шаблона
 
             # Генерируем HTML-контент на основе шаблона 'payments/order_info.html' и контекста
             html_content = render_to_string('payments/order_info.html', context)
@@ -64,7 +63,7 @@ def email_form(request):
         post_offices_data = post_offices_response.json()['data']
         return JsonResponse({'post_offices': post_offices_data})
     
-    # Получение отделений почты для первого города
+    
     first_city_id = cities_data[0]['Ref']
     post_offices_data = []
 
