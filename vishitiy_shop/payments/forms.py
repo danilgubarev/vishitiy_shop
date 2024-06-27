@@ -4,20 +4,7 @@ from django_countries.fields import CountryField  # Импортируем по�
 from novaposhta_api.models import NP_City, NP_WareHouse
 import requests
 
-def get_cities_choices():
-    api_url = 'https://api.novaposhta.ua/v2.0/json/'
-    api_key = 'd163f31ac2f2738242a3c3d2875c8020'
 
-    # Получение списка городов
-    cities_response = requests.post(api_url, json={
-        'apiKey': api_key,
-        'modelName': 'Address',
-        'calledMethod': 'getCities',
-        'methodProperties': {}
-    })
-    cities_data = cities_response.json()['data']
-    # print(cities_data)
-    return [(city['Ref'], city['Description']) for city in cities_data]
     
 
 class PaymentForm(forms.Form):
