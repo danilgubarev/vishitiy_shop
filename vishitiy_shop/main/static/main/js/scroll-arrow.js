@@ -10,35 +10,46 @@ const arrowDown = `
 </svg>
 <p class="mt-2 text-white">Гортай вниз</p>
 `
+// Визначення функції для прокрутки сторінки
 function scrollPage() {
+    // Отримання елемента кнопки прокрутки
     const el = document.querySelector("#scrollButton");
-    // var currentPosition = window.scrollY;
-    // var windowHeight = window.innerHeight;
+    // Отримання висоти всього документа
     const bodyHeight = document.body.scrollHeight;
+    // Перевірка напрямку прокрутки
     if (el.dataset.direction === "up") {
-        // Прокрутка вверх
+        // Прокрутка вверх з плавністю
         window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-        // Прокрутка вниз
+        // Прокрутка вниз з плавністю
         window.scrollTo({ top: bodyHeight, behavior: 'smooth' });
     }
 }
 
+// Визначення функції для зміни напрямку стрілки
 function switchArrow() {
+    // Отримання елемента кнопки прокрутки
     const el = document.querySelector("#scrollButton");
+    // Отримання поточної позиції прокрутки вікна
     const currentPosition = window.scrollY;
 
+    // Перевірка, чи потрібно змінити напрямок стрілки
     if (currentPosition < 100) {
+        // Встановлення стрілки вниз, якщо прокрутка не велика
         el.innerHTML = arrowDown;
         el.dataset.direction = "down";
     } else {
+        // Встановлення стрілки вверх, якщо прокрутка велика
         el.innerHTML = arrowUp;
         el.dataset.direction = "up";
     }
 }
 
+// Виклик функції зміни напрямку стрілки для початкового встановлення
 switchArrow();
 
+// Додавання обробника події прокрутки вікна для автоматичного оновлення стрілки
 window.addEventListener('scroll', switchArrow);
 
+// Додавання обробника події кліку на кнопку прокрутки
 document.querySelector("#scrollButton").addEventListener('click', scrollPage);

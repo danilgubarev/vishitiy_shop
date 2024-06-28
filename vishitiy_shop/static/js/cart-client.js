@@ -75,7 +75,7 @@ export class CartClient {
         console.log("CartClient._update()", e, data);
         const cart = data.data.cart
         this.updater.changeCartTotal(cart.total)
-
+        this.updater.changeCartLen(cart.len)
     }
 
     update(e) {

@@ -36,7 +36,8 @@ class Cart:
             yield item
 
     def __len__(self):
-        return len(self.cart.keys())
+        print('calling len')
+        return sum([item["quantity"] for item in self.cart.values()])
 
 
     def contains_deep(self, product_id, **params):
@@ -54,8 +55,8 @@ class Cart:
         # Добавляет товар в корзину
         product_id = data.pop("product_id")
         assert product_id not in self.cart, "Product already in cart"
-        self.save()
         self.cart[product_id] = data
+        self.save()
         return self._get_response_data(self.cart[product_id])
 
     def save(self):
@@ -82,12 +83,10 @@ class Cart:
         self.save()
 
     def _get_response_data(self, item=None):
-        return {"item": item, "total": self.get_total(), "len": len(self.cart)}
+        return {"item": item, "total": self.get_total(), "len": sum([item["quantity"] for item in self.cart.values()])}
 
     def get_total(self):
         return sum(
             Decimal(item["price"]) * item["quantity"] for item in self.cart.values()
-
-
         )
 

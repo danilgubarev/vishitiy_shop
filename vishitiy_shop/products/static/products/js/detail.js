@@ -1,38 +1,38 @@
-// Импорт класса HandleCounter из файла counter.js для управления счетчиком товаров
+// Імпорт класу HandleCounter з файлу counter.js для управління лічильником товарів
 import { HandleCounter } from "/static/js/counter.js";
 
-// Импорт функции showToast из файла notifications.js для отображения всплывающих уведомлений
+// Імпорт функції showToast з файлу notifications.js для відображення спливаючих повідомлень
 import { showToast } from "/static/js/notifications.js";
 
-// Импорт класса CartClient из файла cart-client.js для взаимодействия с корзиной товаров
+// Імпорт класу CartClient з файлу cart-client.js для взаємодії з кошиком товарів
 import { CartClient } from "/static/js/cart-client.js";
 
-// Ожидание загрузки документа перед инициализацией функций
+// Очікування завантаження документа перед ініціалізацією функцій
 document.addEventListener("DOMContentLoaded", () => {
-  initCounter(); // Вызов функции инициализации счетчика
-  initAddToCart(); // Вызов функции инициализации добавления в корзину
+  initCounter(); // Виклик функції ініціалізації лічильника
+  initAddToCart(); // Виклик функції ініціалізації додавання до кошика
 });
 
-// Функция инициализации счетчика товаров
+// Функція ініціалізації лічильника товарів
 function initCounter() {
   const decrementButton = document.querySelector('.product-decrement-btn'); 
   const incrementButton = document.querySelector('.product-increment-btn'); 
-  new HandleCounter(decrementButton, incrementButton); // Создать экземпляр класса HandleCounter для управления счетчиком
+  new HandleCounter(decrementButton, incrementButton); // Створити екземпляр класу HandleCounter для управління лічильником
 }
 
-// Функция инициализации добавления товара в корзину
+// Функція ініціалізації додавання товару до кошика
 function initAddToCart() {
-  const cart = new CartClient(); // Создать экземпляр класса CartClient для работы с корзиной
-  const form = document.querySelector('#add-to-cart-form'); // Найти форму добавления товара в корзину
-  form.addEventListener('submit', (e) => { // Добавить обработчик события отправки формы
-    e.preventDefault(); // Предотвратить стандартное поведение отправки формы
+  const cart = new CartClient(); // Створити екземпляр класу CartClient для роботи з кошиком
+  const form = document.querySelector('#add-to-cart-form'); // Знайти форму додавання товару до кошика
+  form.addEventListener('submit', (e) => { // Додати обробник події відправки форми
+    e.preventDefault(); // Заборонити стандартну поведінку відправки форми
 
-    // Проверить выбран ли размер и цвет товара перед добавлением в корзину
+    // Перевірити, чи обрані розмір і колір товару перед додаванням до кошика
     const sizeSelected = form.querySelector('input[name="size"]:checked');
     const colorSelected = form.querySelector('input[name="color"]:checked');
     if (!sizeSelected || !colorSelected) {
-      return showToast('Будь ласка, оберіть розмір та колiр перед додаванням до кошика', 'warning'); // Показать всплывающее уведомление, если размер или цвет не выбраны
+      return showToast('Будь ласка, оберіть розмір та колір перед додаванням до кошика', 'warning'); // Показати спливаюче повідомлення, якщо не обрано розмір або колір
     }
-    cart.add.bind(cart)(e); // Вызвать метод добавления товара в корзину, привязанный к объекту cart
+    cart.add.bind(cart)(e); // Викликати метод додавання товару до кошика, прив'язаний до об'єкту cart
   });
 }

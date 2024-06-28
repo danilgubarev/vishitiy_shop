@@ -30,6 +30,10 @@ _Our project is a online store for selling clothes_
 
 - [APP PAYMENTS](#app-payments)
 
+### JavaScript
+
+- [JS](#js)
+
 ### OUR CONTACTS
 
 - [CONTACTS](#contacts)
@@ -1038,6 +1042,232 @@ class PaymentForm(forms.Form):
 ---
 
 
+# JS
+
+
+### COLLECTIONS.JS
+
+```js
+
+// Очікування завантаження DOM
+document.addEventListener('DOMContentLoaded', function () {
+    // Вибір всіх елементів з класом '.collect'
+    const collectionCards = document.querySelectorAll('.collect');
+    // Перебір кожної знайденої карточки колекції
+    collectionCards.forEach(function(card) {
+        // Додавання обробника подій 'click' до кожної карточки
+        card.addEventListener('click', function() {
+            // Отримання ідентифікатора колекції з атрибута 'data-collection-id'
+            const collectionId = card.getAttribute('data-collection-id');
+            // Якщо ідентифікатор колекції є
+            if (collectionId) {
+                // Формування нового URL для переходу на сторінку з продуктами,
+                // фільтруючи за типом і ідентифікатором колекції
+                const newUrl = `/products/?type=&collection=${collectionId}`;
+                // Перенаправлення користувача на новий URL
+                window.location.href = newUrl;
+            } else {
+                // Виведення помилки в консоль, якщо ідентифікатор колекції не знайдено
+                console.error('Collection ID not found');
+            }
+        });
+    });
+});
+
+
+```
+* > Цей код служить для очікування завантаження сторінки, після чого він додає обробники подій до карточок колекцій на сторінці. Коли користувач клікає на одну з цих карточок, він отримує ідентифікатор колекції і перенаправляється на сторінку з продуктами, де відображаються товари з вибраною колекцією.
+
+
+### SCROLL-ARROW.JS
+
+```JS
+
+// Визначення функції для прокрутки сторінки
+function scrollPage() {
+    // Отримання елемента кнопки прокрутки
+    const el = document.querySelector("#scrollButton");
+    // Отримання висоти всього документа
+    const bodyHeight = document.body.scrollHeight;
+    // Перевірка напрямку прокрутки
+    if (el.dataset.direction === "up") {
+        // Прокрутка вверх з плавністю
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+        // Прокрутка вниз з плавністю
+        window.scrollTo({ top: bodyHeight, behavior: 'smooth' });
+    }
+}
+
+// Визначення функції для зміни напрямку стрілки
+function switchArrow() {
+    // Отримання елемента кнопки прокрутки
+    const el = document.querySelector("#scrollButton");
+    // Отримання поточної позиції прокрутки вікна
+    const currentPosition = window.scrollY;
+
+    // Перевірка, чи потрібно змінити напрямок стрілки
+    if (currentPosition < 100) {
+        // Встановлення стрілки вниз, якщо прокрутка не велика
+        el.innerHTML = arrowDown;
+        el.dataset.direction = "down";
+    } else {
+        // Встановлення стрілки вверх, якщо прокрутка велика
+        el.innerHTML = arrowUp;
+        el.dataset.direction = "up";
+    }
+}
+
+// Виклик функції зміни напрямку стрілки для початкового встановлення
+switchArrow();
+
+// Додавання обробника події прокрутки вікна для автоматичного оновлення стрілки
+window.addEventListener('scroll', switchArrow);
+
+// Додавання обробника події кліку на кнопку прокрутки
+document.querySelector("#scrollButton").addEventListener('click', scrollPage);
+
+```
+
+
+* > Функція scrollPage() визначає, яким чином потрібно прокручувати сторінку вгору чи вниз з плавною анімацією в залежності від напрямку, вказаного в кнопці прокрутки.
+
+* > Функція switchArrow() визначає, яку стрілку показувати на кнопці прокрутки в залежності від поточної позиції прокрутки сторінки. Вона також оновлює атрибут data-direction, що використовується функцією scrollPage() для визначення напрямку прокрутки.
+
+### DETAIL.JS
+
+```js
+
+// Очікування завантаження документа перед ініціалізацією функцій
+document.addEventListener("DOMContentLoaded", () => {
+  initCounter(); // Виклик функції ініціалізації лічильника
+  initAddToCart(); // Виклик функції ініціалізації додавання до кошика
+});
+
+// Функція ініціалізації лічильника товарів
+function initCounter() {
+  const decrementButton = document.querySelector('.product-decrement-btn'); 
+  const incrementButton = document.querySelector('.product-increment-btn'); 
+  new HandleCounter(decrementButton, incrementButton); // Створити екземпляр класу HandleCounter для управління лічильником
+}
+
+// Функція ініціалізації додавання товару до кошика
+function initAddToCart() {
+  const cart = new CartClient(); // Створити екземпляр класу CartClient для роботи з кошиком
+  const form = document.querySelector('#add-to-cart-form'); // Знайти форму додавання товару до кошика
+  form.addEventListener('submit', (e) => { // Додати обробник події відправки форми
+    e.preventDefault(); // Заборонити стандартну поведінку відправки форми
+
+    // Перевірити, чи обрані розмір і колір товару перед додаванням до кошика
+    const sizeSelected = form.querySelector('input[name="size"]:checked');
+    const colorSelected = form.querySelector('input[name="color"]:checked');
+    if (!sizeSelected || !colorSelected) {
+      return showToast('Будь ласка, оберіть розмір та колір перед додаванням до кошика', 'warning'); // Показати спливаюче повідомлення, якщо не обрано розмір або колір
+    }
+    cart.add.bind(cart)(e); // Викликати метод додавання товару до кошика, прив'язаний до об'єкту cart
+  });
+}
+
+```
+
+* > Функція initCounter: Ця функція ініціалізує лічильник товарів на сторінці, знаходячи кнопки зменшення та збільшення кількості товару і створюючи екземпляр класу HandleCounter, щоб дозволити користувачам змінювати кількість товару у кошику.
+
+* > Функція initAddToCart: Ця функція ініціалізує функціонал додавання товару до кошика. Вона знаходить форму додавання товару до кошика на сторінці і додає обробник події для перехоплення події натискання на кнопку "Додати до кошика". Після натискання вона перевіряє, чи обрані розмір і колір товару, і викликає метод add об'єкту cart, який додає вибраний товар до корзини.
+
+* >Цей файл JavaScript не лише імпортує необхідні класи і функції для коректної роботи з продуктами на сторінці, але й ініціалізує їх, щоб забезпечити функціональність додавання товарів до корзини, управління лічильником товарів і відображення важливих повідомлень для користувачів.
+
+
+### CART_CLIENT.JS
+
+```js
+export class CartClient {  // Оголошення класу CartClient
+
+    constructor() {  // Конструктор класу
+        this.url = window.location.origin + '/cart/';  // Ініціалізація URL для взаємодії з кошиком
+        this.updater = new CartUpdater();  // Створення екземпляру CartUpdater для оновлення візуального представлення
+        this.client = new Client();  // Створення екземпляру Client для взаємодії з сервером
+    }
+
+    _remove(e, data) {  // Приватний метод для видалення товару з кошика
+        e.target.closest('.item').remove();  // Видалення найближчого елемента з класом 'item' відповідно до події
+        const cart = data.data.cart;  // Отримання інформації про кошик з отриманих даних
+        this.updater.updateCart(cart.len, cart.total);  // Оновлення візуального представлення кошика
+    }
+
+    remove(e) {  // Публічний метод для видалення товару з кошика
+        console.log('calling remove', this);  // Виведення повідомлення у консоль про виклик методу
+        e.preventDefault();  // Попередження стандартної дії відправки форми
+        const data = new FormData(e.target);  // Отримання даних з форми
+        this.client.sendReq(this.url + 'remove/', 'POST', data, (data) => this._remove(e, data));  // Відправка запиту на сервер для видалення товару
+    }
+
+    add(e) {  // Публічний метод для додавання товару до кошика
+        console.log("CartClient.add()", e);  // Виведення повідомлення у консоль про виклик методу
+        e.preventDefault();  // Попередження стандартної дії відправки форми
+        const data = new FormData(e.target);  // Отримання даних з форми
+        this.client.sendReq(this.url + 'add/', 'POST', data, (data) => this._add(e, data), 'При додаванні товару сталася помилка. Спробуйте пізніше');  // Відправка запиту на сервер для додавання товару
+    }
+
+    _add(e, data) {  // Приватний метод для обробки відповіді після додавання товару до кошика
+        const cartProduct = JSON.parse(data.data.product)[0];  // Отримання даних про доданий товар з отриманих даних
+        console.log(cartProduct);  // Виведення інформації про доданий товар у консоль
+        const cart = data.data.cart;  // Отримання інформації про кошик з отриманих даних
+        console.log(cart);  // Виведення інформації про кошик у консоль
+        const itemImage = document.querySelector('.item-image').src;  // Отримання URL зображення товару
+        this.updater.updateCart(cart.len, cart.total);  // Оновлення візуального представлення кошика
+        let itemHtml = `
+                    <div class="item ">
+                    <div class="card flex flex-row card-in-cart">
+                        <img src="${itemImage}" class="card-img-top" alt="..." style="width: 85px">
+                        <div class="card-body">
+                        <h5 class="card-title">${cartProduct.fields.type} ${cartProduct.fields.title}</h5>
+                        <p class="card-text">Розмiр: ${cart.item.size}, Колiр: ${cart.item.color}</p>
+                        </div>
+                        <div class="card-footer flex items-center flex-col gap-2">
+                            <div>
+                                <div class="btn-group">
+                                <button class="btn btn-outline-light text-2xl" id="decrement-btn">-</button>
+                                <input type="text" id="counter" class="focus:outline-none text-center bg-transparent border text-white border-white font-semibold outline-none w-10" name="quantity" value="${cart.item.quantity}"></input>
+                                <button class="btn btn-outline-light text-2xl" id="increment-btn">+</button>
+                                </div>
+                            </div>
+                            <div>
+                                <form action="/cart/remove/" method="post" class="remove-from-cart-form" id="remove-${cartProduct.pk}">
+                                    <input type="hidden" name="csrfmiddlewaretoken" value="${document.querySelector('input[name="csrfmiddlewaretoken"]').value}">
+                                    <input type="hidden" name="product_id" value="${cartProduct.pk}">
+                                    <button class="btn text-white hover:text-red-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>`;
+
+        const cartItems = document.querySelector('.cart-items');  // Отримання контейнера для елементів кошика
+        cartItems.insertAdjacentHTML('beforeend', itemHtml);  // Додавання HTML-коду елемента до контейнера
+        document.querySelector('#remove-' + cartProduct.pk).addEventListener('submit', (e) => this.remove(e));  // Додавання обробника події для видалення товару при натисканні на кнопку
+    }
+
+    _update(e, data) {  // Приватний метод для оновлення даних після зміни кількості товару
+```
+
+* >Клас CartClient:
+Цей клас інкапсулює логіку додавання, видалення та оновлення товарів у кошику.
+Він взаємодіє з сервером за допомогою класу Client, щоб виконати операції над товарами у кошику через AJAX-запити.
+Методи add, remove і update обробляють відповідні дії (додавання, видалення, оновлення) після натискання користувачем на відповідні кнопки або форми на сторінці.
+
+* >Клас CartUpdater:
+Цей клас допомагає оновлювати візуальне представлення інформації про кошик на сторінці.
+Він має методи для зміни кількості товарів (changeCartLen) і загальної суми (changeCartTotal), які викликаються при оновленні кошика після додавання або видалення товарів.
+
+* >Отже, цей файл забезпечує необхідну логіку для динамічного управління кошиком покупок на сторінці, здійснюючи взаємодію з сервером для зміни стану кошика без перезавантаження сторінки.
+
+---
+
+
+
 
 # CONTACTS 
 
@@ -1052,11 +1282,6 @@ class PaymentForm(forms.Form):
 
 4. Vitalii
     * email - fedenkovitalya3010@gmail.com
-=======
-* Here, the admin.register decorator is used to register the Product model and associate it with the custom ProductAdmin class, which inherits from admin.ModelAdmin. This approach allows customization of how the Product model is displayed and edited in the Django admin interface.
-
-Тут використовується декоратор admin.register для реєстрації моделі Product і пов'язання її з кастомним класом ProductAdmin, який успадковує admin.ModelAdmin. Цей підхід дозволяє налаштовувати спосіб відображення та редагування моделі Product в адміністративному інтерфейсі Django.
-
 
 
 

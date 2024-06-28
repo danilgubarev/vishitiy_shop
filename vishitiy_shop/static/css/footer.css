@@ -85,9 +85,9 @@ footer img {
     margin-top: 30px;
 }
 
-
-
-
- 
-
-
+@media (max-width: 1316px) {
+    footer .links {
+      display: none;
+    }
+  
+}

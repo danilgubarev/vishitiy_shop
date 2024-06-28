@@ -56,7 +56,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-LOCAL_APPS = ["main", "users", "products", "your_design", "cart", "payments", "novaposhta_api"]
+LOCAL_APPS = ["main", "users", "products", "your_design", "cart", "payments", "novaposhta_api", "aboutus_contacts"]
 
 INSTALLED_APPS = DJANGO_APPS + THRIRD_PATRY_APPS + LOCAL_APPS
 
@@ -194,5 +194,5 @@ EMAIL_HOST_PASSWORD = "ncgk ukrg gqtb xram"
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-NOVAPOSHTA_KEY = str(os.getenv("NOVAPOSHTA_KEY"))
+NOVAPOSHTA_KEY = 'd163f31ac2f2738242a3c3d2875c8020'
 

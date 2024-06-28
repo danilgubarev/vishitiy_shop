@@ -97,3 +97,35 @@ main {
 header nav .active {
   color: #FF7A00;
 }
+
+
+.menu-for-phone {
+  display: none;
+}
+
+@media (max-width: 1316px) {
+  header .links {
+    display: none;
+  }
+
+  header .cntainer-for-cart-user{
+    display: none;
+  }
+
+  .img-user-cart .user-cart{
+    display: none;
+  }
+
+  
+
+  .menu-for-phone {
+    display: block;
+  }
+}
+
+
+@media (max-width: 621px) {
+  input {
+    display: none;
+  }
+}

@@ -35,7 +35,7 @@
         <div id="searchbox"></div>
 
         <div class="cntainer-for-cart-user">
-            <h5 class="username-settings" style="font-size: 20px;"> {{user.username}}</h5>
+            <h5 class="username-settings" style="font-size: 20px;"> {{user.username|truncatechars:"10"}}</h5>
             <div class="img-user-cart max-h-10">
                 <div class="dropdown">
                     <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -53,6 +53,10 @@
             </div>           
         </div>
         {% include "includes/cart.html" %}
+
+        <button class="menu-for-phone">
+            <img src="{% static 'img/menu.svg' %}" alt="">
+        </button>
     </header>
 
     <main>
@@ -87,9 +91,9 @@
 
             <div class="container-for-links">
                 <div class="links">
-                    <a href="#">Про нас</a>
-                    <a href="{% url 'your_design:design' %}">Контактна інформація</a>
-                    <a href="#">Питання та відповіді</a>
+                    <a href="{% url 'aboutus_contacts:about' %}">Про нас</a>
+                    <a href="{% url 'aboutus_contacts:contact' %}">Контактна інформація</a>
+                    
                 </div>
                 <div class="links">
                     <a href="{% url "users:signup" %}">Зареєструватися</a>

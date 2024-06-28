@@ -1,24 +1,24 @@
 from typing import Any
+from django.shortcuts import render
 from django.views import generic
-from .models import Product
+from . models import Product
 from django.db.models import QuerySet
 from .filters import ProductFilter
 
-
 # Create your views here.
 class ProductListView(generic.ListView):
-
-    """View для отображения списка продуктов.
-    При получении queryset он фильтруется на основе параметров переданных в get запросе.
-    В контекст добавляется форма сгенерированная фильтром.
-    """
-
-    template_name = "products/product_list.html"
-    # Подгружаем все продукты и вместе с ними делаем жадную подгрузку связанных коллекций
+    # Здесь мы указываем шаблон который будет использоваться для отображения списка продуктов
+    template_name = 'products/product_list.html'
+    # Задаем queryset, который извлекает все объекты Product и использует select_related для оптимизации запросов
     queryset = Product.objects.all().select_related("collection")
+    
+    def get_template_names(self) -> list[str]:
+        if self.request.headers.get("Hx-Request") == "true":  # если запрос Ajax
+            print('ajax')
+            return ["products/includes/product_list_p.html"]
+        return super().get_template_names()
 
-    # метод для получения queryset
-
+    # метод для получения queryset 
     def get_queryset(self) -> QuerySet[Product]:
         # вызываем get_queryset из родительского класса для получения базового queryset
         qs = super().get_queryset()
@@ -26,9 +26,7 @@ class ProductListView(generic.ListView):
         self.filterset = ProductFilter(self.request.GET, queryset=qs)
         # Возвращаем отфильтрованный queryset
         return self.filterset.qs
-
-
-
+    
     # Метод для получения контекста данных которые будут переданы в шаблон
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         # Получаем базовый контекст из родительского класса
@@ -40,9 +38,7 @@ class ProductListView(generic.ListView):
 
 
 class ProductDetailView(generic.DetailView):
-    """View для отображения детальной информации о продукте."""
-
+    # Задаем queryset, который извлекает все объекты Product и использует select_related для оптимизации запросов
     queryset = Product.objects.all().select_related("collection")
     # Указываем шаблон, который будет использоваться для отображения деталей продукта
     template_name = "products/product_detail.html"
-

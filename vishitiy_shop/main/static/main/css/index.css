@@ -8,7 +8,7 @@ body {
 
 .background-for-main {
     position: absolute;
-    height: 240vh;
+    height: 220vh;
     width: 100%; 
     z-index: -1;
 }
@@ -16,7 +16,7 @@ body {
 .container-with-img {
     position: relative;
     text-align: center;
-    padding-top: 50px;
+    
 }
 
 .text-on-top {
