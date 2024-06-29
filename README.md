@@ -911,12 +911,39 @@ class SaveSlugMixin:
 
 ```PYTHON
 
-def design_page(request):
-    return render(request, 'your_design/design.html')
+def design_page(request):  # Оголошення функції, яка обробляє запити до сторінки дизайну.
+    if request.method == 'POST':  # Перевірка, чи метод запиту є POST.
+        base_structure = request.POST.get('base_structure')  # Отримання значення поля "base_structure" з форми.
+        color = request.POST.get('color')  # Отримання значення поля "color" з форми.
+        print_or_embroidery = request.POST.get('print_or_embroidery')  # Отримання значення поля "print_or_embroidery" з форми.
+        comment = request.POST.get('comment')  # Отримання значення поля "comment" з форми.
+        design_image = request.FILES.get('design_image')  # Отримання файлу зображення з форми.
+
+        # Формування повідомлення
+        message = f"""
+        Базова структура: {base_structure}
+        Колір: {color}
+        Прінт або вишивка: {print_or_embroidery}
+        Коментар: {comment}
+        """
+
+        email = EmailMessage(  # Створення екземпляра EmailMessage з деталями електронного листа.
+            'Дизайн від користувача',  # Тема електронного листа.
+            message,  # Тіло електронного листа.
+            settings.EMAIL_HOST_USER,  # Відправник електронного листа.
+            ['email']  # Одержувач електронного листа.
+        )
+
+        if design_image:  # Перевірка наявності файлу зображення.
+            email.attach(design_image.name, design_image.read(), design_image.content_type)  # Додавання зображення до електронного листа.
+        
+        email.send()  # Надсилання електронного листа.
+
+    return render(request, 'your_design/design.html')  # Відображення HTML-шаблону 'design.html'.
 
 ```
 
-* >Це функція відображення сторінки your_design
+* >Цей код виконує функцію збору даних з форми, яку заповнює користувач для дизайну, та надсилання цієї інформації, включаючи зображення, на електронну пошту адміністратора.
 
 
 ---
@@ -1038,8 +1065,45 @@ class PaymentForm(forms.Form):
 * > Ця форма включає поля для введення номера телефону, email, імені, вибору країни та введення поштового індексу. Конструктор форми оновлює атрибути віджету кожного поля, додаючи класи CSS для стилізації.
 
 
+---
+
+# APP ABOUTUS_CONTAC TS
+
+### VIEWS.PY 
+
+
+```PYTHON
+
+def contacts(request):  # Оголошення функції, яка обробляє запити до сторінки контактів.
+    if request.method == 'POST':  # Перевірка, чи метод запиту є POST.
+        name = request.POST['name']  # Отримання значення поля "name" з форми.
+        phone_number = request.POST['phone_number']  # Отримання значення поля "phone_number" з форми.
+        email = request.POST['email']  # Отримання значення поля "email" з форми.
+        comment = request.POST['comment']  # Отримання значення поля "comment" з форми.
+        
+        message_body = f"""  # Формування тіла повідомлення з отриманих даних.
+        Ім'я: {name}
+        Номер телефону: {phone_number}
+        Email: {email}
+        Коментар: {comment}
+        """
+
+        # Відправка листа
+        send_mail(
+            'Контакт користувача',  # Тема листа
+            message_body,  # Тіло листа
+            settings.EMAIL_HOST_USER,  # Відправник
+            ['danilgubarev9804@gmail.com'],  # Одержувач
+            fail_silently=False,  # Параметр для виведення помилок у разі невдачі
+        )
+    return render(request, 'aboutus_contacts/contact.html')  # Відображення HTML-шаблону 'contact.html'.
+
+```
+
+* >Основна функція файлу полягає у зборі контактних даних користувачів та відправленні їх адміністратору для подальшого зв'язку
 
 ---
+
 
 
 # JS
