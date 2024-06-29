@@ -1264,6 +1264,151 @@ export class CartClient {  // Оголошення класу CartClient
 
 * >Отже, цей файл забезпечує необхідну логіку для динамічного управління кошиком покупок на сторінці, здійснюючи взаємодію з сервером для зміни стану кошика без перезавантаження сторінки.
 
+
+### CLIENT.JS
+
+```JS
+
+
+import { showToast } from "/static/js/notifications.js"; // Імпортуємо функцію showToast з файлу notifications.js
+
+export class Client { // Експортуємо клас Client
+    async sendReq(url, method, body, callBack = null, errorMsg = null) { // Асинхронний метод sendReq для відправки HTTP-запиту
+      try {
+        const response = await fetch(url, { // Виконуємо HTTP-запит за допомогою fetch
+          method: method, // Метод запиту (GET, POST, PUT, DELETE тощо)
+          body: body, // Тіло запиту
+        });
+  
+        const text = await response.text(); // Отримуємо текстову відповідь
+        let data = text ? JSON.parse(text) : {}; // Парсимо текст у JSON, якщо текст не порожній
+        console.log("DATA ZAPROSa", data); // Логуємо дані відповіді
+        if (response.ok) { // Якщо відповідь успішна (статус код 200-299)
+            console.log("HTTP OK:", response.status, response.statusText); // Логуємо статус та статусний текст відповіді
+            console.log(data.msg); // Логуємо повідомлення з відповіді, якщо є
+            if (data.msg) showToast(data.msg) // Якщо є повідомлення, показуємо сповіщення
+            console.log('toast added'); // Логуємо, що сповіщення додано
+            if (callBack) callBack(data); // Виконуємо зворотній виклик, якщо він заданий
+        } else { // Якщо відповідь неуспішна
+            console.error("HTTP Error:", response.status, response.statusText); // Логуємо помилку
+            if (data.errors) { // Якщо є помилки у відповіді
+                for (const [key, value] of Object.entries(data.errors)) { // Проходимося по кожній помилці
+                    showToast(value, "danger"); // Показуємо сповіщення про помилку
+                }
+                return;
+            }
+            if (data.msg) { // Якщо є повідомлення про помилку
+                showToast(data.msg, "danger"); // Показуємо сповіщення про помилку
+                return;
+            }
+        } 
+    } catch (error) { // Якщо сталася помилка під час виконання запиту
+        console.error("Error:", error); // Логуємо помилку
+        if (errorMsg) { // Якщо задано повідомлення про помилку
+          showToast(errorMsg, "danger"); // Показуємо сповіщення про помилку
+        } else { // Якщо повідомлення про помилку не задано
+          showToast("Unexpected error occurred", "danger"); // Показуємо сповіщення про несподівану помилку
+        }
+      }
+    }
+  } 
+
+```
+
+
+* > Цей файл містить клас Client, який використовується для відправки HTTP-запитів на сервер та обробки відповідей. Основна мета цього класу - спростити процес взаємодії з сервером та обробки відповідей, включаючи показ сповіщень користувачам у разі успіху або помилки. Метод sendReq дозволяє відправляти запити різних типів (GET, POST, PUT, DELETE тощо), обробляти JSON відповіді, логувати результати, та показувати сповіщення з використанням функції showToast.
+
+### SEARCH.JS
+
+```JS
+
+// Асинхронна функція для створення екземпляра Algolia
+async function createAlgoliaInstance() {
+  // Відправляємо запит на сервер для отримання облікових даних Algolia
+  return await fetch(`${window.location.origin}/get_algolia_credentials/`)
+    .then(async (response) => await response.json()) // Очікуємо відповідь у форматі JSON
+    .then((data) => algoliasearch(data.APP_ID, data.API_KEY)); // Ініціалізуємо клієнт Algolia з отриманими даними
+}
+
+// Викликаємо функцію для створення екземпляра Algolia та налаштовуємо пошуковий клієнт
+createAlgoliaInstance().then((algoliaClient) => {
+  // Створюємо об'єкт пошукового клієнта з користувацьким методом пошуку
+  const searchClient = {
+    search(requests) {
+      const hits = document.querySelector(".search-container"); // Знаходимо контейнер для результатів пошуку
+      if (requests.every(({ params }) => !params.query)) { // Перевіряємо, чи всі запити порожні
+        hits.style.display = "none"; // Ховаємо контейнер результатів
+        return Promise.resolve({
+          results: requests.map(() => ({ // Повертаємо порожні результати
+            hits: [],
+            nbHits: 0,
+            nbPages: 0,
+            page: 0,
+            processingTimeMS: 0,
+            hitsPerPage: 0,
+            exhaustiveNbHits: false,
+            query: "",
+            params: "",
+          })),
+        });
+      }
+      hits.style.display = "block"; // Показуємо контейнер результатів
+      return algoliaClient.search(requests); // Виконуємо пошук за допомогою клієнта Algolia
+    },
+  };
+
+  const productsIndex = "vishitiyshop_products"; // Ім'я індексу продуктів у Algolia
+
+  const search = instantsearch({
+    indexName: productsIndex, // Налаштовуємо індекс пошуку
+    searchClient, // Використовуємо налаштований пошуковий клієнт
+  });
+
+  // Додаємо віджети для пошуку
+  search.addWidgets([
+    instantsearch.widgets.searchBox({
+      container: "#searchbox", // Контейнер для віджету пошукового рядка
+      placeholder: "Введiть запит...", // Текст підказки
+    }),
+    instantsearch.widgets.configure({
+      hitsPerPage: 10, // Налаштовуємо кількість результатів на сторінку
+    }),
+    instantsearch.widgets.hits({
+      container: ".search-results", // Контейнер для результатів пошуку
+      templates: {
+        item: (hit, { html, components }) => html // Шаблон для відображення кожного результату
+        `
+        <div class="card">
+          <img src="${hit.image_url}" class="card-img-top" alt="${hit.title}" />
+          <div class="card-body">
+              <h5 class="card-title text-white">
+                <a href="${hit.url}">${components.Highlight({ hit, attribute: 'title' })}</a>
+              </h5>
+              <h5 class="card-title" id="vis">vishitiy.ua</h5>
+              <div class="card-footer text-white text-lg">
+               Цiна: ${hit.price} UAH
+              </div>
+          </div>
+        </div>
+        `,
+      },
+    }),
+    instantsearch.widgets.refinementList({
+      container: `#type-refinement`, // Контейнер для фільтрування за типом
+      attribute: "type", // Атрибут для фільтрування
+    }),
+    instantsearch.widgets.refinementList({
+      container: `#color-refinement`, // Контейнер для фільтрування за статусом
+      attribute: "status", // Атрибут для фільтрування
+    }),
+  ]);
+  search.start(); // Запускаємо пошук
+});
+
+```
+
+
+* >Цей файл налаштовує інтеграцію з Algolia для реалізації пошукової функціональності на веб-сайті. Використовуючи облікові дані, отримані від сервера, він створює клієнт Algolia і налаштовує пошук, включаючи пошуковий рядок та результати пошуку
 ---
 
 

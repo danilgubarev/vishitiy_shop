@@ -86,8 +86,8 @@ footer img {
 }
 
 @media (max-width: 1316px) {
-    footer .links {
-      display: none;
+    footer #not-in-phone-version {
+        display: none;
     }
   
 }

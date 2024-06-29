@@ -82,12 +82,6 @@ class CartRemoveForm(CartBaseForm):
 
     product_id = forms.CharField(widget=forms.HiddenInput)
 
-    # def clean(self):
-    #     if getattr(self, 'request', None):
-    #         cart = Cart(self.request)
-    #         if self.cleaned_data['product_id'] not in cart:
-    #             raise forms.ValidationError('Цього продукту немає в вашiй корзині')
-    #     return self.cleaned_data
 
 
     def save(self):
