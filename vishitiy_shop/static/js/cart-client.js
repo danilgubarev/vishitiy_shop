@@ -26,6 +26,8 @@ export class CartClient {
         console.log("CartClient.add()", e);
         e.preventDefault();
         const data = new FormData(e.target);
+        data.set('price', data.get('price').replace(',', '.'));
+        console.log(data);
         this.client.sendReq(this.url + 'add/', 'POST', data, (data) => this._add(e, data), 'При додаванні товару сталася помилка. Спробуйте пізніше');
     }
 

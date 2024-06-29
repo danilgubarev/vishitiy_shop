@@ -1,5 +1,4 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
-
 # Импортируем валидаторы для минимального и максимального значений
 from django.db import models
 
@@ -87,7 +86,7 @@ class Product(SaveSlugMixin, models.Model):
 
     @property
     def final_price(self):
-        return self.price - (self.price * self.discount / 100)  
+        return self.price - (self.price * self.discount / 100)
     # Свойство для вычисления окончательной цены с учётом скидки
 
     # Свойство для вычисления окончательной цены с учётом скидки

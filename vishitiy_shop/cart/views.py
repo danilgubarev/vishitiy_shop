@@ -28,19 +28,15 @@ class CartMixin(FormMixin, generic.View):
     msg = None
 
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
-
+        print(request.POST)
         # Обработчик POST запроса для добавления, обновления или удаления товара из корзины.
 
         form = self.get_form()  # Получаем экземпляр формы
         form.process_request(request)  # Обрабатываем запрос формой
         if form.is_valid():  # Проверяем валидность данных формы
-            return self.form_valid(
-                form
-            )  # Если данные формы валидны, вызываем метод form_valid
+            return self.form_valid(form)  # Если данные формы валидны, вызываем метод form_valid
         else:
-            return self.form_invalid(
-                form
-            )  # Если данные формы невалидны, вызываем метод form_invalid
+            return self.form_invalid(form)  # Если данные формы невалидны, вызываем метод form_invalid
 
     def form_valid(self, form: Any) -> HttpResponse:
         saved_data = form.save() or {}

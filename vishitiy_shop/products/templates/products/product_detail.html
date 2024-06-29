@@ -38,7 +38,7 @@
                     <div class="text-3xl price-on-product">{% include "products/includes/price.html" %} <h4> UAH</h4></div>
                     <input type="hidden" name="price" value="{{product.final_price}}">
                     <div>
-                        <p class="text-lg">SIZE</p>
+                        <p class="text-lg">РОЗМІР</p>
                         <div>
                           {% for size in product.available_sizes %}
                           <input type="radio" class="btn-check" name="size" id="{{size}}-{{forloop.counter}}" autocomplete="off" value="{{size}}">
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div>
-                        <p class="text-lg">COLOR</p>
+                        <p class="text-lg">КОЛІР</p>
                         <div>
                           {% for color in product.available_colors %}
                             <input type="radio" class="btn-check" name="color" id="{{color}}-{{forloop.counter}}" autocomplete="off" value="{{color}}">
@@ -57,20 +57,22 @@
                         </div>
                     </div>
                     <div>
-                        <p class="text-lg">COUNT</p>
+                        <p class="text-lg">КІЛЬКІСТЬ</p>
                         {% include "products/includes/quantity.html" with incr_btn_class="product-increment-btn" decr_btn_class="product-decrement-btn" %}
                     </div>
                     <div class=" my-btns">
                       {% if product.id in cart %}
-                      <div><h2>Продукт вже в кошику</h2></div>
+                      <div class="btns-cont">
+                        <button class="btn btn-outline-light text-3xl  btns" >Продукт вже в кошику</button>
+                      </div>
                       {% else %}
                       <div class="btns-cont">
-                        <button class="btn btn-outline-light text-3xl  btns" id="add-to-cart-btn">ADD TO CART</button>
+                        <button class="btn btn-outline-light text-3xl  btns" id="add-to-cart-btn">Додати до кошика</button>
                       </div>
                       {% endif %}
 
                       <div class="btns-cont">
-                        <a href="{% url "payments:email" %}" class="btn btn-outline-light text-3xl  btns">BUY NOW</a>
+                        <a href="{% url "payments:email" %}" class="btn btn-outline-light text-3xl  btns">Купити зараз</a>
                       </div>
                     </div>
                   </div>

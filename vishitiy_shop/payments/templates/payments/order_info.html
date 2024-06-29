@@ -5,11 +5,11 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Приветствуем дорогой {{user.username}}. Спасибо что выбрали наш магазин. </h1>
-    <h3>Информация о вашем заказе:</h3>
+    <h1>Ласкаво просимо шановні {{user.username}}. Дякую, що вибрали наш магазин. </h1>
+    <h3>Інформація про ваше замовлення:</h3>
     <div class="">
         <div>
-            <h4>Данные о заказе</h4>
+            <h4>Данi про замовлення</h4>
             {% for k, v in data.items %}
             <li>
                 {{k}}: {{v}}
@@ -17,15 +17,15 @@
             {% endfor %}
         </div>
         <div>
-            <h4>Заказанные товары</h4>
+            <h4>Упорядковані товари</h4>
             <ul>
                 {% for item in cart %}
                 </li>
-                    <p>Продукт: {{item.product.title}}</p>
-                    <p>Количевство: {{item.quantity}}</p>
-                    <p>Размер: {{item.size}}</p>
-                    <p>Цвет: {{item.color}}</p>
-                    <p>Итоговая цена ({{item.price}} * {{item.quantity}}): {{item.total_price}}</p>
+                    <p>продукт: {{item.product.title}}</p>
+                    <p>Кількість: {{item.quantity}}</p>
+                    <p>Розмір: {{item.size}}</p>
+                    <p>Забарвлення: {{item.color}}</p>
+                    <p>Кінцева ціна ({{item.price}} * {{item.quantity}}): {{item.total_price}}</p>
                     <img src="{{item.product.image.url}}" alt="">
                 </li>
                 {% endfor %}

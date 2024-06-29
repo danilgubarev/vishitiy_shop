@@ -52,6 +52,7 @@ def email_form(request):
                 fail_silently=False,
                 html_message=html_content,  # ХТМЛ содержимое письма
             )
+            return redirect("payments:monobank-payment")
         else:
             return render(request, "payments/email_form.html", {"form": form})
 

@@ -7,6 +7,7 @@ def design_page(request):
         base_structure = request.POST.get('base_structure')
         color = request.POST.get('color')
         print_or_embroidery = request.POST.get('print_or_embroidery')
+        phone_number = request.POST.get('number_phone')
         comment = request.POST.get('comment')
         design_image = request.FILES.get('design_image')
 
@@ -15,6 +16,7 @@ def design_page(request):
         Базова структура: {base_structure}
         Колір: {color}
         Прінт або вишивка: {print_or_embroidery}
+        Номер телефону: {phone_number}
         Коментар: {comment}
         """
 
