@@ -24,7 +24,7 @@
                         <div class="card-body">
                         <h5 class="card-title">{{product.type|capfirst}} {{product.title}}</h5>
                         <p class="card-text">Розмiр: {{item.size}}, Колiр: {{item.color}}</p>
-                        <p class="card-text text-lg">Цiна за 1: {{item.price}} ГРН</p>
+                        <p class="card-text w-fit">Цiна за 1: {{item.price}} ГРН</p>
                         </div>
                         <div class="card-footer flex items-center flex-col gap-2">
                             <div>
@@ -61,7 +61,10 @@
             </div>
             <hr>
             <div>
-                <a href="{% url "payments:email" %}" class="btn btn-light">Оформити замовлення</a>
+                <form action="{% url "payments:pay-with-card" %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-light">Оформити замовлення</button>
+                </form>
             </div>
         </div>
         {% endif %}

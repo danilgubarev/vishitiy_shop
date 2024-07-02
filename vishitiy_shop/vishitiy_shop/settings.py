@@ -103,13 +103,13 @@ WSGI_APPLICATION = "vishitiy_shop.wsgi.application"
 #     }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db',
-        'USER': 'root',
-        'PASSWORD': 'mysql12345678rR',
-        'HOST':'localhost',
-        'PORT':'3306',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
+        "HOST": os.getenv("DB_HOST"),
+        "PORT": os.getenv("DB_PORT"),
     }
 }
 
@@ -196,3 +196,4 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 NOVAPOSHTA_KEY = 'd163f31ac2f2738242a3c3d2875c8020'
 
+MONOBANK_API_TOKEN = os.getenv("MONOBANK_API_TOKEN")
