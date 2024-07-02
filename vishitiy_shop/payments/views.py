@@ -119,5 +119,7 @@ def monobank_webhook(request):
 
 
 def payment_status_view(request):
-    print("paymetns status")
-    return HttpResponse("OK")
+    cart = Cart(request)
+    if cart:
+        cart.clear()
+    return render(request, "payments/payment_status.html")
