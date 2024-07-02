@@ -48,10 +48,10 @@ class ProductFilter(django_filters.FilterSet):
         method='filter_discounted_only'  # Метод фильтрации
     )
     
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for _, field in self.filters.items():
-            field.field.widget.attrs.update({'hx-get': reverse('products:list'), 'hx-target': '.cards', 'hx-trigger': 'click'})
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     for _, field in self.filters.items():
+    #         field.field.widget.attrs.update({'hx-get': reverse('products:list'), 'hx-target': '.cards'})
     
     # Метод фильтрации, который возвращает только товары со скидкой, если чекбокс выбран
     def filter_discounted_only(self, queryset, name, value):

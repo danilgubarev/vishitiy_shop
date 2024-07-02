@@ -31,7 +31,7 @@ STATICFILES_DIRS = [
 SECRET_KEY = str(os.getenv("DJANGO_SECRET_KEY"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -56,7 +56,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-LOCAL_APPS = ["main", "users", "products", "your_design", "cart", "payments", "novaposhta_api", "aboutus_contacts"]
+LOCAL_APPS = ["main", "users", "products", "your_design", "cart", "payments", "aboutus_contacts"]
 
 INSTALLED_APPS = DJANGO_APPS + THRIRD_PATRY_APPS + LOCAL_APPS
 

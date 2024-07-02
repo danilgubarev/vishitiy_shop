@@ -14,7 +14,7 @@
                 <div class="col-lg-3 col-md-4 col-sm-12">
                     <div class="menu">
                         <div class="div">
-                            <form method="get">
+                            <form method="get" hx-get="{% url "products:list" %}" hx-target=".cards" hx-trigger="change">
                                 {{form|crispy}}
                                 <div class="d-flex gap-3">
                                     <button class="btn btn-outline-light btns">Застосовувати</button>
