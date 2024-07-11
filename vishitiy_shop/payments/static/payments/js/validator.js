@@ -318,10 +318,10 @@ const countries = [
     { name: "Zimbabwe", code: "ZW", phone: 263 }
 ],
 
-    select_box = document.querySelector('.options'),
-    search_box = document.querySelector('.search-box'),
-    input_box = document.querySelector('input[type="tel"]'),
-    selected_option = document.querySelector('.selected-option div');
+select_box = document.querySelector('.options');
+search_box = document.querySelector('.search-box');
+input_box = document.querySelector('input[type="tel"]');
+selected_option = document.querySelector('.selected-option div');
 
 let options = null;
 
@@ -340,14 +340,15 @@ for (country of countries) {
 }
 
 function selectOption() {
-    console.log(this);
     const icon = this.querySelector('.iconify').cloneNode(true),
         phone_code = this.querySelector('strong').cloneNode(true);
 
     selected_option.innerHTML = '';
     selected_option.append(icon, phone_code);
 
-    input_box.value = phone_code.innerText;
+    // Устанавливаем значение кода страны в скрытое поле и вставляем его в input_box
+    input_box.dataset.countryCode = phone_code.innerText;
+    input_box.value = `${phone_code.innerText} `; // Сохраняем код страны в поле ввода
 
     select_box.classList.remove('active');
     selected_option.classList.remove('active');
@@ -360,10 +361,9 @@ function searchCountry() {
     let search_query = search_box.value.toLowerCase();
     for (option of options) {
         let is_matched = option.querySelector('.country-name').innerText.toLowerCase().includes(search_query);
-        option.classList.toggle('hide', !is_matched)
+        option.classList.toggle('hide', !is_matched);
     }
 }
-
 
 selected_option.addEventListener('click', () => {
     select_box.classList.toggle('active');
@@ -372,3 +372,23 @@ selected_option.addEventListener('click', () => {
 
 options.forEach(option => option.addEventListener('click', selectOption));
 search_box.addEventListener('input', searchCountry);
+
+// Добавляем стили, чтобы скрыть код страны в input_box
+input_box.addEventListener('input', () => {
+    // Восстанавливаем текст в поле ввода с кодом страны и введённым номером
+    if (input_box.dataset.countryCode) {
+        input_box.value = `${input_box.dataset.countryCode} ${input_box.value.replace(input_box.dataset.countryCode, '').trim()}`;
+    }
+});
+
+// Пример CSS, который можно добавить в стили для скрытия кода страны
+const style = document.createElement('style');
+style.innerHTML = `
+input[type="tel"] {
+    padding-left: 0;
+}
+input[type="tel"]::placeholder {
+    color: transparent;
+}
+`;
+document.head.appendChild(style);

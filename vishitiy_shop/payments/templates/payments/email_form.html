@@ -51,7 +51,26 @@
         <div class="flex items-center justify-content-center text-white flex-column" style="height: 100vh">
             <div>
                 <h1 class="text-center">Заповни данні</h1>
+
+                <div class="select-box">
+                    <div class="selected-option">
+                        <div>
+                            <span class="iconify" data-icon="flag:gb-4x3"></span>
+                            <strong>+380</strong>
+                        </div>
+                        <input type="tel" name="tel" placeholder="Phone Number" id="phone_number">
+                    </div>
+                    <div class="options">
+                        <input type="text" class="search-box" placeholder="Search Country Name">
+                        <ol>
+                        </ol>
+                    </div>
+                </div>
+
+
                 {{form|crispy}}
+
+
 
                 <button type="submit" class="btn btn-light col-sm-12" style="width: 200px;">Оформити</button>
             </div>
@@ -65,5 +84,7 @@
 
 
 {% block js %}
+<script src="{% static 'payments/js/validator.js' %}"></script>
+
 <script src="https://unpkg.com/htmx.org@2.0.0"></script>
 {% endblock js %}

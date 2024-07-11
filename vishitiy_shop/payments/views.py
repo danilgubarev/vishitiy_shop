@@ -35,7 +35,7 @@ def get_cities_view(request):
     cities = []
     if city:
         cities = np.search_cities(CityName=city)["data"][0]["Addresses"]
-    print(cities)
+    
     return render(request, "payments/partials/cities.html", {"cities": cities})
 
 
@@ -43,20 +43,20 @@ def payment_view(request):
     if request.method == "POST":
         form = forms.PaymentForm(request.POST)  # Создаем форму PaymentForm из POST-запроса
         if form.is_valid():  # Проверяем валидность формы
-            cd = form.cleaned_data  # Пол учаем очищенные данные из формы
-            cd["post_office"] = NovaPoshta().get_post_offices(Ref=cd["post_office"])["data"][0][
-                "Description"
-            ]
-            cd["city"] = NovaPoshta().get_cities(Ref=cd["city"])["data"][0]["Description"]
-            cart = Cart(request)  # Создаем объект корзины
-            context = {
-                "data": cd,
-                "cart": cart,
-                "user": request.user,
-            }  # Формируем контекст для шаблона
+            cd = form.cleaned_data  
+            # cd["post_office"] = NovaPoshta().get_post_offices(Ref=cd["post_office"])["data"][0][
+            #     "Description"
+            # ]
+            # cd["city"] = NovaPoshta().get_cities(Ref=cd["city"])["data"][0]["Description"]
+            # cart = Cart(request) 
+            # context = {
+            #     "data": cd,
+            #     "cart": cart,
+            #     "user": request.user,
+            # }  
 
             # Генерируем HTML-контент на основе шаблона 'payments/order_info.html' и контекста
-            html_content = render_to_string("payments/order_info.html", context)
+            html_content = render_to_string("payments/order_info.html")
             plain_message = strip_tags(
                 html_content
             )  # Создаем обычное текстовое сообщение без HTML-тегов
@@ -69,7 +69,7 @@ def payment_view(request):
                 "YOUR ORDER",  # Название сообщения
                 plain_message,  # Текст сообщения без HTML
                 settings.EMAIL_HOST_USER,  # кто будет отправлять
-                [cd["email"]],  # получатель сообщения
+                [cd["email"]],  
                 fail_silently=False,
                 html_message=html_content,  # ХТМЛ содержимое письма
             )

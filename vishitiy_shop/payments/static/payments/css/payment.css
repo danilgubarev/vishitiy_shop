@@ -249,7 +249,14 @@ input.search-box {
 @media (max-width: 621px) { 
 
     input {
-        width: 80%;
+        width: 300px !important;
+    }
+
+    select {
+        width: 300px !important;
+    }
+    .select-box {
+        width: 300px !important;
     }
 
 
