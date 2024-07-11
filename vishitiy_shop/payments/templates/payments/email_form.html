@@ -6,51 +6,103 @@
     <link rel="stylesheet" href="{% static 'payments/css/payment.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* Стили для выпадающего меню автозаполнения */
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-radius: 4px;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            max-height: 300px; /* Увеличиваем высоту, если нужно больше видимости */
+            overflow-y: auto;
+            width: 100%;
+        }
+    
+        .autocomplete-items div {
+            padding: 12px 15px;
+            cursor: pointer;
+            background-color: #ffffff;
+            color: #333;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.2s, color 0.2s;
+        }
+    
+        .autocomplete-items div:hover {
+            background-color: #f4f4f4;
+            color: #000;
+        }
+    
+        .autocomplete-active {
+            background-color: #007bff !important;
+            color: #ffffff;
+        }
+    
+        .search-box {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px 4px 0 0;
+            box-sizing: border-box;
+            background: #f9f9f9;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            color: #333;
+        }
+    
+        .search-box:focus {
+            outline: none;
+            border-color: #007bff;
+            background: #ffffff;
+            box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+        }
+    
+    
+        .ui-autocomplete-input {
+            background-color: #d4d4d4;
+        }
+
+        ul {
+            background-color: #d4d4d4;
+            width: 200px;
+        }
+    </style>
 {% endblock links %}
 
 
 
 {% block content %}
-<style>
-    #div_id_city, #div_id_post_office {
-        /*the container must be positioned relative:*/
-        position: relative;
-      }
-      .autocomplete-items {
-        position: absolute;
-        border: 1px solid #d4d4d4;
-        border-bottom: none;
-        border-top: none;
-        z-index: 99;
-        /*position the autocomplete items to be the same width as the container:*/
-        top: 100%;
-        left: 0;
-        right: 0;
-      }
-      .autocomplete-items div {
-        padding: 10px;
-        cursor: pointer;
-        background-color: #fff;
-        color: #000;
-        border-bottom: 1px solid #d4d4d4;
-      }
-      .autocomplete-items div:hover {
-        /*when hovering an item:*/
-        background-color: #e9e9e9;
-      }
-      .autocomplete-active {
-        /*when navigating through the items using the arrow keys:*/
-        background-color: DodgerBlue !important;
-        color: #ffffff;
-      }
-</style>
 
 <div class="wrapper">
+    <div class="fixed w-full h-full top-0 left-0 flex items-center content-center justify-center overflow-auto">
+        <div class="spinner-border text-danger htmx-indicator" role="status" id="indicator">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
     <form method="POST">
         {% csrf_token %}
         <div class="flex items-center justify-content-center text-white flex-column" style="height: 100vh">
-            <div>
+            <div class="form-container">
                 <h1 class="text-center">Заповни данні</h1>
+
+
+                {% for f in form %}
+                <div class="mb-3 autocomplete" id="div_id_{{f.name}}">
+                    {% if f.field.required %}
+                    <label for="{{f.id_for_label}}" class="form-label requiredField">
+                        {{f.label}}
+                        <span class="asteriskField">*</span>
+                    </label>
+                    {% else %}
+                    <label for="{{f.id_for_label}}" class="form-label">
+                        {{f.label}}
+                    </label>
+                    {% endif %}
+                    {{f}}
+                </div>
+                {% endfor %}
+
 
                 <div class="select-box">
                     <div class="selected-option">
@@ -58,23 +110,21 @@
                             <span class="iconify" data-icon="flag:gb-4x3"></span>
                             <strong>+380</strong>
                         </div>
-                        <input type="tel" name="tel" placeholder="Phone Number" id="phone_number">
+                        <input type="tel" name="tel" placeholder="Phone Number" id="phone_number" class="form-control">
                     </div>
                     <div class="options">
                         <input type="text" class="search-box" placeholder="Search Country Name">
-                        <ol>
+                        <ol id="country-list">
+                            <!-- Список стран будет добавлен здесь через JavaScript -->
                         </ol>
                     </div>
                 </div>
 
-
-                {{form|crispy}}
-
-
+                
 
                 <button type="submit" class="btn btn-light col-sm-12" style="width: 200px;">Оформити</button>
             </div>
-        </div>    
+        </div>
     </form>
     <div class="cities-res"></div>
     <div class="post-offices-res"></div>
@@ -87,4 +137,230 @@
 <script src="{% static 'payments/js/validator.js' %}"></script>
 
 <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        const countries = [
+            { en: "Afghanistan", uk: "Афганістан" },
+            { en: "Albania", uk: "Албанія" },
+            { en: "Algeria", uk: "Алжир" },
+            { en: "Andorra", uk: "Андорра" },
+            { en: "Angola", uk: "Ангола" },
+            { en: "Antigua and Barbuda", uk: "Антигуа і Барбуда" },
+            { en: "Argentina", uk: "Аргентина" },
+            { en: "Armenia", uk: "Вірменія" },
+            { en: "Australia", uk: "Австралія" },
+            { en: "Austria", uk: "Австрія" },
+            { en: "Azerbaijan", uk: "Азербайджан" },
+            { en: "Bahamas", uk: "Багамські Острови" },
+            { en: "Bahrain", uk: "Бахрейн" },
+            { en: "Bangladesh", uk: "Бангладеш" },
+            { en: "Barbados", uk: "Барбадос" },
+            { en: "Belarus", uk: "Білорусь" },
+            { en: "Belgium", uk: "Бельгія" },
+            { en: "Belize", uk: "Беліз" },
+            { en: "Benin", uk: "Бенін" },
+            { en: "Bhutan", uk: "Бутан" },
+            { en: "Bolivia", uk: "Болівія" },
+            { en: "Bosnia and Herzegovina", uk: "Боснія і Герцеговина" },
+            { en: "Botswana", uk: "Ботсвана" },
+            { en: "Brazil", uk: "Бразилія" },
+            { en: "Brunei", uk: "Бруней" },
+            { en: "Bulgaria", uk: "Болгарія" },
+            { en: "Burkina Faso", uk: "Буркіна-Фасо" },
+            { en: "Burundi", uk: "Бурунді" },
+            { en: "Cabo Verde", uk: "Кабо-Верде" },
+            { en: "Cambodia", uk: "Камбоджа" },
+            { en: "Cameroon", uk: "Камерун" },
+            { en: "Canada", uk: "Канада" },
+            { en: "Central African Republic", uk: "Центральноафриканська Республіка" },
+            { en: "Chad", uk: "Чад" },
+            { en: "Chile", uk: "Чилі" },
+            { en: "China", uk: "Китай" },
+            { en: "Colombia", uk: "Колумбія" },
+            { en: "Comoros", uk: "Коморські Острови" },
+            { en: "Congo, Democratic Republic of the", uk: "Демократична Республіка Конго" },
+            { en: "Congo, Republic of the", uk: "Республіка Конго" },
+            { en: "Costa Rica", uk: "Коста-Рика" },
+            { en: "Cote d'Ivoire", uk: "Кот-д'Івуар" },
+            { en: "Croatia", uk: "Хорватія" },
+            { en: "Cuba", uk: "Куба" },
+            { en: "Cyprus", uk: "Кіпр" },
+            { en: "Czech Republic", uk: "Чехія" },
+            { en: "Denmark", uk: "Данія" },
+            { en: "Djibouti", uk: "Джибуті" },
+            { en: "Dominica", uk: "Домініка" },
+            { en: "Dominican Republic", uk: "Домініканська Республіка" },
+            { en: "Ecuador", uk: "Еквадор" },
+            { en: "Egypt", uk: "Єгипет" },
+            { en: "El Salvador", uk: "Сальвадор" },
+            { en: "Equatorial Guinea", uk: "Екваторіальна Гвінея" },
+            { en: "Eritrea", uk: "Еритрея" },
+            { en: "Estonia", uk: "Естонія" },
+            { en: "Eswatini", uk: "Есватіні" },
+            { en: "Ethiopia", uk: "Ефіопія" },
+            { en: "Fiji", uk: "Фіджі" },
+            { en: "Finland", uk: "Фінляндія" },
+            { en: "France", uk: "Франція" },
+            { en: "Gabon", uk: "Габон" },
+            { en: "Gambia", uk: "Гамбія" },
+            { en: "Georgia", uk: "Грузія" },
+            { en: "Germany", uk: "Німеччина" },
+            { en: "Ghana", uk: "Гана" },
+            { en: "Greece", uk: "Греція" },
+            { en: "Grenada", uk: "Гренада" },
+            { en: "Guatemala", uk: "Гватемала" },
+            { en: "Guinea", uk: "Гвінея" },
+            { en: "Guinea-Bissau", uk: "Гвінея-Бісау" },
+            { en: "Guyana", uk: "Гайана" },
+            { en: "Haiti", uk: "Гаїті" },
+            { en: "Honduras", uk: "Гондурас" },
+            { en: "Hungary", uk: "Угорщина" },
+            { en: "Iceland", uk: "Ісландія" },
+            { en: "India", uk: "Індія" },
+            { en: "Indonesia", uk: "Індонезія" },
+            { en: "Iran", uk: "Іран" },
+            { en: "Iraq", uk: "Ірак" },
+            { en: "Ireland", uk: "Ірландія" },
+            { en: "Israel", uk: "Ізраїль" },
+            { en: "Italy", uk: "Італія" },
+            { en: "Jamaica", uk: "Ямайка" },
+            { en: "Japan", uk: "Японія" },
+            { en: "Jordan", uk: "Йорданія" },
+            { en: "Kazakhstan", uk: "Казахстан" },
+            { en: "Kenya", uk: "Кенія" },
+            { en: "Kiribati", uk: "Кірібаті" },
+            { en: "Korea, North", uk: "Північна Корея" },
+            { en: "Korea, South", uk: "Південна Корея" },
+            { en: "Kosovo", uk: "Косово" },
+            { en: "Kuwait", uk: "Кувейт" },
+            { en: "Kyrgyzstan", uk: "Киргизстан" },
+            { en: "Laos", uk: "Лаос" },
+            { en: "Latvia", uk: "Латвія" },
+            { en: "Lebanon", uk: "Ліван" },
+            { en: "Lesotho", uk: "Лесото" },
+            { en: "Liberia", uk: "Ліберія" },
+            { en: "Libya", uk: "Лівія" },
+            { en: "Liechtenstein", uk: "Ліхтенштейн" },
+            { en: "Lithuania", uk: "Литва" },
+            { en: "Luxembourg", uk: "Люксембург" },
+            { en: "Madagascar", uk: "Мадагаскар" },
+            { en: "Malawi", uk: "Малаві" },
+            { en: "Malaysia", uk: "Малайзія" },
+            { en: "Maldives", uk: "Мальдіви" },
+            { en: "Mali", uk: "Малі" },
+            { en: "Malta", uk: "Мальта" },
+            { en: "Marshall Islands", uk: "Маршаллові Острови" },
+            { en: "Mauritania", uk: "Мавританія" },
+            { en: "Mauritius", uk: "Маврикій" },
+            { en: "Mexico", uk: "Мексика" },
+            { en: "Micronesia", uk: "Мікронезія" },
+            { en: "Moldova", uk: "Молдова" },
+            { en: "Monaco", uk: "Монако" },
+            { en: "Mongolia", uk: "Монголія" },
+            { en: "Montenegro", uk: "Чорногорія" },
+            { en: "Morocco", uk: "Марокко" },
+            { en: "Mozambique", uk: "Мозамбік" },
+            { en: "Myanmar", uk: "М'янма" },
+            { en: "Namibia", uk: "Намібія" },
+            { en: "Nauru", uk: "Науру" },
+            { en: "Nepal", uk: "Непал" },
+            { en: "Netherlands", uk: "Нідерланди" },
+            { en: "New Zealand", uk: "Нова Зеландія" },
+            { en: "Nicaragua", uk: "Нікарагуа" },
+            { en: "Niger", uk: "Нігер" },
+            { en: "Nigeria", uk: "Нігерія" },
+            { en: "North Macedonia", uk: "Північна Македонія" },
+            { en: "Norway", uk: "Норвегія" },
+            { en: "Oman", uk: "Оман" },
+            { en: "Pakistan", uk: "Пакистан" },
+            { en: "Palau", uk: "Палау" },
+            { en: "Palestine", uk: "Палестина" },
+            { en: "Panama", uk: "Панама" },
+            { en: "Papua New Guinea", uk: "Папуа Нова Гвінея" },
+            { en: "Paraguay", uk: "Парагвай" },
+            { en: "Peru", uk: "Перу" },
+            { en: "Philippines", uk: "Філіппіни" },
+            { en: "Poland", uk: "Польща" },
+            { en: "Portugal", uk: "Португалія" },
+            { en: "Qatar", uk: "Катар" },
+            { en: "Romania", uk: "Румунія" },
+            { en: "Russia", uk: "Росія" },
+            { en: "Rwanda", uk: "Руанда" },
+            { en: "Saint Kitts and Nevis", uk: "Сент-Кіттс і Невіс" },
+            { en: "Saint Lucia", uk: "Сент-Люсія" },
+            { en: "Saint Vincent and the Grenadines", uk: "Сент-Вінсент і Гренадіни" },
+            { en: "Samoa", uk: "Самоа" },
+            { en: "San Marino", uk: "Сан-Маріно" },
+            { en: "Sao Tome and Principe", uk: "Сан-Томе і Принсіпі" },
+            { en: "Saudi Arabia", uk: "Саудівська Аравія" },
+            { en: "Senegal", uk: "Сенегал" },
+            { en: "Serbia", uk: "Сербія" },
+            { en: "Seychelles", uk: "Сейшели" },
+            { en: "Sierra Leone", uk: "Сьєрра-Леоне" },
+            { en: "Singapore", uk: "Сінгапур" },
+            { en: "Slovakia", uk: "Словаччина" },
+            { en: "Slovenia", uk: "Словенія" },
+            { en: "Solomon Islands", uk: "Соломонові Острови" },
+            { en: "Somalia", uk: "Сомалі" },
+            { en: "South Africa", uk: "Південна Африка" },
+            { en: "South Sudan", uk: "Південний Судан" },
+            { en: "Spain", uk: "Іспанія" },
+            { en: "Sri Lanka", uk: "Шрі-Ланка" },
+            { en: "Sudan", uk: "Судан" },
+            { en: "Suriname", uk: "Суринам" },
+            { en: "Sweden", uk: "Швеція" },
+            { en: "Switzerland", uk: "Швейцарія" },
+            { en: "Syria", uk: "Сирія" },
+            { en: "Taiwan", uk: "Тайвань" },
+            { en: "Tajikistan", uk: "Таджикистан" },
+            { en: "Tanzania", uk: "Танзанія" },
+            { en: "Thailand", uk: "Таїланд" },
+            { en: "Timor-Leste", uk: "Тимор-Лешті" },
+            { en: "Togo", uk: "Того" },
+            { en: "Tonga", uk: "Тонга" },
+            { en: "Trinidad and Tobago", uk: "Трінідад і Тобаго" },
+            { en: "Tunisia", uk: "Туніс" },
+            { en: "Turkey", uk: "Туреччина" },
+            { en: "Turkmenistan", uk: "Туркменістан" },
+            { en: "Tuvalu", uk: "Тувалу" },
+            { en: "Uganda", uk: "Уганда" },
+            { en: "Ukraine", uk: "Україна" },
+            { en: "United Arab Emirates", uk: "Об'єднані Арабські Емірати" },
+            { en: "United Kingdom", uk: "Велика Британія" },
+            { en: "United States", uk: "Сполучені Штати Америки" },
+            { en: "Uruguay", uk: "Уругвай" },
+            { en: "Uzbekistan", uk: "Узбекистан" },
+            { en: "Vanuatu", uk: "Вануату" },
+            { en: "Vatican City", uk: "Ватикан" },
+            { en: "Venezuela", uk: "Венесуела" },
+            { en: "Vietnam", uk: "В'єтнам" },
+            { en: "Yemen", uk: "Ємен" },
+            { en: "Zambia", uk: "Замбія" },
+            { en: "Zimbabwe", uk: "Зімбабве" }
+        ];
+
+        $("#id_country").autocomplete({
+            source: function(request, response) {
+                const term = request.term.toLowerCase();
+                const results = countries.filter(country => 
+                    country.en.toLowerCase().includes(term) || country.uk.toLowerCase().includes(term)
+                ).map(country => ({
+                    label: `${country.en} / ${country.uk}`,
+                    value: country.en
+                }));
+
+                response(results);
+            },
+            select: function(event, ui) {
+                $("#id_country").val(ui.item.value);
+                return false;
+            }
+        });
+    });
+</script>
+
+
 {% endblock js %}

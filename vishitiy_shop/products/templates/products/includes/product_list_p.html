@@ -2,7 +2,7 @@
 
 {% for product in object_list %}
 <a href="{{product.get_absolute_url}}" class="text-decoration-none text-white transition-colors hover:text-orange-600">
-    <div class="card m-2" style="width: 19rem;" id="card">
+    <div class="card m-2" style="width: 19rem; height: 500px;" id="card">
     <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap" style="height: 60%;">
     <div class="card-body">
         <h5 class="card-title" id="h">

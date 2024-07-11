@@ -1,8 +1,8 @@
 <div class="autocomplete-items">
     {% for post_office in post_offices %}
-    <div>
-        {{post_office.MainDescription}}
-        <input type="hidden" value="{{post_office.Ref}}">
+    <div class="item">
+        {{post_office.Description}}
+        <input type="hidden" value="{{post_office.Description}}">
     </div>
     {% endfor %}
 </div>
