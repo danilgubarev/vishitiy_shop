@@ -8,3 +8,18 @@
     color: white;
     padding: 30px;
 }
+
+footer {
+    display: none;
+}
+
+
+
+@media (max-width: 576px) {
+    .container-for-about {
+        margin-top: 50px;
+        width: 400px;
+    }
+
+
+}

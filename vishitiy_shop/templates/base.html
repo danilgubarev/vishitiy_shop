@@ -35,28 +35,47 @@
         <div id="searchbox"></div>
 
         <div class="cntainer-for-cart-user">
-            <h5 class="username-settings" style="font-size: 20px;"> {{user.username|truncatechars:"10"}}</h5>
-            <div class="img-user-cart max-h-10">
-                <div class="dropdown">
-                    <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{% static 'img/user.svg' %}" class="user-cart" height="35">
-                    </button>
-                    <ul class="dropdown-menu">
-                        {% if user.is_authenticated %}
-                            <li><a class="dropdown-item" href="{% url "users:logout" %}">Вийти</a></li>
-                        {% else %}
-                            <li><a class="dropdown-item" href="{% url "users:login" %}">Увійти</a></li>
-                            <li><a class="dropdown-item" href="{% url "users:signup" %}">Зареєструватися</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>           
+            <h5 class="username-settings" style="font-size: 20px;"> {{user.username|truncatechars:"10"}}</h5>         
         </div>
+
+
+        <div class="img-user-cart ">
+
+        <div class="dropdown">
+            <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 35px;">
+                <img src="{% static 'img/user.svg' %}" class="user-cart" style="width: 35px;">
+            </button>
+            <ul class="dropdown-menu">
+                {% if user.is_authenticated %}
+                    <li><a class="dropdown-item" href="{% url "users:logout" %}">Вийти</a></li>
+                {% else %}
+                    <li><a class="dropdown-item" href="{% url "users:login" %}">Увійти</a></li>
+                    <li><a class="dropdown-item" href="{% url "users:signup" %}">Зареєструватися</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
         {% include "includes/cart.html" %}
 
-        <button class="menu-for-phone">
-            <img src="{% static 'img/menu.svg' %}" alt="">
-        </button>
+
+        <div class="hamburger-menu">
+            <input id="menu__toggle" type="checkbox" />
+            <label class="menu__btn" for="menu__toggle">
+              <span></span>
+            </label>
+            <ul class="menu__box">
+              <li><a class="menu__item" href="{% url 'main:index' %}">Головна</a></li>
+              <li><a class="menu__item" href="{% url 'products:list' %}">Всі колекції</a></li>
+              <li><a class="menu__item" href="{% url 'your_design:design' %}">Твій дизайн</a></li>
+            </ul>
+          </div>
+
+        </div>  
+
+        
+
+
+        
     </header>
 
     <main>

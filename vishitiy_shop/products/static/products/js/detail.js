@@ -1,5 +1,5 @@
 // Імпорт класу HandleCounter з файлу counter.js для управління лічильником товарів
-import { HandleCounter } from "/static/js/counter.js";
+import { initCounter} from "/static/js/counter.js";
 
 // Імпорт функції showToast з файлу notifications.js для відображення спливаючих повідомлень
 import { showToast } from "/static/js/notifications.js";
@@ -9,16 +9,9 @@ import { CartClient } from "/static/js/cart-client.js";
 
 // Очікування завантаження документа перед ініціалізацією функцій
 document.addEventListener("DOMContentLoaded", () => {
-  initCounter(); // Виклик функції ініціалізації лічильника
+  initCounter('.product-decrement-btn', '.product-increment-btn'); // Виклик функції ініціалізації лічильника
   initAddToCart(); // Виклик функції ініціалізації додавання до кошика
 });
-
-// Функція ініціалізації лічильника товарів
-function initCounter() {
-  const decrementButton = document.querySelector('.product-decrement-btn'); 
-  const incrementButton = document.querySelector('.product-increment-btn'); 
-  new HandleCounter(decrementButton, incrementButton); // Створити екземпляр класу HandleCounter для управління лічильником
-}
 
 // Функція ініціалізації додавання товару до кошика
 function initAddToCart() {

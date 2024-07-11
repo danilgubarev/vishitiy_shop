@@ -9,15 +9,17 @@ main {
 footer {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: center;
     flex-wrap: wrap;
     background-color: #1A1A1A;
     padding: 20px 10px;
+    flex: 0 0 auto;
 }
 
 footer a {
     color: #f1f1f1;
     padding: 12px;
+    flex-wrap: wrap;
     text-decoration: none;
     font-size: 18px;
     border-radius: 4px;
@@ -25,10 +27,12 @@ footer a {
 
 .container {
     width: 100%;
+    
 }
 
 .name-of-company {
     color: #f1f1f1;
+    flex-wrap: wrap;
 }
 
 footer div {
@@ -39,6 +43,7 @@ footer div {
 
 .container-for-links {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     width: 900px;
 }
@@ -81,3 +86,33 @@ footer img {
     }
   
 }
+
+
+@media (max-width: 621px) {
+    #searchbox  {
+      display: none;
+  
+    }
+
+    .container {
+        width: 300px;
+        justify-content: center;
+        flex-wrap: wrap;   
+        
+    }
+    .authors-container {
+        display: flex;
+    }
+
+
+    .authors-container .authors {
+        padding-top: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+    footer {
+        width: 100%;
+    }
+  
+    
+  }

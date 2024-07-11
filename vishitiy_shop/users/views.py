@@ -100,7 +100,7 @@ class LoginView(DjangoLoginView):
     # Используем кастомную форму аутентификации CustomAuthenticationForm
     def form_valid(self, form):
         # Переопределяем метод для обработки валидной формы
-        messages.success(self.request, f"Вы вошли как {form.get_user().username}")
+        messages.success(self.request, f"Ви увійшли як {form.get_user().username}")
         # Отправляем сообщение о успешном входе пользователя
         return super().form_valid(form)
 

@@ -18,12 +18,16 @@ class NovaPoshta:
             },
             headers={"Content-Type": "application/json"},
         )
-        print('got response')
+        print('got response', resp.json())
         return resp.json()
 
     def get_cities(self, **params):
         print("Getting cities")
         return self.send("Address", "getCities", **params)
+    
+    def search_cities(self, **params):
+        print("searching cities with params", params)
+        return self.send("AddressGeneral", "searchSettlements", **params)
 
     def get_post_offices(self, **params):
         print("Getting post offices")

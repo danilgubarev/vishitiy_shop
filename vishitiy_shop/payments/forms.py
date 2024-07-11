@@ -18,11 +18,8 @@ class PaymentForm(forms.Form):
         label="Країна"
     )  # поле для выбора страны используя библиотеку django-countries )))
     post = forms.CharField(label="Поштовий індекс")  # Поле для ввода почтового индекса
-    city = forms.ChoiceField(
-        label="Місто",
-        choices=[
-            (city["Ref"], city["Description"]) for city in np.get_cities()["data"]
-        ],
+    city = forms.CharField(
+        label="Назва або Індекс населеного пункту"
     )
     post_office = forms.CharField(
         label="Відділення Нової пошти",
@@ -36,9 +33,18 @@ class PaymentForm(forms.Form):
         # проходится (переьирает) все поля формы
         self.fields["city"].widget.attrs.update(
             {
+                "hx-get": reverse("payments:get-cities"),
+                "hx-trigger": "input changed delay:500ms, search",
+                "hx-target": "#div_id_city",
+                "hx-swap": "beforeend"
+            }
+        )
+        self.fields["post_office"].widget.attrs.update(
+            {
                 "hx-get": reverse("payments:get-post-offices"),
-                "hx-trigger": "change",
-                "hx-target": "#div_id_post_office select",
+                "hx-trigger": "input changed delay:500ms, search",
+                "hx-target": "#div_id_post_office",
+                "hx-include": "#div_id_city input",
             }
         )
         for field in self.fields:

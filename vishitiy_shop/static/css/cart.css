@@ -97,3 +97,12 @@
 }
 
 
+.img-user-cart {
+  width: 120px;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  
+}

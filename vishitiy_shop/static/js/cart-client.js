@@ -1,5 +1,7 @@
 import { Client } from "/static/js/client.js";
 import { initUpdate, initRemove } from "./cart.js";
+import { initCounter } from "./cart.js";
+
 
 export class CartClient {
 
@@ -12,6 +14,10 @@ export class CartClient {
     _remove(e, data) {
         e.target.closest('.item').remove();
         const cart = data.data.cart
+        const itemBtn = document.querySelector("#add-to-cart-btn");
+        if (itemBtn) {
+            itemBtn.innerText = "Додати до кошика"
+        }
         this.updater.updateCart(cart.len, cart.total);
     }
 
@@ -33,10 +39,12 @@ export class CartClient {
 
     _add(e, data) {
         const cartProduct = JSON.parse(data.data.product)[0]
-        console.log(cartProduct)
         const cart = data.data.cart
-        console.log(cart);
         const itemImage = document.querySelector('.item-image').src
+        const itemBtn = document.querySelector("#add-to-cart-btn");
+        itemBtn.innerText = "Продукт вже в кошику"
+        const cartPayment = document.querySelector('#cart-payment');
+        cartPayment.classList.remove('none')
         this.updater.updateCart(cart.len, cart.total);
         let itemHtml = `
                     <div class="item ">
@@ -48,11 +56,18 @@ export class CartClient {
                         </div>
                         <div class="card-footer flex items-center flex-col gap-2">
                             <div>
-                                <div class="btn-group">
-                                <button class="btn btn-outline-light text-2xl" id="decrement-btn">-</button>
-                                <input type="text" id="counter" class="focus:outline-none text-center bg-transparent border text-white border-white font-semibold outline-none w-10" name="quantity" value="${cart.item.quantity}"></input>
-                                <button class="btn btn-outline-light text-2xl" id="increment-btn">+</button>
-                                </div>
+                                 <form action="/cart/update/" method="post" class="update-cart-form" id="update-${cartProduct.pk}">
+                                    <input type="hidden" name="csrfmiddlewaretoken" value="${document.querySelector('input[name="csrfmiddlewaretoken"]').value}">
+                                    <input type="hidden" name="product_id" value="${cartProduct.pk}">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-outline-light text-2xl cart-increment-btn" data-id="decrement" id="product-decrement${cartProduct.pk}">-</button>
+
+                                        <input type="text" data-id="counter" class="focus:outline-none text-center bg-transparent border text-white border-white font-semibold outline-none w-10 cart-counter" name="quantity" value="${cart.item.quantity}"></input>
+
+                                        <button type="button" class="btn btn-outline-light text-2xl cart-decrement-btn" data-id="increment" id="product-increment${cartProduct.pk}">+</button>
+                                    </div>
+
+                                </form>
                             </div>
                             <div>
                                 <form action="/cart/remove/" method="post" class="remove-from-cart-form" id="remove-${cartProduct.pk}">
@@ -70,6 +85,8 @@ export class CartClient {
 
         const cartItems = document.querySelector('.cart-items')
         cartItems.insertAdjacentHTML('beforeend', itemHtml)
+        initCounter('#product-decrement-' + cartProduct.pk, '#product-increment-' + cartProduct.pk)
+        initUpdate();
         document.querySelector('#remove-' + cartProduct.pk).addEventListener('submit', (e) => this.remove(e))
     }
 
@@ -98,7 +115,7 @@ class CartUpdater {
     }
 
     changeCartLen(newValue) {
-        this._updateElHtml('#cart-counter', newValue)
+        this._updateElHtml('#cart-counter-badge', newValue)
     }
     changeCartTotal(newValue) {
         this._updateElHtml('#cart-total', newValue)

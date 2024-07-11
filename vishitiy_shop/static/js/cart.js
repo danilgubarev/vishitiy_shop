@@ -23,9 +23,12 @@ export function initRemove() {
 }
 
 export function initUpdate() {
+    console.log("into init update")
     const cart = new CartClient();
     const updateForms = document.querySelectorAll('.update-cart-form');
+    console.log(updateForms)
     const counters = document.querySelectorAll('.cart-counter');
+    console.log(counters)
     updateForms.forEach((form) => {
         form.addEventListener('submit', cart.update.bind(cart))
     })

@@ -51,4 +51,11 @@ class HandleManyCounters extends BaseCounter {
   }
 }
 
-export { HandleCounter, HandleManyCounters }
+// Функція ініціалізації лічильника товарів
+function initCounter(decrSelector, incrSelector) {
+  const decrementButton = document.querySelector(decrSelector); 
+  const incrementButton = document.querySelector(incrSelector); 
+  new HandleCounter(decrementButton, incrementButton); // Створити екземпляр класу HandleCounter для управління лічильником
+}
+
+export { HandleCounter, HandleManyCounters, initCounter };

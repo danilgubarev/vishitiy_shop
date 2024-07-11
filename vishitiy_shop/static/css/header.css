@@ -112,9 +112,7 @@ header nav .active {
     display: none;
   }
 
-  .img-user-cart .user-cart{
-    display: none;
-  }
+  
 
   
 
@@ -125,7 +123,19 @@ header nav .active {
 
 
 @media (max-width: 621px) {
-  input {
-    display: none;
+  header {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
   }
+  #searchbox  {
+    display: none;
+
+  }
+
+  .wrap-logo {
+    width: 100px;
+  }
+
+  
 }

@@ -9,7 +9,7 @@
 
 
 {% block content %}
-<div class="p-20 text-white">
+<div class="text-white main-main">
     <div id="backlink" class="pt-3">
         <a href="{% url "products:list" %}" class="transition-colors hover:text-red-500">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
@@ -17,11 +17,11 @@
             </svg>
         </a>
     </div>
-      <div class="wrapper">
+      <div class="wrapper mainer">
         <div class="row container-for-elements item" style="display: flex; justify-content: center; margin: 50px;">
           <div class="container-for-img" >
             <div class="div-for-img" >
-                <img src="{{product.image.url}}" alt="" class="img-detail item-image" style="width: 500px;">
+                <img src="{{product.image.url}}" alt="" class="img-detail item-image">
             </div>
             
           </div>
@@ -35,7 +35,7 @@
                   <div class="flex flex-col gap-7">
                     {% csrf_token %}
                     <input type="hidden" name="product_id" value="{{product.id}}">
-                    <div class="text-3xl price-on-product">{% include "products/includes/price.html" %} <h4> UAH</h4></div>
+                    <div class="text-3xl price-on-product">{% include "products/includes/price.html" %} <h4 class="uah"> UAH</h4></div>
                     <input type="hidden" name="price" value="{{product.final_price}}">
                     <div>
                         <p class="text-lg">РОЗМІР</p>
@@ -63,11 +63,13 @@
                     <div class=" my-btns">
                       {% if product.id in cart %}
                       <div class="btns-cont">
-                        <button class="btn btn-outline-light text-3xl  btns" >Продукт вже в кошику</button>
-                      </div>
+                        <button class="btn btn-outline-light text-3xl  btns" disabled id="add-to-cart-btn">Продукт вже в кошику</button>
+                      </div> 
                       {% else %}
                       <div class="btns-cont">
-                        <button class="btn btn-outline-light text-3xl  btns" id="add-to-cart-btn">Додати до кошика</button>
+                        <button class="btn btn-outline-light text-3xl  btns" id="add-to-cart-btn">
+                          Додати до кошика
+                        </button>
                       </div>
                       {% endif %}
 

@@ -1,16 +1,17 @@
 
 
 {% for product in object_list %}
+<a href="{{product.get_absolute_url}}" class="text-decoration-none text-white transition-colors hover:text-orange-600">
     <div class="card m-2" style="width: 19rem;" id="card">
     <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap" style="height: 60%;">
     <div class="card-body">
         <h5 class="card-title" id="h">
-            <a href="{{product.get_absolute_url}}" class="text-decoration-none text-white transition-colors hover:text-orange-600">
+           
                 {{product.title}}
-            </a>
         </h5>
         <h5 class="card-title" id="vis">vishitiy.ua</h5>
         <p class="card-text">{{product.price}} UAH</p>
     </div>
     </div>
+</a>
 {% endfor %}

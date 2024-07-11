@@ -19,6 +19,17 @@ header nav .collections {
     padding-bottom: 100px;
 }
 
+
+.mainer {
+    width: 90%;
+    
+}
+
+.main-main {
+    display: flex;
+    justify-content: center;
+}
+
 .menu {
     width: 100%;
     color: white;
@@ -36,8 +47,10 @@ header nav .collections {
     
 }
 
+
+
 .div-for-img {
-    width: fit-content;
+    width: 500px;
 }
 
 .container-for-img {
@@ -45,7 +58,7 @@ header nav .collections {
 }
 
 .img-detail {
-    width: 55%;
+    width: 500px;
 }
 
 #vis {
@@ -223,7 +236,7 @@ input[type="checkbox"]:checked {
 
 .accordion-button {
     background-color: #333;
-    color: #FFF;
+    color: #333;
     font-size: 1.2rem;
     padding: 1rem;
     border: none;
@@ -240,7 +253,7 @@ input[type="checkbox"]:checked {
 
 .accordion-body {
     background-color: #222;
-    color: #DDD;
+    color: #333;
     padding: 1.5rem;
     font-size: 1rem;
 }
@@ -252,6 +265,69 @@ input[type="checkbox"]:checked {
 }
 
 
+@media (max-width: 621px) {
+    .container-for-menu {
+        max-width:400px;
+        
+    }
 
+    .container-for-elements {
+        width: 500px;
+    }
+
+    .container-for-img {
+        padding: 0%;
+        padding-bottom: 10px;
+    }
+
+    .main-main {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+
+    }
+
+  
+
+    .mainer {
+        margin: 0%;
+        padding: 0%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+    }
+
+    .img-detail {
+        width: 400px !important;
+    }
+
+    .div-for-img {
+        width: fit-content;
+    }
+    
+    .img-detail {
+        width: 55%;
+    }
+
+
+    .disc {
+        width: 100px;
+        font-size: 12px;
+    }
+
+    .price-disc {
+        font-size: 12px;
+    }
+
+    .uah {
+        font-size: 12px;
+    }
+    
+
+    
+  
+    
+  }
 
 

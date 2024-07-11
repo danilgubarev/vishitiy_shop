@@ -7,22 +7,20 @@
 {% endblock links %}
 
 {% block content %}
-<div class="d-flex flex-column justify-content-center text-light align-items-center">
-    <div class="container-with-img">
-        <img src="{% static "main/images/bg_image.jpg" %}" alt="" width="100%" height="50%" class="img-fluid">
-        <img src="{% static "main/images/bg.jpg" %}" alt="" class="img-fluid background-for-main">
+<div class="d-flex flex-column justify-content-center align-items-center min-vh-100 text-light">
+    <div class="container-with-main-img text-center">
+        <img src="{% static "main/images/bg_image.jpg" %}" alt="" class="img-girl img-fluid">
+        <!-- <img src="{% static "main/images/bg.jpg" %}" alt="" class="img-fluid background-for-main"> -->
         <div class="text-on-top">
-            <div class="fs-2 fw-bold">VISHITY.UA</div>
-            <div class="fs-4">Стильний та комфортний одяг для сучасних активних людей. Якісні матеріали, інноваційний дизайн. Підкреслюй свою індивідуальність!</div>
+            <div class="name-of-company">VISHITY.UA</div>
+            <div class="descr-of-company">Стильний та комфортний одяг для сучасних активних людей. Якісні матеріали, інноваційний дизайн. Підкреслюй свою індивідуальність!</div>
         </div>
     </div>
 
-
-
-    <div class="subtitle fs-3">
+    <div class="subtitle fs-3 mt-4" id="car-txt">
         Акційні знижки
     </div>
-    <div id="carouselExampleRide" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+    <div id="carouselExampleRide" class="carousel slide mt-2" data-bs-ride="carousel" data-bs-interval="2000">
         <div class="carousel-inner text-center">
           {% for product_group in discounted_products_grouped %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
@@ -50,19 +48,15 @@
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
-      </div>
+    </div>
 
-
-
-
-    <div class="subtitle fs-2 text-center" style="color: white;">
-
+    <div class="name-of-coll fs-3 mt-4" style="color: white;">
         Наші колекції
     </div>
-    <div class="container collections justify-content-center">
+    <div class="container collections justify-content-center mt-2">
         <div class="row justify-content-center">
             {% for collection in collections %}
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 container-with-img ">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 container-with-img text-center">
                 <a href="{% url "products:list" %}?collection={{collection.id}}">
                     <img src="{{ collection.image.url }}" alt="{{ collection.name }}" width="100%" height="100%" class="img-fluid cards">
                     <div class="text-on-bottom">
@@ -76,7 +70,7 @@
     </div>
 </div>
 
-<div class="fixed bottom-0 right-0">
+<div class="fixed bottom-0 right-0 arrow">
     <button class="bg-transparent p-5 flex flex-col items-center justify-content-center" id="scrollButton" onclick="scrollPage()" data-direction="down">
     </button>
 </div>
