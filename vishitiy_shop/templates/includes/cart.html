@@ -15,14 +15,14 @@
       </div>
       <div class="offcanvas-body">
         <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Ваш кошик</h5>
-        <div class="cart-items flex flex-col gap-6">
+        <div class="cart-items flex flex-col gap-8 pt-5">
             {% for item in cart %}
-                <div class="item ">
+                <div class="item">
                     {% with product=item.product %}
-                    <div class="card flex flex-row card-in-cart text-light">
-                        <img src="{{product.image.url}}" class="card-img-top" alt="..." style="width: 85px">
+                    <div class="card flex flex-row text-light text-lg bg-transparent">
+                        <img src="{{product.image.url}}" class="card-img-top" alt="..." style="width: 150px;">
                         <div class="card-body">
-                        <h5 class="card-title">{{product.type|capfirst}} {{product.title}}</h5>
+                        <h6 class="card-title text-lg">{{product.type|capfirst}} {{product.title}}</h6>
                         <p class="card-text">Розмiр: {{item.size}}, Колiр: {{item.color}}</p>
                         
                         </div>

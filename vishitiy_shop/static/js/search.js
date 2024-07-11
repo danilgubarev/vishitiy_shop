@@ -50,7 +50,7 @@ createAlgoliaInstance().then((algoliaClient) => {
         item: (hit, { html, components }) => html
         `
         <div class="card">
-          <img src="${hit.image_url}" class="card-img-top" alt="${hit.title}" />
+          <img src="${hit.image_url}" class="card-img-top" alt="${hit.title}" width="350" height="450" />
           <div class="card-body">
               <h5 class="card-title tetx-white">
                 <a href="${hit.url}">${components.Highlight({ hit, attribute: 'title' })}</a>

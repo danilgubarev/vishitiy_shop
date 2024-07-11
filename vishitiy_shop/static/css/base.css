@@ -47,6 +47,7 @@ a {
   border: 1px solid #ff0000;
 }
 
+
 .hamburger-menu {
   display:none;
 }
@@ -90,6 +91,11 @@ a {
 }
 
 
+
+
+.collapse {
+  visibility: unset;
+}
 
 
 /* контейнер меню */

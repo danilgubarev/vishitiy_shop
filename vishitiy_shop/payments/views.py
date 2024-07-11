@@ -130,4 +130,6 @@ def payment_status_view(request):
     cart = Cart(request)
     if cart:
         cart.clear()
+
     return render(request, "payments/payment_status.html")
+
