@@ -66,10 +66,25 @@ def email_form(request):
 def get_post_offices_view(request):
     np = NovaPoshta()
     print(request.GET)
-    city_ref = request.GET.get("city")
-    if city_ref:
-        post_offices = np.get_post_offices(CityRef=city_ref)["data"]
+    post_office = request.GET.get("post_office")
+    city = request.GET.get("city")
+    post_offices = []
+    if post_office or city:
+        post_offices = np.get_post_offices(CityName=city, FindByString=post_office)["data"][:10]
     return render(request, "payments/partials/post_offices.html", {"post_offices": post_offices})
+
+
+def get_cities_view(request):
+    np = NovaPoshta()
+    print(request.GET)
+    city = request.GET.get("city")
+    cities = []
+    if city:
+        res = np.search_cities(CityName=city)["data"]
+        if res:
+            cities = res[0]["Addresses"][:10]
+    print(cities)
+    return render(request, "payments/partials/cities.html", {"cities": cities})
 
 
 @require_POST
@@ -106,12 +121,12 @@ def payment_view(request):
         "https://api.monobank.ua/api/merchant/invoice/create", json=data, headers=headers
     )
     if resp.status_code == 200:
-        print(resp.json())
         return redirect(resp.json()["pageUrl"])
     return JsonResponse(resp.json(), status=resp.status_code)
 
 
 def monobank_webhook(request):
+    print("WEBHOOOOOK")
     payload = json.loads(request.body)
     print("WEBHOOK PAYLOAD: ", payload)
     if payload.get("status") == "success":
