@@ -23,8 +23,8 @@ def get_post_offices_view(request):
     post_office = request.GET.get("post_office")
     city = request.GET.get("city")
     post_offices = []
-    if post_office or city:
-        post_offices = np.get_post_offices(CityName=city, Description=post_office)["data"]
+    if post_office and city:
+        post_offices = np.get_post_offices(CityName=city, FindByString=post_office)["data"][:10]
     return render(request, "payments/partials/post_offices.html", {"post_offices": post_offices})
 
 

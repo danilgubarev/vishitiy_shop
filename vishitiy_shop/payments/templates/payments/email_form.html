@@ -53,11 +53,7 @@
 <div class="wrapper">
 
 
-    <div class="fixed w-full h-full top-0 left-0 flex items-center content-center justify-center overflow-auto">
-        <div class="spinner-border text-danger htmx-indicator" role="status" id="indicator">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
+   
 
 
     
@@ -78,9 +74,10 @@
                     <div class="options">
                         <input type="text" class="search-box" placeholder="Search Country Name">
                         <ol id="country-list">
-                            <!-- Список стран будет добавлен здесь через JavaScript -->
+                            
                         </ol>
                     </div>
+                    <div class="error-message" style="display: none; color: red;">Введіть телефонний номер повністю.</div>
                 </div>
 
                 {% for f in form %}
