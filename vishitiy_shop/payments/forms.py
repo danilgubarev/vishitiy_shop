@@ -20,9 +20,6 @@ class PaymentForm(forms.Form):
     )
     post_office = forms.CharField(
         label="Відділення Нової пошти",
-        
-        
-
     )
 
     def get_autocomplete_field_attrs(self, url_name):
@@ -53,11 +50,12 @@ class PaymentForm(forms.Form):
             )
 
 
-    def clean_post_office(self):
-        post_office_id = self.cleaned_data["post_office"]
-        post_office = np.get_post_offices(Ref=post_office_id)["data"]
-        if not post_office_id:
-            raise forms.ValidationError("Виберіть відділення Нової пошти")
-        elif post_office == []:
-            raise forms.ValidationError("Такого відділення Нової пошти не існує")
-        return post_office_id
+    # def clean_post_office(self):
+    #     post_office_description = self.cleaned_data["post_office"]
+    #     post_office = np.get_post_offices(Description=post_office_description)["data"]
+    #     print(post_office)
+    #     if not post_office:
+    #         raise forms.ValidationError("Виберіть відділення Нової пошти")
+    #     elif post_office == []:
+    #         raise forms.ValidationError("Такого відділення Нової пошти не існує")
+    #     return post_office

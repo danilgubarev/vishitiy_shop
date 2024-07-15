@@ -41,8 +41,8 @@ def get_cities_view(request):
 
 def payment_view(request):
     if request.method == "POST":
+        print("INTO POST")
         form = forms.PaymentForm(request.POST)  # Создаем форму PaymentForm из POST-запроса
-        
         cart = Cart(request)  # Создаем объект корзины
         if not cart:
             return HttpResponse("Корзина пуста", status=400)
@@ -74,8 +74,38 @@ def payment_view(request):
             "https://api.monobank.ua/api/merchant/invoice/create", json=data, headers=headers
         )
         if resp.status_code == 200:
-            print(resp.json())
-            return redirect(resp.json()["pageUrl"])
+            if form.is_valid():  # Проверяем валидность формы
+                cd = form.cleaned_data  # Получаем очищенные данные из формы
+                cd["phone_number"] = request.POST.get("tel")
+                cart = Cart(request)  # Создаем объект корзины
+                context = {
+                    "data": cd,
+                    "cart": cart,
+                    "user": request.user,
+                }  # Формируем контекст для шаблона
+
+                # Генерируем HTML-контент на основе шаблона 'payments/order_info.html' и контекста
+                html_content = render_to_string("payments/order_info.html", context)
+                plain_message = strip_tags(
+                    html_content
+                )  # Создаем обычное текстовое сообщение без HTML-тегов
+
+                # Выводим содержимое html_content и plain_message в консоль для отладки
+                print(html_content, plain_message, sep="\n")
+                print("BEFORE SENDING REQUEST")
+                # Отправляем письмо
+                send_mail(
+                    "YOUR ORDER",  # Название сообщения
+                    plain_message,  # Текст сообщения без HTML
+                    settings.EMAIL_HOST_USER,  # кто будет отправлять
+                    [cd["email"]],  # получатель сообщения
+                    fail_silently=False,
+                    html_message=html_content,  # ХТМЛ содержимое письма
+                )
+                return redirect(resp.json()["pageUrl"])
+            print(form.errors)
+            return render(request, "payments/email_form.html", {"form": form})
+        
         return JsonResponse(resp.json(), status=resp.status_code)
 
     form = forms.PaymentForm()  # Если метод запроса GET создаем пустую форму PaymentForm
